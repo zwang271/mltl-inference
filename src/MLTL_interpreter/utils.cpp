@@ -7,11 +7,24 @@
 #include <cctype>
 #include <fstream>
 #include <tuple>
-#include <filesystem>
-
 
 using namespace std;
 
+// https://stackoverflow.com/questions/55474690/stdfilesystem-has-not-been-declared-after-including-experimental-filesystem
+#ifndef __has_include
+  static_assert(false, "__has_include not supported");
+#else
+#  if __cplusplus >= 201703L && __has_include(<filesystem>)
+#    include <filesystem>
+     namespace fs = std::filesystem;
+#  elif __has_include(<experimental/filesystem>)
+#    include <experimental/filesystem>
+     namespace fs = std::experimental::filesystem;
+#  elif __has_include(<boost/filesystem.hpp>)
+#    include <boost/filesystem.hpp>
+     namespace fs = boost::filesystem;
+#  endif
+#endif
 
 /*
  * Input: string S
@@ -101,14 +114,14 @@ vector<string> read_from_file(string in) {
 }
 
 /*
-Read a batch of traces from a directory and return a vector of vectors of strings
+Read a batch of traces from a directory and return a vector of NamedTrace
 Run read_from_file on each file in the directory
 Output: vector of NamedTrace
 */
 vector<NamedTrace> read_batch_from_file(string in) {
 	vector<NamedTrace> batch;
-	// iterate over files in directory
-	for (const auto & entry : filesystem::directory_iterator(in)) {
+	// iterate over files in directory 
+	for (const auto & entry : fs::directory_iterator(in)) {
 		// read from file
 		vector<string> trace = read_from_file(entry.path());
 		// create NamedTrace
