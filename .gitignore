@@ -11,8 +11,11 @@
 
 # Ignore aux files
 *.aux
-*.blg
-*.out
-*.log
 *.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
 *.pdf
+*.synctex.gz
