@@ -1,0 +1,16 @@
+seed = 123
+log_path = ./logs/nasa-atc/log_nasa-atc_formula2.txt
+dataset_path = ./dataset/nasa-atc/formula2/
+population_size = 300
+num_generations = 30
+max_tree_depth = 6
+mutation_rate = 0.2
+mutation_rate_decay = 0.95
+genetic_difference = 0
+temporal_nesting = 2
+
+# fitness weights
+accuracy = 0.9
+treedepth = 0.01 
+complen = 0.05
+length = 0.04
