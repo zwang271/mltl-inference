@@ -1,0 +1,132 @@
+\documentclass[12pt]{article}
+% \documentclass{elsarticle} %A different option for format styling...
+
+%NOTE: Use of this template is *totally optional* -- it is just provided to make your life easier. If it does not do that, feel free to use your own template. The formatting does not count for points, only the answers in a readable (LaTeX-generated) format count. 
+
+\textwidth 6.5in
+\oddsidemargin 0.0in %this is a 1-inch margin
+\evensidemargin 1.0in %matching 1-inch margin
+
+\usepackage{amssymb}
+\usepackage{alltt}
+\usepackage{multicol}
+\usepackage{hyperref}
+\usepackage{mathrsfs} %for \mathscr{} 
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{gensymb} %for \degree
+\usepackage{longtable} %for longtabu
+\usepackage{tabu} %for longtabu
+\usepackage{hhline} %for double \hline in longtabu
+\usepackage{blindtext}
+
+\newtheorem{defin}{Definition}
+\newtheorem{intuit}{Intuition}
+
+%Here are the commands included in elsarticle style:
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}[thm]{Lemma}
+
+\interfootnotelinepenalty=10000
+
+\renewcommand{\phi}{\varphi}
+\newcommand{\always}{\Box}
+\newcommand{\eventually}{\Diamond}
+\newcommand{\calL}{{\cal L}}
+
+\newcommand{\pspic}[2]{\scalebox{#1}{\includegraphics{#2}}}
+
+
+
+%Number the Exercises with one counter through multiple sections
+\newcounter{ExerciseCounter}
+\setcounter{ExerciseCounter}{1} %start counting at 1
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Figure Magic
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{epsfig}
+\usepackage{float}
+\usepackage{subfigure}
+\usepackage{wrapfig}
+\renewcommand{\topfraction}{.95} %figures can take up at most 95% of the page before being alone
+\renewcommand{\bottomfraction}{.99} %figures can take up at most 99% of the page before being alone
+\renewcommand{\textfraction}{.1} %at most this this % of page will be text before making figure-only page
+\addtolength{\abovecaptionskip}{-3mm}
+
+
+\begin{document}
+
+\title{Initial Project Plan}
+
+\author{Zili Wang}
+
+\maketitle
+\noindent \textbf{1. Define your group and the parameters of your project.} \\
+
+I (alone for at least this semester) propose to tackle the problem of learning Mission-time Linear Temporal Logic (MLTL) formulas from sets of example and counterexample traces. 
+For a fixed positive integer $n$, a trace is a string $w$ over the alphabet $\Sigma = \{0, 1\}$ such that $|w| = mn$, for some nonnegative integer $m$. 
+$w$ can be decomposed into $m$ time steps as $w = w_1 w_2 ... w_m$, where each $|w_i| = n$ can be thought of as a particular assignment to $n$ ordered propositional variables at time step $i$.
+Then, a MLTL formula $\phi$ either evaluates to true or false over any given trace, and thus defines a language $\mathcal{L}(\phi)$ over $\Sigma$ such that $w \in \mathcal{L}(\phi)$ if and only if $\phi$ evaluates to true on the trace represented by $w$.
+$w$ is a \textbf{positive} trace if we would like $w \in \mathcal{L}(\phi)$, and $w$ is a \textbf{negative} trace if the opposite is desired. 
+
+The class of all languages expressible by MLTL formulas is surely subregular.
+Any MLTL formula $\phi$ is associated with a bound $\text{comp\_len}(\phi)$, that describes that the maximum time step at which $\phi$ is still semantically meaningful. $\phi$ evaluates to true on only finitely many strings up to length $\text{comp\_len}(\phi)$, which could be enumerated as $W = \{w_1, ..., w_s\}$.
+We may capture $\mathcal{L}(\phi)$ as the language of the regular expression defined by the disjunction of $w_i ((0 | 1)^n)^*$, and so $\phi$ defines a regular language over $\Sigma$. However, an MLTL formula of $n$ variables can not even be interpreted over a word $w$ of some length not a multiple of $n$, and so there are many regular languages not expressible as an MLTL formula. 
+
+I will now formally define the problem: Given a set of traces $T = T^+ \cup T^-$ over $n$ variables, learn a MLTL formula $\phi$ such that $T^+ \subseteq \mathcal{L}(\phi)$ and $T^- \cap \mathcal{L}(\phi) = \emptyset$. There is a large corpus of work on learning regular languages, stemming from Angluin's $L^*$ algorithm \cite{ANGLUIN_Lstar} that learns a minimal deterministic finite automata (DFA) from positive and negative examples. Work in learning temporal logic formulas have also recently been explored, with approaches ranging from symbolic learning algorithms \cite{roy_ltlf_learning, camacho_ltlf_learning} to deep learning algorithms \cite{stl_learning, Luo_Liang_Du_Wan_Peng_Zhang_2022}.
+
+For this project, I am interested in exploring two main approaches. The first is deep learning, in which training traces for MLTL formulas can be generated using the WEST tool. I would like to closely follow the approaches in \cite{Luo_Liang_Du_Wan_Peng_Zhang_2022} that applies graph neural net approaches to learning LTLf formulas. The second approach I am interested in is Grammatical Evolution, which is class of genetic evolution algorithms constrained to a predefined context free grammar. I will define phenotype-genotype mappings using a context free grammar that captures the full syntax of MLTL. I will use PonyGE2, a Python implementation of Grammatical Evolution introduced in \cite{ponyge2}, as a starting point. 
+\\
+
+\noindent \textbf{2. Who are the members of your group?}\\
+Me, myself, and I.\\
+
+\noindent \textbf{3. What is your group name?}
+An instance of a MLTL formula $\phi$, a trace $T$, and a verdict $V$ representing the results of evaluating $\phi$ over every time step in the trace makes up a complete MLTL benchmark. Current lab tools work with various combinations of these inputs; $R2U2$ produces a verdict $V$ from $\phi$ and $T$, FPROGG produces a trace $T$ from $\phi$ and $V$, and WEST produces a set of traces from $\phi$. This project seeks to ``complete the loop'' by exploring ways to produce $\phi$ when given traces and corresponding verdicts (directly analogous to labeling traces as positive or negative). Thus, the group name will be \textbf{CTL}.\\
+
+\noindent \textbf{4. What formal method are you using?} \\
+I will be heavily working with temporal logics. \\
+
+\noindent \textbf{5. What specifications will you verify?} \\
+There are no specifications that need to be verified. However, I will set up experiments in a manner directly analogous to inverse reinforcement learning (IRL). In classical reinforcement learning (RL), an agent seeks to learn optimal behavior policy $\pi$ within a system based on a reward function $R$. However, IRL seeks to learn a sensible reward function $\tilde{R}$ from trajectories, or demonstrations, of an agent with optimal action policy $\pi
+$. Similarly, I will start with some predetermined target formula $\phi$ (analogous to $R$) that will produce positive and negative traces and learn $\tilde{\phi}$ (analogous to $\tilde{R}$) in an attempt to recover a succinct explanation of the provided traces.
+I will use formulas written by NASA and other real world examples as the target formula. \\
+
+\noindent \textbf{6. What system will you analyze?}\\
+There is no specific system I am analyzing. \\
+
+\noindent \textbf{7. What does a success look like for your project?} \\
+A successful effort will be a prototype tool satisfying multiple (but not necessarily all) of the following goals: 
+\begin{itemize}
+    \item Produce interpretable formulas that are short and do not have lots of temporal operator nestings. Dwyer's early work \cite{dwyer} outlines structure patterns of temporal logic that are amenable to human understanding. 
+    \item Produce a set of structurally distinct formulas that are all good explanations of the positive and negative traces.
+    \item Ability to reason under noisy data, where it may not be possible for any MLTL formulas to completely separate positive and negative traces.
+    \item Attain reasonable run time that would allow future integration with other tools. 
+\end{itemize}
+
+\noindent \textbf{8.  How will you demonstrate your analysis?}\\
+I will use MLTL formulas used in real world applications, as detailed in question 5. I will demo my analysis in class and in the report with hopefully significant example cases of where the proposed tool was successful in recovering the target formula, and also with statistical measures such as the F1-score, precision, and recall. I also propose to formalize a measure of semantic similarity between two MLTL formulas, and include statics of this measure between synthesized formulas and target formulas. 
+\\
+
+\noindent \textbf{9. Logistics}\\
+I will work on this project with with as much time as I have, and will devote at least my full Wednesdays. In fact, I even dreamed about this problem last night... 
+\\
+
+\noindent \textbf{10. Proposed Timeline}
+\begin{enumerate}
+    \item 11/3 - Use WEST to generate a set of benchmarks on candidate formulas that I will use for the remainder of the project. 
+    \item 11/10 - Try the PonyGE2 tool on benchmark and give analysis of effectiveness. 
+    \item 11/17 - Will be at iFM all week, probably won't get anything done.
+    \item 11/24 - Train graph neural nets for MLTL by mirroring the methods proposed in \cite{Luo_Liang_Du_Wan_Peng_Zhang_2022} for LTLf.
+    \item 12/1 - Decide whether GE or ML approach is more promising, and expand on it with further testing and tuning. 
+    \item 12/8 - Write report. 
+\end{enumerate}
+
+
+\newpage
+\bibliographystyle{plain} % We choose the "plain" reference style
+\bibliography{Citations} % Entries are in the refs.bib file
+\end{document}
