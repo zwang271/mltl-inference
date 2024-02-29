@@ -1,0 +1,9 @@
+formula: (p0 U[0,10] p1)
+n: 2
+m: 11
+samples: 1000
+percent_train: 0.8
+method: west
+m_delta: 4
+seed: None
+MAX: 10

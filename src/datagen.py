@@ -39,20 +39,23 @@ def random_sampling(formula: str,
 
 def west_sampling(formula: str, 
                   samples: int,
+                  m_delta: int,
                   ) -> tuple[list, list]:
     """
     Samples traces for the formula using the West algorithm
     Returns a tuple of positive and negative samples (pos, neg)
     """
-    pos, neg = [], []
+    pos, neg = set(), set()
     target_num = samples // 2
     regex = west(formula)
-    print(regex)
-    for i in range(target_num):
-        pos.append(random_trace(regex))
+    while len(pos) < target_num:
+        pos.add(random_trace(regex, m_delta))
     regex = west("!" + formula)
-    for i in range(target_num):
-        neg.append(random_trace(regex))
+    while len(neg) < target_num:
+        neg.add(random_trace(regex, m_delta))
+    pos, neg = list(pos), list(neg)
+    pos = [trace.split(",") for trace in pos]
+    neg = [trace.split(",") for trace in neg]
     return pos, neg
 
 if __name__ == '__main__':
@@ -103,15 +106,12 @@ if __name__ == '__main__':
     print(formula)
     print(f'n: {n}, m: {m}')
 
-    print(west("G[0,3]p0"))
-    quit()
-
     # generate dataset
     start = time.perf_counter()
     if method == 'random':
         pos, neg = random_sampling(formula, samples, m_delta)
     elif method == 'west':
-        pos, neg = west_sampling(formula, samples)
+        pos, neg = west_sampling(formula, samples, m_delta)
     end = time.perf_counter()
     print(f"Time to generate dataset: {end - start}")
     assert(all([value for k, value in interpret_batch(formula, pos).items()]))
@@ -135,6 +135,12 @@ if __name__ == '__main__':
     write_traces_to_dir(neg_train, os.path.join(dataset_folder, 'neg_train'))
     write_traces_to_dir(neg_test, os.path.join(dataset_folder, 'neg_test'))
     print(f"Dataset written to {dataset_folder}")
+
+    # write pos and neg datasets each to one file a summary
+    with open(os.path.join(dataset_folder, 'pos_summary.txt'), 'w') as f:
+        [f.write(",".join(trace) + '\n') for trace in pos]
+    with open(os.path.join(dataset_folder, 'neg_summary.txt'), 'w') as f:
+        [f.write(",".join(trace) + '\n') for trace in neg]
 
     # write metadata to file
     with open(os.path.join(dataset_folder, 'metadata.txt'), 'w') as f:
