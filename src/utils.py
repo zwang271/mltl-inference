@@ -10,11 +10,11 @@ import mltl_parser
 if sys.platform == 'win32':
     INTERPRET_PATH = os.path.join('MLTL_interpreter', 'bin', 'interpret.exe')
     INTERPRET_BATCH_PATH = os.path.join('MLTL_interpreter', 'bin', 'interpret_batch.exe')
-    WEST_PATH = os.path.join('WEST', 'west.exe')
+    WEST_PATH = './west.exe'
 else:
     INTERPRET_PATH = os.path.join('MLTL_interpreter', 'bin', 'interpret')
     INTERPRET_BATCH_PATH = os.path.join('MLTL_interpreter', 'bin', 'interpret_batch')
-    WEST_PATH = os.path.join('WEST', 'west')
+    WEST_PATH = './west'
 
 
 def interpret(formula: str, trace: list[str]) -> bool:
@@ -97,8 +97,7 @@ def west(formula: str) -> list[str]:
     Output
         result: the set of all possible traces that satisfy the formula
     '''
-    print(formula)
-    subprocess.run(f"{WEST_PATH} {formula}", 
+    subprocess.run(f"cd WEST/ && {WEST_PATH} \'{formula}\' && cd ..", 
                 stdout=subprocess.DEVNULL, 
                 stderr=subprocess.DEVNULL, 
                 shell=True)
@@ -107,7 +106,7 @@ def west(formula: str) -> list[str]:
         result = f.read().splitlines()
     return result[1:]
 
-def random_trace(regexp: list[str], seed=None):
+def random_trace(regexp: list[str], m_delta: int=0, seed=None):
     '''
     Input
         regexp: a list of regular expressions
@@ -117,8 +116,12 @@ def random_trace(regexp: list[str], seed=None):
     '''
     if seed:
         random.seed(seed)
+    n = len(regexp[0].split(",")[0])
+    extra_time = random.randint(0, m_delta)
+    suffix = (","+("s"*n)) * extra_time
     # choose a random regular expression in regexp
     r = random.choice(regexp)
+    r = r + suffix
     # randomly replace 's' with '0' or '1'
     for i in range(len(r)):
         if r[i] == 's':
@@ -296,26 +299,20 @@ if __name__ == '__main__':
     print("="*50)
 
     # SAMPLE USAGE FOR west
-    formula = "G[0,3] (p0 | p1)"
+    formula = "G[0,3] (p0 & p1)"
     trace_regexes = west(formula)
     print("Sample usage for west")
     print(f"Formula: {formula}")
     pprint(trace_regexes)
-    # ['1s,1s,1s', 
-    #  '1s,1s,s1', 
-    #  '1s,s1,1s', 
-    #  '1s,s1,s1', 
-    #  's1,1s,1s', 
-    #  's1,1s,s1', 
-    #  's1,s1,1s', 
-    #  's1,s1,s1']
+    # ['11,11,11,11']
     print("="*50)
 
     # SAMPLE USAGE FOR random_trace
-    trace = random_trace(trace_regexes, seed=42)
+    m_delta = 4
+    trace = random_trace(trace_regexes, m_delta)
     print("Sample usage for random_trace")
     print(f"Random trace: {trace}")
-    # 10,11,01
+    # non-deterministic
     print("="*50)
 
     # SAMPLE USAGE FOR comp_len
