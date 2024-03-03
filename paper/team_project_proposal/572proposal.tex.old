@@ -58,32 +58,11 @@
 
 \begin{document}
 
-\title{\bf
-\large COM S 572 : Principles of Artificial Intelligence \\
-\large MLTL Inference -- Proposal}
+\title{Initial Project Plan}
 
-\author{
-  Luke Marzen\\
-  \texttt{ljmarzen@iastate.edu}
-  \and
-  Jayaraman, Swaminathan\\
-  \texttt{swamjay@iastate.edu}
-  \and
-  Nhan Tran\\
-  \texttt{nhtran@iastate.edu}
-  \and
-  Zili Wang\\
-  \texttt{ziliw1@iastate.edu}
-}
-
-\date{March 8, 2024}
+\author{Zili Wang}
 
 \maketitle
-
-% INSTRUCTIONS FROM CANVAS
-% Each group submits via Canvas a proposal that contains the title of your project, a brief (a few paragraphs) outline of the project, and a list of group members as well as the role of each member
-% <https://canvas.iastate.edu/courses/108080/assignments/2206881>
-
 \noindent \textbf{1. Define your group and the parameters of your project.} \\
 
 I (alone for at least this semester) propose to tackle the problem of learning Mission-time Linear Temporal Logic (MLTL) formulas from sets of example and counterexample traces. 
