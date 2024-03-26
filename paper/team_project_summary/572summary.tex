@@ -1,0 +1,115 @@
+\documentclass[12pt]{article}
+% \documentclass{elsarticle} %A different option for format styling...
+
+%NOTE: Use of this template is *totally optional* -- it is just provided to make your life easier. If it does not do that, feel free to use your own template. The formatting does not count for points, only the answers in a readable (LaTeX-generated) format count. 
+
+\textwidth 6.5in
+\oddsidemargin 0.0in %this is a 1-inch margin
+\evensidemargin 1.0in %matching 1-inch margin
+
+\usepackage{amssymb}
+\usepackage{alltt}
+\usepackage{multicol}
+\usepackage{hyperref}
+\usepackage{mathrsfs} %for \mathscr{} 
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{gensymb} %for \degree
+\usepackage{longtable} %for longtabu
+\usepackage{hhline} %for double \hline in longtabu
+\usepackage{blindtext}
+
+\newtheorem{defin}{Definition}
+\newtheorem{intuit}{Intuition}
+
+%Here are the commands included in elsarticle style:
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}[thm]{Lemma}
+
+\interfootnotelinepenalty=10000
+
+\renewcommand{\phi}{\varphi}
+\newcommand{\always}{\Box}
+\newcommand{\eventually}{\Diamond}
+\newcommand{\calL}{{\cal L}}
+
+\newcommand{\pspic}[2]{\scalebox{#1}{\includegraphics{#2}}}
+
+
+
+%Number the Exercises with one counter through multiple sections
+\newcounter{ExerciseCounter}
+\setcounter{ExerciseCounter}{1} %start counting at 1
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Figure Magic
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{epsfig}
+\usepackage{float}
+\usepackage{subfigure}
+\usepackage{wrapfig}
+\renewcommand{\topfraction}{.95} %figures can take up at most 95% of the page before being alone
+\renewcommand{\bottomfraction}{.99} %figures can take up at most 99% of the page before being alone
+\renewcommand{\textfraction}{.1} %at most this this % of page will be text before making figure-only page
+\addtolength{\abovecaptionskip}{-3mm}
+
+
+\begin{document}
+
+\title{\bf
+\large COM S 572 : Principles of Artificial Intelligence \\
+\large MLTL Inference -- Summary}
+
+\author{
+  Luke Marzen\\
+  \texttt{ljmarzen@iastate.edu}
+  \and
+  Jayaraman, Swaminathan\\
+  \texttt{swamjay@iastate.edu}
+  \and
+  Nhan Tran\\
+  \texttt{nhtran@iastate.edu}
+  \and
+  Zili Wang\\
+  \texttt{ziliw1@iastate.edu}
+}
+
+\date{March 8, 2024}
+
+\maketitle
+
+% INSTRUCTIONS FROM CANVAS
+% Each group submits via Canvas a proposal that contains the title of your project, a brief (a few paragraphs) outline of the project, and a list of group members as well as the role of each member
+% <https://canvas.iastate.edu/courses/108080/assignments/2206881>
+
+We provide an update on our project, MLTL Inference, and give a summary of our work so far.
+To recap, we'll restate the problem statement:
+Given a set of traces $T = T^+ \cup T^-$ over $n$ variables, the goal is to learn a MLTL formula $\phi$ such that for all $\pi \in T^+$, $\pi \models \phi$, and for all $\pi \in T^-$, $\pi \not\models \phi$.
+The traces $T^+$ represent the positive examples, or desirable behaviors, and $T^-$ represent the negative examples, or undesirable behaviors.
+The goal is to learn a short and generalizable MLTL formula that separates the positive and negative examples.
+
+Previously, Zili Wang has developed and evaluated Genetic Programming (GP) based approach to learning MLTL formulas, and lays the groundwork for the proposed project.
+The repository containing the code and datasets for this project can be found at 
+
+\noindent \url{https://github.com/zwang271/mltl-inference}.
+Work that will be reused includes the following components:
+\begin{enumerate}
+  \item A parser (Python) for MLTL formulas, that can compute various properties of the formula, such as the number of atomic propositions, the syntax tree, worst propagation delay (wpd), and various other useful functions.  
+  \item An MLTL interpreter (C++): on input trace $\pi$ and a MLTL formula $\phi$, determines if $\pi \models \phi$.
+  \item A dataset generator (Python) that given an MLTL formula, uses either random trace sampling or regular expression sampling to generate a set of positive and negative examples.
+  \item 9 datasets, each with 500 positive and 500 negative examples, split into 80\% training and 20\% testing sets.
+\end{enumerate}
+
+We provide a summary of the work done so far:
+\begin{itemize}
+    \item Zili
+    \item Luke
+    \item Swaminathan
+    \item Nhan
+\end{itemize} 
+
+
+
+\end{document}
