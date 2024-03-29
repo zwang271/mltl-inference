@@ -1,5 +1,6 @@
 from GE import *
 import sys
+import time
 
 def perftest_individual(params):
     print("Performance testing individual...")
