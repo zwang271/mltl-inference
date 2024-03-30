@@ -108,6 +108,8 @@ We provide a summary of the work done so far:
     \item Luke
     \item Swaminathan
     \item Nhan
+
+Preparing data is necessary before training models. Currently, the formulas are outputted as text that needs to be tokenized along with the traces. Traces also require a symbol to represent their validity: positive or negative. Custom tokenization for the traces and the formulas has been implemented. In terms of the models, the current approach involves sequence-to-sequence translation with an LSTM encoder and transformers as the decoder. However, there are risks of losing information since transformers are limited by input size. Recent work has been done on a recurrent memory transformer that could also be helpful in tackling this problem. The expected outcome is a model that can produce a reasonable accuracy in determining formulas that can be further refine by other algorithms.
 \end{itemize} 
 
 
