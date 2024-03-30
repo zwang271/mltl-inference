@@ -76,13 +76,12 @@
   \texttt{ziliw1@iastate.edu}
 }
 
-\date{March 8, 2024}
+\date{March 29, 2024}
 
 \maketitle
 
 % INSTRUCTIONS FROM CANVAS
-% Each group submits via Canvas a proposal that contains the title of your project, a brief (a few paragraphs) outline of the project, and a list of group members as well as the role of each member
-% <https://canvas.iastate.edu/courses/108080/assignments/2206881>
+% Each group submit via Canvas a summary that contains the project title, a brief summary of the goals of the project, the basic approach to be followed, and anticipated results along with the relevant bibliography
 
 We provide an update on our project, MLTL Inference, and give a summary of our work so far.
 To recap, we'll restate the problem statement:
@@ -102,16 +101,22 @@ Work that will be reused includes the following components:
   \item 9 datasets, each with 500 positive and 500 negative examples, split into 80\% training and 20\% testing sets.
 \end{enumerate}
 
-We provide a summary of the work done so far:
+We provide a summary of the basic approaches to be followed:
 \begin{itemize}
     \item Zili
-    \item Luke
+    \item Luke - Informed search (A*)
+
+This approach will formulate MLTL inference into a search problem then apply A*.  Multiple heuristic functions will be evaluated and compared.  Heuristic functions may consider factors such as accuracy against positive and negative traces and length or complexity of the formula.  Due to the search space growing exponentially as formula length increases it will likely be necessary to employ inadmissible heuristics which could greatly accelerate the search but could result in suboptimal solutions.  An analysis will be conducted to assess the trade-offs between execution time and solution optimality using admissible versus inadmissible heuristic functions. 
+
+The formulating this into a search problem is non-trivial. Here is an overview of the formulation. The initial state will be an empty formula. Each out-going edge will either add a new propositional or temporal operator to the formula or revise the bounds of a temporal operator.  When temporal operators are added the must be given initial bounds. There are multiple approaches that can be taken to determine the bounds. One method could be generating every possible set of bounds up to the future reach of the longest expected trace. An alternative approach would be to initially generate bounds that cover the entire future reach of the longest expected traces, then have edges which effectively allow for revising of the bounds, say by dividing the bounds in half or stepping on of the bounds by some amount. The alternative approach as potential advantage of encouraging bounds that may have better general representation of the target, which may help guide the search of the enormous state space.
     \item Swaminathan
     \item Nhan
 
 Preparing data is necessary before training models. Currently, the formulas are outputted as text that needs to be tokenized along with the traces. Traces also require a symbol to represent their validity: positive or negative. Custom tokenization for the traces and the formulas has been implemented. In terms of the models, the current approach involves sequence-to-sequence translation with an LSTM encoder and transformers as the decoder. However, there are risks of losing information since transformers are limited by input size. Recent work has been done on a recurrent memory transformer that could also be helpful in tackling this problem. The expected outcome is a model that can produce a reasonable accuracy in determining formulas that can be further refine by other algorithms.
 \end{itemize} 
 
+
+After implementation of each approach we will compare the inference time and formula accuracy on input data sets of ranging length and complexity.
 
 
 \end{document}
