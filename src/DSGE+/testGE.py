@@ -109,8 +109,6 @@ def test_genetic_difference(params):
     average_genetic_difference = total_genetic_difference / (iterations*len(population)*(len(population)-1)/2)
     print(f"Average pairwise genetic difference in population of only mutations: {average_genetic_difference}")
 
-
-
 if __name__ == "__main__":
     # PARAMS
     dataset_path = "./dataset/basic/global/"
