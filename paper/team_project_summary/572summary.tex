@@ -110,6 +110,23 @@ This approach will formulate MLTL inference into a search problem then apply A*.
 
 The formulating this into a search problem is non-trivial. Here is an overview of the formulation. The initial state will be an empty formula. Each out-going edge will either add a new propositional or temporal operator to the formula or revise the bounds of a temporal operator.  When temporal operators are added the must be given initial bounds. There are multiple approaches that can be taken to determine the bounds. One method could be generating every possible set of bounds up to the future reach of the longest expected trace. An alternative approach would be to initially generate bounds that cover the entire future reach of the longest expected traces, then have edges which effectively allow for revising of the bounds, say by dividing the bounds in half or stepping on of the bounds by some amount. The alternative approach as potential advantage of encouraging bounds that may have better general representation of the target, which may help guide the search of the enormous state space.
     \item Swaminathan
+    
+    The template-driven approach for MLTL inference aims to systematically search for an MLTL formula that is consistent with given positive and negative traces. It will leverage artificial intelligence techniques to guide the search process and efficiently find a formula that captures the desired system behavior. The approach will start by defining a set of MLTL formula templates that represent common temporal patterns. These templates have placeholders for propositions and time bounds, allowing for the generation of candidate MLTL formulas by instantiating the templates with different combinations of relevant propositions and time intervals.
+    AI techniques will be utilized to identify the most relevant templates and to efficiently explore the space of candidate MLTL formulas. Constraint solving technique, will be employed to check the consistency of each candidate formula with the positive and negative traces. This will allow for pruning the search space by discarding inconsistent formulas.
+    The implementation of the template-driven approach will involve several components: \\
+    1. An MLTL parser to manipulate and analyze the structure of MLTL formulas. \\
+    2. An MLTL interpreter to check if a trace satisfies a given MLTL formula. \\
+    3. A dataset generator to create training and testing datasets of positive and negative trace examples. \\
+    4. An inference algorithm that combines template instantiation, heuristic search, and consistency checking to find the desired MLTL formula. \\
+    This implementation aims to integrate the above components to guide the inference process towards the desired MLTL specification. The use of predefined templates allows for incorporating domain knowledge and focusing the search on meaningful formulas.
+    
+    References:
+
+    Jenna Elwing et al. "Mission-time LTL (MLTL) formula validation via regular expressions." iFM 2023. 
+    
+    Alberto Camacho and Sheila A. McIlraith. "Learning interpretable models expressed in linear temporal logic." ICAPS 2021. 
+    
+    Rajarshi Roy et al. "Learning interpretable temporal properties from positive examples only." AAAI 2023. 
     \item Nhan
 
 Preparing data is necessary before training models. Currently, the formulas are outputted as text that needs to be tokenized along with the traces. Traces also require a symbol to represent their validity: positive or negative. Custom tokenization for the traces and the formulas has been implemented. In terms of the models, the current approach involves sequence-to-sequence translation with an LSTM encoder and transformers as the decoder. However, there are risks of losing information since transformers are limited by input size. Recent work has been done on a recurrent memory transformer that could also be helpful in tackling this problem. The expected outcome is a model that can produce a reasonable accuracy in determining formulas that can be further refine by other algorithms.
