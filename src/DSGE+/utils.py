@@ -270,7 +270,7 @@ if __name__ == '__main__':
 
     # SAMPLE USAGE FOR interpret_batch with directory
     formula = "G[0,3] (p0 | p1)"
-    traces_dir = os.path.join('MLTL_interpreter', 'traces') # look at ./MLTL_interpreter/traces
+    traces_dir = "../MLTL_interpreter/traces" # look at ./MLTL_interpreter/traces
     results = interpret_batch(formula, traces_dir)
     print("Sample usage for interpret_batch with directory")
     print(f"Formula: {formula}")
@@ -297,6 +297,8 @@ if __name__ == '__main__':
     #  1: False,
     #  2: True}
     print("="*50)
+
+    quit()
 
     # SAMPLE USAGE FOR west
     formula = "G[0,3] (p0 & p1)"
