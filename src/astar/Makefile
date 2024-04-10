@@ -4,7 +4,7 @@ CXX = g++
 CFLAGS = -Wall -O3
 # CFLAGS = -Wall -g
 LDFLAGS =
-OBJECTS = main.o
+OBJECTS = main.o evaluate_mltl.o utils.o
 
 
 .PHONY: default all clean
@@ -12,7 +12,7 @@ OBJECTS = main.o
 all: $(TARGET)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
-%.o: %.cc
+%.o: %.cpp
 	$(CXX) $(CFLAGS) -c $< -o $@
 $(TARGET): $(OBJECTS)
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
