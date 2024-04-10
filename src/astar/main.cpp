@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include "evaluate_mltl.h"
+
 
 int main(int argc, char *argv[]) {
   // default options
@@ -17,6 +19,9 @@ int main(int argc, char *argv[]) {
       return 1;
     }
   }
+
+  bool val = evaluate_mltl("G[0,3]p1", {"01","11","01","11"}, true);
+  std::cout << val << "\n";
 
   return 0;
 }
