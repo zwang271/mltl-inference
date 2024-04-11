@@ -88,17 +88,24 @@ std::string get_clause_as_string(const std::string a) {
   if (a == dontcares)
     return "true";
 
+  int vars = 0;
   for (int i = 0; i < a.length(); ++i) {
     if (a[i] != '-') {
-      if (!temp.empty()) {
-        temp += "&";
+      ++vars;
+      if (vars > 1) {
+        // temp += "&";
+        temp += "&("; // INVALID FORMULA BUG WORK AROUND
       }
       if (a[i] == '0') {
-        temp = temp + "-p" + std::to_string(i);
+        temp = temp + "~p" + std::to_string(i);
       } else {
         temp = temp + "p" + std::to_string(i);
       }
     }
+  }
+  if (vars > 1) {
+    temp = "(" + temp + ")";
+    temp.append(vars - 1, ')'); // INVALID FORMULA BUG WORK AROUND
   }
   return temp;
 }
@@ -110,7 +117,7 @@ std::string get_clause_as_string(const std::string a) {
  */
 std::string quine_mccluskey(const std::vector<std::string> *implicants) {
   if (implicants->size() == 0) {
-    return "(false)";
+    return "false";
   }
   int num_vars = (*implicants)[0].size();
   assert(num_vars > 0);
@@ -128,9 +135,18 @@ std::string quine_mccluskey(const std::vector<std::string> *implicants) {
   std::string reduced_dnf;
   int i;
   for (i = 0; i < minterms.size() - 1; ++i) {
-    reduced_dnf += "(" + get_clause_as_string(minterms[i]) + ")|";
+    // reduced_dnf += get_clause_as_string(minterms[i]) + "|";
+    reduced_dnf += get_clause_as_string(minterms[i]) +
+                   "|("; // INVALID FORMULA BUG WORK AROUND
   }
-  reduced_dnf += "(" + get_clause_as_string(minterms[i]) + ")";
+  reduced_dnf += get_clause_as_string(minterms[i]);
+  reduced_dnf.append(minterms.size() - 1,
+                     ')'); // INVALID FORMULA BUG WORK AROUND
+  if (minterms.size() == 1 && reduced_dnf[0] == '(' &&
+      reduced_dnf.back() == ')') {
+    // trim redundant parens
+    reduced_dnf = reduced_dnf.substr(1, reduced_dnf.length() - 2);
+  }
 
   return reduced_dnf;
 }

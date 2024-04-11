@@ -33,23 +33,25 @@ int main(int argc, char *argv[]) {
   double time_taken = 0;
   gettimeofday(&start, NULL); // start timer
 
-  // bool val = evaluate_mltl("G[0,3]p1", {"01", "11", "01", "11"}, false);
+  // bool val = evaluate_mltl("G[0,3](p1)", {"01", "11", "01", "11"}, false);
+  // bool val = evaluate_mltl("F[0,3](p1&p0)", {"01", "11", "01", "11"}, false);
+  // bool val = evaluate_mltl("G[0,3](p1&p0)", {"010", "110", "010", "110"}, false);
+  bool val = evaluate_mltl("G[0,3](~p0&(~p1&~p2))", {"010", "110", "010", "110"}, false);
   // std::cout << val << "\n";
   // std::vector<std::string> implicants = {"0000", "0001", "0010", "0100",
   //                                        "1000", "0110", "1001", "1011",
   //                                        "1101", "1111"};
-  const uint32_t num_vars = 5;
+  const uint32_t num_vars = 2;
   const uint32_t truth_table_rows = std::pow(2, num_vars);
   const uint64_t num_boolean_functions = std::pow(2, std::pow(2, num_vars));
-  std::vector<std::string> implicants;
-  std::vector<std::string> inputs;
-  std::vector<std::string> boolean_functions;
+  std::vector<std::string> inputs(truth_table_rows);
+  std::vector<std::string> boolean_functions(num_boolean_functions);
 
   for (uint32_t i = 0; i < truth_table_rows; ++i) {
-    inputs.emplace_back(int_to_bin_str(i, num_vars));
+    inputs[i] = int_to_bin_str(i, num_vars);
   }
 
-#pragma omp parallel for
+#pragma omp parallel for num_threads(12)
   for (uint64_t i = 0; i < num_boolean_functions; ++i) {
     std::vector<std::string> implicants;
     for (uint32_t j = 0; j < truth_table_rows; ++j) {
@@ -57,17 +59,23 @@ int main(int argc, char *argv[]) {
         implicants.emplace_back(inputs[j]);
       }
     }
-    std::string reduced_dnf = quine_mccluskey(&implicants);
-#pragma omp critical
-    {
-      boolean_functions.emplace_back(reduced_dnf);
-      // std::cout << reduced_dnf << "\n";
-    }
+    boolean_functions[i] = quine_mccluskey(&implicants);
+  }
+
+  for (int i = 0; i < num_boolean_functions; ++i) {
+    std::string formula = "G[0,3](" + boolean_functions[i] + ")";
+    std::cout << formula << "\n";
+    bool val = evaluate_mltl(formula, {"0101", "1101", "0101", "1101"}, false);
+    std::cout << val << "\n";
   }
 
   gettimeofday(&end, NULL); // stop timer
   time_taken = end.tv_sec + end.tv_usec / 1e6 - start.tv_sec -
                start.tv_usec / 1e6; // in seconds
+
+  // for (int i = 0; i < num_boolean_functions; ++i) {
+  //   std::cout << boolean_functions[i] << "\n";
+  // }
 
   // std::cout << "total nodes generated: " << numNodes << "\n";
   std::cout << "total time taken: " << time_taken << "s\n";

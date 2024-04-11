@@ -8,7 +8,7 @@
 
 using namespace std;
 
-/* 
+/*
 checks if inputted string is a number
 */
 bool digit_check(string s) {
@@ -36,8 +36,8 @@ bool prop_var_check(string s) {
     return true;
 }
 
-/* 
-finds ub and lb of first occurence of interval bound in formula F
+/*
+finds ub and lb of first occurrence of interval bound in formula F
 */
 tuple<int, int> find_bounds(string F) {
     int lbrace = F.find('[');
@@ -68,7 +68,7 @@ int find_binary_conn(string F) {
         }
         if (pcounter == 0) {
             if (F[i] == '|' || F[i] == '&' || F[i] == '-' || F[i] == 'U' || F[i] == 'R') {
-                binary_conn_index = i; 
+                binary_conn_index = i;
                 break;
             }
         }
@@ -98,7 +98,7 @@ bool evaluate_mltl(string F, vector<string> T, bool verbose=false){
             return false;
         }
         if (p >= T[0].length()) {
-            cout << T[0] << endl; 
+            cout << T[0] << endl;
             throw invalid_argument("Propositional variable " + F + " is out of bounds of the trace.");
         }
         if (T[0][p] == '0') {
@@ -117,7 +117,7 @@ bool evaluate_mltl(string F, vector<string> T, bool verbose=false){
         int lb, ub;
         tie(lb, ub) = find_bounds(F);
         int rbrace = F.find(']');
-        if (rbrace == string::npos) {   
+        if (rbrace == string::npos) {
             throw invalid_argument("Formula " + F + " is not a valid MLTL formula.");
         }
         string subF = F.substr(rbrace+1, F.length()-rbrace-1);
@@ -126,7 +126,7 @@ bool evaluate_mltl(string F, vector<string> T, bool verbose=false){
             cout << "ub: " << ub << endl;
             cout << "subF: " << subF << endl;
         }
-        
+
         // T |- F[a, b] subF iff |T| > a and there exists i in [a, b] such that T[i:] |- subF
         if (F[0] == 'F') {
             if (T.size() <= lb) {
@@ -162,7 +162,7 @@ bool evaluate_mltl(string F, vector<string> T, bool verbose=false){
         }
     }
 
-    // find first occurence of binary connective by counting parentheses
+    // find first occurrence of binary connective by counting parentheses
     else if (F[0] == '(') {
         int binary_conn_index = find_binary_conn(F);
         if (binary_conn_index == -1) {
@@ -176,7 +176,7 @@ bool evaluate_mltl(string F, vector<string> T, bool verbose=false){
             cout << "F: " << F.substr(binary_conn_index, F.length()-binary_conn_index-1) << endl;
         }
         F = F.substr(binary_conn_index, F.length()-binary_conn_index-1);
-        
+
         // &
         if (F[0] == '&') {
             string subF2 = F.substr(1, F.length()-1);
@@ -184,9 +184,9 @@ bool evaluate_mltl(string F, vector<string> T, bool verbose=false){
                 return true;
             }
             return false;
-        } 
+        }
 
-        // | 
+        // |
         else if (F[0] == '|') {
             string subF2 = F.substr(1, F.length()-1);
             if (evaluate_mltl(subF1, T) || evaluate_mltl(subF2, T)) {
@@ -212,7 +212,7 @@ bool evaluate_mltl(string F, vector<string> T, bool verbose=false){
             int lb, ub;
             tie(lb, ub) = find_bounds(F);
             int rbrace = F.find(']');
-            if (rbrace == string::npos) {   
+            if (rbrace == string::npos) {
                 throw invalid_argument("Formula " + F + " is not a valid MLTL formula.");
             }
             string subF2 = F.substr(rbrace+1, F.length()-rbrace-1);
@@ -221,15 +221,15 @@ bool evaluate_mltl(string F, vector<string> T, bool verbose=false){
                 cout << "ub: " << ub << endl;
                 cout << "subF2: " << subF2 << endl;
             }
-        
+
             // T |- F1 U[a,b] F2 iff |T| > a and there exists i in [a,b] such that
             // (T[i:] |- F2 and for all j in [a, i-1], T[j:] |- F1)
             if (F[0] == 'U') {
                 if (T.size() <= lb) {
                     return false;
                 } // |T| <= a
-                // find first occurence for which T[i:] |- F2
-                int i = -1; 
+                // find first occurrence for which T[i:] |- F2
+                int i = -1;
                 for (int k = lb; k <= ub; ++k) {
                     if (k >= T.size()) {
                         break;
@@ -274,8 +274,8 @@ bool evaluate_mltl(string F, vector<string> T, bool verbose=false){
                         return true;
                     }
                 } // not all i in [a, b] T[i:] |- F2
-                
-                // find first occurence of j in [a, b-1] for which T[j:] |- F1
+
+                // find first occurrence of j in [a, b-1] for which T[j:] |- F1
                 int j = -1;
                 for (int k = lb; k < ub; ++k) {
                     vector<string> subT = slice(T, k, T.size());
