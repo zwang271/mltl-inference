@@ -136,7 +136,7 @@ bool evaluate_mltl(string F, vector<string> T, bool verbose=false){
                 if (i >= T.size()) {
                     break;
                 } // |T| > i
-                vector<string> subT = slice(T, i, T.size());
+                vector<string> subT = slice2(T, i, T.size());
                 if (evaluate_mltl(subF, subT)) {
                     return true;
                 }
@@ -153,7 +153,7 @@ bool evaluate_mltl(string F, vector<string> T, bool verbose=false){
                 if (i > T.size()) {
                     break;
                 } // |T| > i
-                vector<string> subT = slice(T, i, T.size());
+                vector<string> subT = slice2(T, i, T.size());
                 if (!evaluate_mltl(subF, subT)) {
                     return false;
                 }
@@ -234,7 +234,7 @@ bool evaluate_mltl(string F, vector<string> T, bool verbose=false){
                     if (k >= T.size()) {
                         break;
                     } // |T| > j
-                    vector<string> subT = slice(T, k, T.size());
+                    vector<string> subT = slice2(T, k, T.size());
                     if (evaluate_mltl(subF2, subT)) {
                         i = k;
                         break;
@@ -246,7 +246,7 @@ bool evaluate_mltl(string F, vector<string> T, bool verbose=false){
                 // cout << "i: " << i << endl;
                 // check that for all j in [a, i-1], T[j:] |- F1
                 for (int j = lb; j < i; ++j) {
-                    vector<string> subT = slice(T, j, T.size());
+                    vector<string> subT = slice2(T, j, T.size());
                     if (!evaluate_mltl(subF1, subT)) {
                         return false;
                     }
@@ -266,7 +266,7 @@ bool evaluate_mltl(string F, vector<string> T, bool verbose=false){
 
                 // check if all i in [a, b] T[i:] |- F2
                 for (int i = lb; i <= ub; ++i) {
-                    vector<string> subT = slice(T, i, T.size());
+                    vector<string> subT = slice2(T, i, T.size());
                     if (!evaluate_mltl(subF2, subT)) {
                         break;
                     }
@@ -278,7 +278,7 @@ bool evaluate_mltl(string F, vector<string> T, bool verbose=false){
                 // find first occurrence of j in [a, b-1] for which T[j:] |- F1
                 int j = -1;
                 for (int k = lb; k < ub; ++k) {
-                    vector<string> subT = slice(T, k, T.size());
+                    vector<string> subT = slice2(T, k, T.size());
                     if (evaluate_mltl(subF1, subT) || k == T.size()-1) {
                         j = k;
                         break;
@@ -289,7 +289,7 @@ bool evaluate_mltl(string F, vector<string> T, bool verbose=false){
                 }
                 // check that for all k in [a, j], T[k:] |- F2
                 for (int k = lb; k <= j; ++k) {
-                    vector<string> subT = slice(T, k, T.size());
+                    vector<string> subT = slice2(T, k, T.size());
                     if (!evaluate_mltl(subF2, subT)) {
                         return false;
                     }

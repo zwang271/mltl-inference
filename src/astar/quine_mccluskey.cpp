@@ -3,12 +3,14 @@
 #include <algorithm>
 #include <assert.h>
 
+#include "mltl_ast.h"
+
 /* Takes an integer and returns a string of 0s and 1s corresponding to the
  * binary value of n. The string will be padded so that it has length of width.
  * ex: 14 = "1110"
  */
-std::string int_to_bin_str(unsigned int n, int width) {
-  std::string result;
+string int_to_bin_str(unsigned int n, int width) {
+  string result;
   for (int i = 0; i < width; ++i) {
     result += (n & 1) ? "1" : "0";
     n >>= 1;
@@ -18,9 +20,9 @@ std::string int_to_bin_str(unsigned int n, int width) {
 
 /* Returns true if two terms differ by just one bit.
  */
-bool is_grey_code(const std::string a, const std::string b) {
+bool is_grey_code(const string a, const string b) {
   int flag = 0;
-  for (int i = 0; i < a.length(); ++i) {
+  for (size_t i = 0; i < a.length(); ++i) {
     if (a[i] != b[i])
       ++flag;
   }
@@ -30,9 +32,9 @@ bool is_grey_code(const std::string a, const std::string b) {
 /* Replaces complement terms with don't cares
  * ex: 0110 and 0111 becomes 011-
  */
-std::string replace_complements(const std::string a, const std::string b) {
-  std::string temp = "";
-  for (int i = 0; i < a.length(); ++i)
+string replace_complements(const string a, const string b) {
+  string temp = "";
+  for (size_t i = 0; i < a.length(); ++i)
     if (a[i] != b[i])
       temp = temp + "-";
     else
@@ -43,15 +45,15 @@ std::string replace_complements(const std::string a, const std::string b) {
 
 /* Returns true if string b exists in vector a.
  */
-bool in_vector(const std::vector<std::string> a, const std::string b) {
-  for (int i = 0; i < a.size(); ++i)
+bool in_vector(const vector<string> a, const string b) {
+  for (size_t i = 0; i < a.size(); ++i)
     if (a[i].compare(b) == 0)
       return true;
   return false;
 }
 
-std::vector<std::string> reduce(const std::vector<std::string> minterms) {
-  std::vector<std::string> newminterms;
+vector<string> reduce(const vector<string> minterms) {
+  vector<string> newminterms;
 
   int max = minterms.size();
   int *checked = new int[max];
@@ -82,14 +84,14 @@ std::vector<std::string> reduce(const std::vector<std::string> minterms) {
 
 /* Returns the string representation of a clause.
  */
-std::string get_clause_as_string(const std::string a) {
-  const std::string dontcares(a.size(), '-');
-  std::string temp = "";
+string get_clause_as_string(const string a) {
+  const string dontcares(a.size(), '-');
+  string temp = "";
   if (a == dontcares)
     return "true";
 
   int vars = 0;
-  for (int i = 0; i < a.length(); ++i) {
+  for (size_t i = 0; i < a.length(); ++i) {
     if (a[i] != '-') {
       ++vars;
       if (vars > 1) {
@@ -97,9 +99,9 @@ std::string get_clause_as_string(const std::string a) {
         temp += "&("; // INVALID FORMULA BUG WORK AROUND
       }
       if (a[i] == '0') {
-        temp = temp + "~p" + std::to_string(i);
+        temp = temp + "~p" + to_string(i);
       } else {
-        temp = temp + "p" + std::to_string(i);
+        temp = temp + "p" + to_string(i);
       }
     }
   }
@@ -110,30 +112,69 @@ std::string get_clause_as_string(const std::string a) {
   return temp;
 }
 
+/* Returns the ast representation of a clause.
+ */
+unique_ptr<MLTLNode> get_clause_as_ast(const string a) {
+  const string dontcares(a.size(), '-');
+  string temp = "";
+  if (a == dontcares)
+    return make_unique<MLTLPropConsNode>(true);
+
+  vector<unique_ptr<MLTLNode>> literals;
+
+  for (size_t i = 0; i < a.length(); ++i) {
+    if (a[i] != '-') {
+      if (a[i] == '0') {
+        literals.emplace_back(make_unique<MLTLUnaryPropOpNode>(
+            MLTLUnaryPropOpType::Neg,
+            make_unique<MLTLPropVarNode>((unsigned int)i)));
+      } else {
+        literals.emplace_back(make_unique<MLTLPropVarNode>((unsigned int)i));
+      }
+    }
+  }
+
+  // build ast from literals
+  unique_ptr<MLTLNode> root_node = std::move(literals.back());
+  for (int i = (int)literals.size() - 2; i >= 0; --i) {
+    root_node = make_unique<MLTLBinaryPropOpNode>(MLTLBinaryPropOpType::And,
+                                                  std::move(literals[i]),
+                                                  std::move(root_node));
+  }
+
+  return root_node;
+}
+
 /* The Quine-McCluskey method is used to minimize Boolean functions.
  * Takes a vector of strings representing the binary representation of each
  * satisfying assignment.
  * ex: "1011" means that the assignment p0, -p1, p2, p3 evaluates to true.
+ *
+ * This version of the function directly returns a string, which is faster than
+ * building an AST then calling as_string.
  */
-std::string quine_mccluskey(const std::vector<std::string> *implicants) {
+string quine_mccluskey_fast_string(const vector<string> *implicants) {
   if (implicants->size() == 0) {
     return "false";
   }
-  int num_vars = (*implicants)[0].size();
+
+#ifndef NDEBUG
+  size_t num_vars = (*implicants)[0].length();
   assert(num_vars > 0);
-  for (int i = 1; i < implicants->size(); ++i) {
+  for (size_t i = 1; i < implicants->size(); ++i) {
     assert((*implicants)[i].size() == num_vars);
   }
+#endif
 
-  std::vector<std::string> minterms = *implicants;
-  std::sort(minterms.begin(), minterms.end());
+  vector<string> minterms = *implicants;
+  sort(minterms.begin(), minterms.end());
   do {
     minterms = reduce(minterms);
     sort(minterms.begin(), minterms.end());
   } while (minterms != reduce(minterms));
 
-  std::string reduced_dnf;
-  int i;
+  string reduced_dnf;
+  size_t i;
   for (i = 0; i < minterms.size() - 1; ++i) {
     // reduced_dnf += get_clause_as_string(minterms[i]) + "|";
     reduced_dnf += get_clause_as_string(minterms[i]) +
@@ -146,6 +187,41 @@ std::string quine_mccluskey(const std::vector<std::string> *implicants) {
       reduced_dnf.back() == ')') {
     // trim redundant parens
     reduced_dnf = reduced_dnf.substr(1, reduced_dnf.length() - 2);
+  }
+
+  return reduced_dnf;
+}
+
+/* The Quine-McCluskey method is used to minimize Boolean functions.
+ * Takes a vector of strings representing the binary representation of each
+ * satisfying assignment.
+ * ex: "1011" means that the assignment p0, -p1, p2, p3 evaluates to true.
+ */
+unique_ptr<MLTLNode> quine_mccluskey(const vector<string> *implicants) {
+  if (implicants->size() == 0) {
+    return make_unique<MLTLPropConsNode>(false);
+  }
+
+#ifndef NDEBUG
+  size_t num_vars = (*implicants)[0].length();
+  assert(num_vars > 0);
+  for (size_t i = 1; i < implicants->size(); ++i) {
+    assert((*implicants)[i].size() == num_vars);
+  }
+#endif
+
+  vector<string> minterms = *implicants;
+  sort(minterms.begin(), minterms.end());
+  do {
+    minterms = reduce(minterms);
+    sort(minterms.begin(), minterms.end());
+  } while (minterms != reduce(minterms));
+
+  unique_ptr<MLTLNode> reduced_dnf = get_clause_as_ast(minterms.back());
+  for (int i = (int)minterms.size() - 2; i >= 0; --i) {
+    reduced_dnf = make_unique<MLTLBinaryPropOpNode>(
+        MLTLBinaryPropOpType::Or, std::move(get_clause_as_ast(minterms[i])),
+        std::move(reduced_dnf));
   }
 
   return reduced_dnf;
