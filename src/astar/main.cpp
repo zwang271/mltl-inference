@@ -1,14 +1,13 @@
 #include <cmath>
 #include <cstdint>
+#include <filesystem>
+#include <fstream>
 #include <iostream>
 #include <sys/time.h>
 
 #include "evaluate_mltl.h"
 #include "mltl_ast.h"
 #include "quine_mccluskey.h"
-
-#include <filesystem>
-#include <fstream>
 
 using namespace std;
 
@@ -90,6 +89,7 @@ int main(int argc, char *argv[]) {
   const uint64_t num_boolean_functions = pow(2, pow(2, num_vars));
   vector<string> inputs(truth_table_rows);
   vector<string> boolean_functions(num_boolean_functions);
+  vector<unique_ptr<MLTLNode>> boolean_functions_asts;
 
   for (uint32_t i = 0; i < truth_table_rows; ++i) {
     inputs[i] = int_to_bin_str(i, num_vars);
@@ -103,10 +103,14 @@ int main(int argc, char *argv[]) {
         implicants.emplace_back(inputs[j]);
       }
     }
-    unique_ptr<MLTLNode> ast = make_unique<MLTLUnaryTempOpNode>(
-        MLTLUnaryTempOpType::Globally, 0, 10, quine_mccluskey(&implicants));
-    boolean_functions[i] = ast->as_string();
+    boolean_functions_asts.emplace_back(make_unique<MLTLUnaryTempOpNode>(
+        MLTLUnaryTempOpType::Globally, 0, 10, quine_mccluskey(&implicants)));
+    // unique_ptr<MLTLNode> ast = make_unique<MLTLUnaryTempOpNode>(
+    //     MLTLUnaryTempOpType::Globally, 0, 10, quine_mccluskey(&implicants));
+    // boolean_functions[i] = ast->as_string();
+
     // cout << "future reach: " << ast->future_reach() << "\n";
+    boolean_functions[i] = "G[0,10](" + quine_mccluskey_fast_string(&implicants) + ")";
     // boolean_functions[i] = quine_mccluskey_fast_string(&implicants);
     // cout << quine_mccluskey_fast_string(&implicants) << "\n";
     // cout << quine_mccluskey(&implicants)->as_string() << "\n";
@@ -121,21 +125,28 @@ int main(int argc, char *argv[]) {
 #pragma omp parallel for num_threads(1)
   for (int i = 0; i < num_boolean_functions; ++i) {
     int traces_satisified = 0;
+    int traces_satisified_ast = 0;
     // string formula = "G[0,10](" + boolean_functions[i] + ")";
-    string formula = boolean_functions[i];
-    cout << formula << "\n";
+    // string formula = boolean_functions_asts[i]->as_string();
+    // string formula = boolean_functions[i];
+    // cout << formula << "\n";
     for (int j = 0; j < traces_pos_train.size(); ++j) {
-      traces_satisified += evaluate_mltl(formula, traces_pos_train[j], false);
+      // traces_satisified += evaluate_mltl(formula, traces_pos_train[j], false);
+      traces_satisified_ast += boolean_functions_asts[i]->evaluate(traces_pos_train[j]);
     }
     for (int j = 0; j < traces_neg_train.size(); ++j) {
-      traces_satisified += !evaluate_mltl(formula, traces_neg_train[j], false);
+      // traces_satisified += !evaluate_mltl(formula, traces_neg_train[j], false);
+      traces_satisified_ast += !boolean_functions_asts[i]->evaluate(traces_neg_train[j]);
     }
 
     float accuracy = traces_satisified /
                      (float)(traces_pos_train.size() + traces_neg_train.size());
+    float accuracy_ast = traces_satisified_ast /
+                     (float)(traces_pos_train.size() + traces_neg_train.size());
     if (accuracy >= 0) {
       // cout << formula << "\n";
-      // cout << "accuracy: " << accuracy << "\n";
+      // cout << "mltl_evaluate accuracy: " << accuracy << "\n";
+      // cout << "ast evaluate accuracy: " << accuracy_ast << "\n";
     }
   }
 
