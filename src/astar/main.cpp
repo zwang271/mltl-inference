@@ -5,7 +5,7 @@
 #include <iostream>
 #include <sys/time.h>
 
-#include "evaluate_mltl.h"
+// #include "evaluate_mltl.h"
 #include "mltl_ast.h"
 #include "quine_mccluskey.h"
 
@@ -74,21 +74,10 @@ int main(int argc, char *argv[]) {
   double time_taken = 0;
   gettimeofday(&start, NULL); // start timer
 
-  // bool val = evaluate_mltl("G[0,3](p1)", {"01", "11", "01", "11"}, false);
-  // bool val = evaluate_mltl("F[0,3](p1&p0)", {"01", "11", "01", "11"}, false);
-  // bool val = evaluate_mltl("G[0,3](p1&p0)", {"010", "110", "010", "110"},
-  // false);
-  // bool val = evaluate_mltl("G[0,3](~p0&(~p1&~p2))",
-  //                          {"010", "110", "010", "110"}, false);
-  // cout << val << "\n";
-  // vector<string> implicants = {"0000", "0001", "0010", "0100",
-  //                                        "1000", "0110", "1001", "1011",
-  //                                        "1101", "1111"};
   const uint32_t num_vars = 3;
   const uint32_t truth_table_rows = pow(2, num_vars);
   const uint64_t num_boolean_functions = pow(2, pow(2, num_vars));
   vector<string> inputs(truth_table_rows);
-  vector<string> boolean_functions(num_boolean_functions);
   vector<unique_ptr<MLTLNode>> boolean_functions_asts(num_boolean_functions);
 
   for (uint32_t i = 0; i < truth_table_rows; ++i) {
@@ -105,17 +94,6 @@ int main(int argc, char *argv[]) {
     }
     boolean_functions_asts[i] = make_unique<MLTLUnaryTempOpNode>(
         MLTLUnaryTempOpType::Globally, 0, 10, quine_mccluskey(&implicants));
-    // boolean_functions[i] = "G[0,10](" + quine_mccluskey_fast_string(&implicants) + ")";
-    
-
-    // unique_ptr<MLTLNode> ast = make_unique<MLTLUnaryTempOpNode>(
-    //     MLTLUnaryTempOpType::Globally, 0, 10, quine_mccluskey(&implicants));
-    // boolean_functions[i] = ast->as_string();
-
-    // cout << "future reach: " << ast->future_reach() << "\n";
-    // boolean_functions[i] = quine_mccluskey_fast_string(&implicants);
-    // cout << quine_mccluskey_fast_string(&implicants) << "\n";
-    // cout << quine_mccluskey(&implicants)->as_string() << "\n";
   }
 
 // #pragma omp parallel for
@@ -123,32 +101,23 @@ int main(int argc, char *argv[]) {
 //     string formula = "G[0,3](" + boolean_functions[i] + ")";
 //     bool val =
 //         evaluate_mltl(formula, {"0101", "1101", "0101", "1101"}, false);
-//   }
+// }
+
 #pragma omp parallel for num_threads(1)
-  for (int i = 0; i < num_boolean_functions; ++i) {
+  for (uint64_t i = 0; i < num_boolean_functions; ++i) {
     int traces_satisified = 0;
-    int traces_satisified_ast = 0;
-    // string formula = "G[0,10](" + boolean_functions[i] + ")";
-    // string formula = boolean_functions_asts[i]->as_string();
-    // string formula = boolean_functions[i];
-    // cout << formula << "\n";
-    for (int j = 0; j < traces_pos_train.size(); ++j) {
-      // traces_satisified += evaluate_mltl(boolean_functions[i], traces_pos_train[j], false);
-      traces_satisified_ast += boolean_functions_asts[i]->evaluate(traces_pos_train[j]);
+    for (size_t j = 0; j < traces_pos_train.size(); ++j) {
+      traces_satisified += boolean_functions_asts[i]->evaluate(traces_pos_train[j]);
     }
-    for (int j = 0; j < traces_neg_train.size(); ++j) {
-      // traces_satisified += !evaluate_mltl(boolean_functions[i], traces_neg_train[j], false);
-      traces_satisified_ast += !boolean_functions_asts[i]->evaluate(traces_neg_train[j]);
+    for (size_t j = 0; j < traces_neg_train.size(); ++j) {
+      traces_satisified += !boolean_functions_asts[i]->evaluate(traces_neg_train[j]);
     }
 
     float accuracy = traces_satisified /
                      (float)(traces_pos_train.size() + traces_neg_train.size());
-    float accuracy_ast = traces_satisified_ast /
-                     (float)(traces_pos_train.size() + traces_neg_train.size());
-    if (accuracy_ast >= 0.5) {
+    if (accuracy >= 0.5) {
       cout << boolean_functions_asts[i]->as_string() << "\n";
-      // cout << "mltl_evaluate accuracy: " << accuracy << "\n";
-      cout << "ast evaluate accuracy: " << accuracy_ast << "\n";
+      cout << "accuracy: " << accuracy << "\n";
     }
   }
 
