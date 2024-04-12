@@ -3,7 +3,7 @@
 #include <climits>
 #include <iostream>
 
-/* Function to slice a given vector from range x to y
+/* Helper function to slice a given vector from range x to y.
  */
 vector<string> slice(vector<string> &a, int x, int y) {
   auto start = a.begin() + x;
@@ -29,6 +29,23 @@ unsigned int MLTLPropConsNode::future_reach() const { return 0; }
 
 bool MLTLPropConsNode::evaluate(vector<string> &trace) const { return val; }
 
+size_t MLTLPropConsNode::size() const { return 1; }
+size_t MLTLPropConsNode::count(MLTLNodeType target_type) const {
+  return (target_type == type);
+}
+size_t MLTLPropConsNode::count(MLTLUnaryPropOpType target_type) const {
+  return 0;
+}
+size_t MLTLPropConsNode::count(MLTLBinaryPropOpType target_type) const {
+  return 0;
+}
+size_t MLTLPropConsNode::count(MLTLUnaryTempOpType target_type) const {
+  return 0;
+}
+size_t MLTLPropConsNode::count(MLTLBinaryTempOpType target_type) const {
+  return 0;
+}
+
 // class MLTLPropVarNode : public MLTLNode
 
 MLTLPropVarNode::MLTLPropVarNode(unsigned int var_id)
@@ -50,6 +67,23 @@ bool MLTLPropVarNode::evaluate(vector<string> &trace) const {
   return (trace[0][var_id] == '1');
 }
 
+size_t MLTLPropVarNode::size() const { return 1; }
+size_t MLTLPropVarNode::count(MLTLNodeType target_type) const {
+  return (target_type == type);
+}
+size_t MLTLPropVarNode::count(MLTLUnaryPropOpType target_type) const {
+  return 0;
+}
+size_t MLTLPropVarNode::count(MLTLBinaryPropOpType target_type) const {
+  return 0;
+}
+size_t MLTLPropVarNode::count(MLTLUnaryTempOpType target_type) const {
+  return 0;
+}
+size_t MLTLPropVarNode::count(MLTLBinaryTempOpType target_type) const {
+  return 0;
+}
+
 // class MLTLUnaryPropOpNode : public MLTLNode
 MLTLUnaryPropOpNode::MLTLUnaryPropOpNode(MLTLUnaryPropOpType op_type,
                                          unique_ptr<MLTLNode> child)
@@ -66,6 +100,23 @@ unsigned int MLTLUnaryPropOpNode::future_reach() const {
 
 bool MLTLUnaryPropOpNode::evaluate(vector<string> &trace) const {
   return !child->evaluate(trace);
+}
+
+size_t MLTLUnaryPropOpNode::size() const { return 1 + child->size(); }
+size_t MLTLUnaryPropOpNode::count(MLTLNodeType target_type) const {
+  return (target_type == type) + child->count(target_type);
+}
+size_t MLTLUnaryPropOpNode::count(MLTLUnaryPropOpType target_type) const {
+  return (target_type == op_type) + child->count(target_type);
+}
+size_t MLTLUnaryPropOpNode::count(MLTLBinaryPropOpType target_type) const {
+  return child->count(target_type);
+}
+size_t MLTLUnaryPropOpNode::count(MLTLUnaryTempOpType target_type) const {
+  return child->count(target_type);
+}
+size_t MLTLUnaryPropOpNode::count(MLTLBinaryTempOpType target_type) const {
+  return child->count(target_type);
 }
 
 // class MLTLBinaryPropOpNode : public MLTLNode
@@ -121,6 +172,27 @@ bool MLTLBinaryPropOpNode::evaluate(vector<string> &trace) const {
          << "\n";
     exit(1);
   }
+}
+
+size_t MLTLBinaryPropOpNode::size() const {
+  return 1 + left->size() + right->size();
+}
+size_t MLTLBinaryPropOpNode::count(MLTLNodeType target_type) const {
+  return (target_type == type) + left->count(target_type) +
+         right->count(target_type);
+}
+size_t MLTLBinaryPropOpNode::count(MLTLUnaryPropOpType target_type) const {
+  return left->count(target_type) + right->count(target_type);
+}
+size_t MLTLBinaryPropOpNode::count(MLTLBinaryPropOpType target_type) const {
+  return (target_type == op_type) + left->count(target_type) +
+         right->count(target_type);
+}
+size_t MLTLBinaryPropOpNode::count(MLTLUnaryTempOpType target_type) const {
+  return left->count(target_type) + right->count(target_type);
+}
+size_t MLTLBinaryPropOpNode::count(MLTLBinaryTempOpType target_type) const {
+  return left->count(target_type) + right->count(target_type);
 }
 
 // class MLTLUnaryTempOpNode : public MLTLNode
@@ -190,6 +262,23 @@ bool MLTLUnaryTempOpNode::evaluate(vector<string> &trace) const {
     cout << "error: unexpected unary temporal operator " << as_string() << "\n";
     exit(1);
   }
+}
+
+size_t MLTLUnaryTempOpNode::size() const { return 1 + child->size(); }
+size_t MLTLUnaryTempOpNode::count(MLTLNodeType target_type) const {
+  return (target_type == type) + child->count(target_type);
+}
+size_t MLTLUnaryTempOpNode::count(MLTLUnaryPropOpType target_type) const {
+  return child->count(target_type);
+}
+size_t MLTLUnaryTempOpNode::count(MLTLBinaryPropOpType target_type) const {
+  return child->count(target_type);
+}
+size_t MLTLUnaryTempOpNode::count(MLTLUnaryTempOpType target_type) const {
+  return (target_type == op_type) + child->count(target_type);
+}
+size_t MLTLUnaryTempOpNode::count(MLTLBinaryTempOpType target_type) const {
+  return child->count(target_type);
 }
 
 // class MLTLBinaryTempOpNode : public MLTLNode
@@ -301,4 +390,25 @@ bool MLTLBinaryTempOpNode::evaluate(vector<string> &trace) const {
          << "\n";
     exit(1);
   }
+}
+
+size_t MLTLBinaryTempOpNode::size() const {
+  return 1 + left->size() + right->size();
+}
+size_t MLTLBinaryTempOpNode::count(MLTLNodeType target_type) const {
+  return (target_type == type) + left->count(target_type) +
+         right->count(target_type);
+}
+size_t MLTLBinaryTempOpNode::count(MLTLUnaryPropOpType target_type) const {
+  return left->count(target_type) + right->count(target_type);
+}
+size_t MLTLBinaryTempOpNode::count(MLTLBinaryPropOpType target_type) const {
+  return left->count(target_type) + right->count(target_type);
+}
+size_t MLTLBinaryTempOpNode::count(MLTLUnaryTempOpType target_type) const {
+  return left->count(target_type) + right->count(target_type);
+}
+size_t MLTLBinaryTempOpNode::count(MLTLBinaryTempOpType target_type) const {
+  return (target_type == op_type) + left->count(target_type) +
+         right->count(target_type);
 }

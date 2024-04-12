@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
   const uint64_t num_boolean_functions = pow(2, pow(2, num_vars));
   vector<string> inputs(truth_table_rows);
   vector<string> boolean_functions(num_boolean_functions);
-  vector<unique_ptr<MLTLNode>> boolean_functions_asts;
+  vector<unique_ptr<MLTLNode>> boolean_functions_asts(num_boolean_functions);
 
   for (uint32_t i = 0; i < truth_table_rows; ++i) {
     inputs[i] = int_to_bin_str(i, num_vars);
@@ -103,14 +103,16 @@ int main(int argc, char *argv[]) {
         implicants.emplace_back(inputs[j]);
       }
     }
-    boolean_functions_asts.emplace_back(make_unique<MLTLUnaryTempOpNode>(
-        MLTLUnaryTempOpType::Globally, 0, 10, quine_mccluskey(&implicants)));
+    boolean_functions_asts[i] = make_unique<MLTLUnaryTempOpNode>(
+        MLTLUnaryTempOpType::Globally, 0, 10, quine_mccluskey(&implicants));
+    // boolean_functions[i] = "G[0,10](" + quine_mccluskey_fast_string(&implicants) + ")";
+    
+
     // unique_ptr<MLTLNode> ast = make_unique<MLTLUnaryTempOpNode>(
     //     MLTLUnaryTempOpType::Globally, 0, 10, quine_mccluskey(&implicants));
     // boolean_functions[i] = ast->as_string();
 
     // cout << "future reach: " << ast->future_reach() << "\n";
-    boolean_functions[i] = "G[0,10](" + quine_mccluskey_fast_string(&implicants) + ")";
     // boolean_functions[i] = quine_mccluskey_fast_string(&implicants);
     // cout << quine_mccluskey_fast_string(&implicants) << "\n";
     // cout << quine_mccluskey(&implicants)->as_string() << "\n";
@@ -131,11 +133,11 @@ int main(int argc, char *argv[]) {
     // string formula = boolean_functions[i];
     // cout << formula << "\n";
     for (int j = 0; j < traces_pos_train.size(); ++j) {
-      // traces_satisified += evaluate_mltl(formula, traces_pos_train[j], false);
+      // traces_satisified += evaluate_mltl(boolean_functions[i], traces_pos_train[j], false);
       traces_satisified_ast += boolean_functions_asts[i]->evaluate(traces_pos_train[j]);
     }
     for (int j = 0; j < traces_neg_train.size(); ++j) {
-      // traces_satisified += !evaluate_mltl(formula, traces_neg_train[j], false);
+      // traces_satisified += !evaluate_mltl(boolean_functions[i], traces_neg_train[j], false);
       traces_satisified_ast += !boolean_functions_asts[i]->evaluate(traces_neg_train[j]);
     }
 
@@ -143,10 +145,10 @@ int main(int argc, char *argv[]) {
                      (float)(traces_pos_train.size() + traces_neg_train.size());
     float accuracy_ast = traces_satisified_ast /
                      (float)(traces_pos_train.size() + traces_neg_train.size());
-    if (accuracy >= 0) {
-      // cout << formula << "\n";
+    if (accuracy_ast >= 0.5) {
+      cout << boolean_functions_asts[i]->as_string() << "\n";
       // cout << "mltl_evaluate accuracy: " << accuracy << "\n";
-      // cout << "ast evaluate accuracy: " << accuracy_ast << "\n";
+      cout << "ast evaluate accuracy: " << accuracy_ast << "\n";
     }
   }
 
