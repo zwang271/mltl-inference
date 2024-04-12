@@ -4,7 +4,7 @@ CXX = g++
 CFLAGS = -Wall -O3 -fopenmp -DNDEBUG
 # CFLAGS = -Wall -g
 LDFLAGS = -fopenmp
-OBJECTS = main.o evaluate_mltl.o quine_mccluskey.o utils.o
+OBJECTS = main.o mltl_ast.o evaluate_mltl.o quine_mccluskey.o utils.o
 
 
 .PHONY: default all clean

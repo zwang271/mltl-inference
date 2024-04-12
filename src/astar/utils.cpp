@@ -142,7 +142,7 @@ vector<NamedTrace> read_batch_from_file(string in) {
 * Function to slice a given vector
 * from range X to Y
 */ 
-vector<string> slice(vector<string>& arr, int X, int Y)
+vector<string> slice2(vector<string>& arr, int X, int Y)
 {
  
     // Starting and Ending iterators
