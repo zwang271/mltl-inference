@@ -9,6 +9,31 @@
 #include <string>
 #include <tuple>
 
+#define DEBUG 1
+
+/* Precedence:
+ *   0 : true false p#
+ *   1 : F G ~
+ *   2 : U R
+ *   3 : &
+ *   4 : ^
+ *   5 : |
+ *   6 : ->
+ *   7 : <->
+ */
+constexpr int PropConsPrec = 0;
+constexpr int PropVarPrec = 0;
+constexpr int FinallyPrec = 1;
+constexpr int GloballyPrec = 1;
+constexpr int NegPrec = 1;
+constexpr int UntilPrec = 2;
+constexpr int ReleasePrec = 2;
+constexpr int AndPrec = 3;
+constexpr int XorPrec = 4;
+constexpr int OrPrec = 5;
+constexpr int ImpliesPrec = 6;
+constexpr int EquivPrec = 7;
+
 /* Emit diagnostic error and exit.
  */
 [[noreturn]] void error(const string &msg, const string &f = "",
@@ -26,7 +51,7 @@
     } else {
       end = pos;
     }
-    for (int i = 0; i < end; ++i) {
+    for (size_t i = 0; i < end; ++i) {
       if (i == pos) {
         cout << '^';
       } else if (ul_begin <= i && i < ul_end) {
@@ -76,12 +101,17 @@ size_t captured_stmt_len(const string &f, size_t pos, size_t len) {
   for (pos = pos + 1; pos < end; ++pos) {
     pcount += (f[pos] == '(');
     pcount -= (f[pos] == ')');
+    if (pcount == 0 && pos != end - 1) {
+      return pos - begin;
+    }
   }
 
-  if (pcount) {
-    error("unbalanced parenthesis, expected ')'", f, pos, pos,
+  if (pcount > 0) {
+    error("unbalanced parenthesis, expected ')'", f, pos + len, pos,
           pos + len); // no return
-    exit(1);
+  } else if (pcount < 0) {
+    error("unbalanced parenthesis, expected '('", f, pos, pos,
+          pos + len); // no return
   }
 
   return pos - begin - 2;
@@ -94,13 +124,13 @@ tuple<size_t, size_t> find_bounds(const string &f, size_t pos, size_t len,
   size_t rbrace = f.find(']', pos);
   size_t end = pos + len;
   if (lbrace >= end || comma >= end || rbrace >= end) {
-    error("missing temporal operator subscript bounds", f, pos, pos,
+    error("missing temporal operator bounds subscript", f, pos, pos,
           pos + len); // no return
   }
   size_t lb = stoull(f.substr(lbrace + 1, comma - lbrace - 1));
   size_t ub = stoull(f.substr(comma + 1, rbrace - comma - 1));
   if (lb > ub) {
-    error("illegal temporal operator subscript bounds", f, pos, pos,
+    error("illegal temporal operator bounds subscript", f, pos, pos,
           rbrace + 1); // no return
   }
   if (end_subscript) {
@@ -108,6 +138,87 @@ tuple<size_t, size_t> find_bounds(const string &f, size_t pos, size_t len,
   }
 
   return make_tuple(lb, ub);
+}
+
+/* Returns the index of the binary operator with the lowest precedence.
+ *
+ * Precedence is determined as follows: (lower value = higher precedence)
+ *   0 : true false p#
+ *   1 : F G ~
+ *   2 : U R
+ *   3 : &
+ *   4 : ^
+ *   5 : |
+ *   6 : ->
+ *   7 : <->
+ */
+size_t find_lowest_prec_binary_op(const string &f, size_t pos, size_t len) {
+  int pcount = 0;
+  size_t begin = pos;
+  size_t end = pos + len;
+  size_t lowest_prec_pos = SIZE_MAX;
+  int lowest_prec = -1;
+  for (; pos < end; ++pos) {
+    pcount += (f[pos] == '(');
+    pcount -= (f[pos] == ')');
+    if (pcount == 0) {
+      // we are not inside parens, so this may be a low precedence operator
+      switch (f[pos]) {
+      case 'U':
+        if (UntilPrec > lowest_prec) {
+          lowest_prec_pos = pos;
+          lowest_prec = UntilPrec;
+        }
+        break;
+      case 'R':
+        if (ReleasePrec > lowest_prec) {
+          lowest_prec_pos = pos;
+          lowest_prec = ReleasePrec;
+        }
+        break;
+      case '&':
+        if (AndPrec > lowest_prec) {
+          lowest_prec_pos = pos;
+          lowest_prec = AndPrec;
+        }
+        break;
+      case '^':
+        if (XorPrec > lowest_prec) {
+          lowest_prec_pos = pos;
+          lowest_prec = XorPrec;
+        }
+        break;
+      case '|':
+        if (OrPrec > lowest_prec) {
+          lowest_prec_pos = pos;
+          lowest_prec = OrPrec;
+        }
+        break;
+      case '-':
+        if (begin < pos && pos + 1 < end && f[pos - 1] != '<' &&
+            f[pos + 1] == '>' && ImpliesPrec > lowest_prec) {
+          lowest_prec_pos = pos;
+          lowest_prec = ImpliesPrec;
+        }
+        break;
+      case '<':
+        if (pos + 2 < end && f[pos + 1] == '-' && f[pos + 2] == '>' &&
+            ImpliesPrec > lowest_prec) {
+          lowest_prec_pos = pos;
+          lowest_prec = ImpliesPrec;
+        }
+        break;
+      default:
+        break; // not an operator, continue the search
+      }
+    }
+  }
+  if (lowest_prec_pos == SIZE_MAX) {
+    // no binary operator found :(
+    error("unexpected token, expected binary operator", f, begin, begin,
+          end); // no return
+  }
+  return lowest_prec_pos;
 }
 
 // forward declare
@@ -118,8 +229,6 @@ MLTLNode *parse_compound_stmt(const string &f, size_t pos, size_t len);
  * characters.
  */
 MLTLNode *parse(const string &f, size_t pos, size_t len) {
-  unsigned int id;
-  size_t lb, ub, tmp;
   MLTLNode *ast;
 
   // try to parse as a single statement first, if that fails (returns nullptr),
@@ -132,34 +241,8 @@ MLTLNode *parse(const string &f, size_t pos, size_t len) {
   if (ast) {
     return ast;
   }
-  // attempt to parse as a single statement
-  // attempt to parse as a compound statement
-  //
-  // // implies or equivalence (->,<-,<->)
-  // case '-':
-  //   if (f[pos + 1] != '-') {
-  //     cout << "error: unexpected token " << f.substr(pos, len) << "\n";
-  //     exit(1);
-  //   }
-  //   break;
-  // case '<':
-  //   if (f[pos + 1] != '-') {
-  //     cout << "error: unexpected token " << f.substr(pos, len) << "\n";
-  //     exit(1);
-  //   }
-  //   if (f[pos + 2 == '>']) {
-  //     // equiv
-  //   }
-  //   break;
-  //
-  // default:
-  //   cout << "error: unexpected token " << f.substr(pos, len) << "\n";
-  //   exit(1);
-  // }
 
-  // cout << "error: unexpected token at " << f.substr(pos, len) << "\n";
-  // exit(1);
-  error("unexpeced token", f, pos, pos, pos + len); // no return
+  error("unexpected token", f, pos, pos, pos + len); // no return
   return nullptr;
 }
 
@@ -178,14 +261,17 @@ MLTLNode *parse(const string &f) {
  * statement.
  */
 MLTLNode *parse_single_stmt(const string &f, size_t pos, size_t len) {
-  cout << "[debug]: f: " << f.substr(pos, len) << "\n";
-  cout << "[debug]: pos: " << pos << "\n";
-  cout << "[debug]: len: " << len << "\n";
+#if DEBUG
+  cout << "[debug]: parse_single_stmt\n";
+  cout << "[debug]:   f: " << f.substr(pos, len) << "\n";
+  cout << "[debug]:   pos: " << pos << "\n";
+  cout << "[debug]:   len: " << len << "\n";
+#endif
 
-  unsigned int id;
+  size_t end = pos + len;
   size_t lb, ub, captured_length, end_subscript;
+  unsigned int id;
   MLTLNode *operand;
-  MLTLUnaryTempOpType unary_temp_op_type;
   switch (f[pos]) {
   case 't':
     if (len == 1 || (len == 2 && f[pos + 1] == 't') ||
@@ -209,7 +295,9 @@ MLTLNode *parse_single_stmt(const string &f, size_t pos, size_t len) {
     break;
   case '(':
     captured_length = captured_stmt_len(f, pos, len);
-    cout << "[debug]: captured_length: " << captured_length << "\n";
+#if DEBUG
+    cout << "[debug]:   captured_length: " << captured_length << "\n";
+#endif
     if (captured_length + 2 == len) {
       // the whole string is encased in a set of parens, strip parse inside.
       return parse(f, pos + 1, captured_length);
@@ -223,12 +311,20 @@ MLTLNode *parse_single_stmt(const string &f, size_t pos, size_t len) {
     }
     break;
   case 'F':
+    tie(lb, ub) = find_bounds(f, pos + 1, len - 1, &end_subscript);
+    operand = parse_single_stmt(f, end_subscript, end - end_subscript);
+    if (operand) {
+      return new MLTLUnaryTempOpNode(MLTLUnaryTempOpType::Finally, lb, ub,
+                                     operand);
+    }
+    break;
   case 'G':
     tie(lb, ub) = find_bounds(f, pos + 1, len - 1, &end_subscript);
-    operand = parse_single_stmt(f, end_subscript, len - (end_subscript - pos));
-    unary_temp_op_type = (f[pos] == 'F') ? MLTLUnaryTempOpType::Finally
-                                         : MLTLUnaryTempOpType::Globally;
-    return new MLTLUnaryTempOpNode(unary_temp_op_type, lb, ub, operand);
+    operand = parse_single_stmt(f, end_subscript, end - end_subscript);
+    if (operand) {
+      return new MLTLUnaryTempOpNode(MLTLUnaryTempOpType::Globally, lb, ub,
+                                     operand);
+    }
     break;
   default:
     // statement is a compound statement
@@ -238,61 +334,60 @@ MLTLNode *parse_single_stmt(const string &f, size_t pos, size_t len) {
 }
 
 MLTLNode *parse_compound_stmt(const string &f, size_t pos, size_t len) {
-  cout << "[debug]: f: " << f.substr(pos, len) << "\n";
-  cout << "[debug]: pos: " << pos << "\n";
-  cout << "[debug]: len: " << len << "\n";
+#if DEBUG
+  cout << "[debug]: parse_compound_stmt\n";
+  cout << "[debug]:   f: " << f.substr(pos, len) << "\n";
+  cout << "[debug]:   pos: " << pos << "\n";
+  cout << "[debug]:   len: " << len << "\n";
+#endif
 
-  unsigned int id;
-  size_t lb, ub, captured_length, end_subscript;
-  MLTLNode *operand;
-  MLTLBinaryTempOpType unary_temp_op_type;
-  switch (f[pos]) {
-  case 't':
-    if (len == 1 || (len == 2 && f[pos + 1] == 't') ||
-        (len == 4 && f[pos + 1] == 'r' && f[pos + 2] == 'u' &&
-         f[pos + 3] == 'e')) { // t, tt, true
-      return new MLTLPropConsNode(true);
+  size_t end = pos + len;
+  size_t lb, ub, end_subscript;
+  MLTLNode *left, *right;
+  size_t op_pos = find_lowest_prec_binary_op(f, pos, len);
+  switch (f[op_pos]) {
+  case 'U':
+    tie(lb, ub) = find_bounds(f, op_pos + 1, len - 1, &end_subscript);
+    left = parse(f, pos, op_pos - pos);
+    right = parse(f, end_subscript, end - end_subscript);
+    return new MLTLBinaryTempOpNode(MLTLBinaryTempOpType::Until, lb, ub, left,
+                                    right);
+  case 'R':
+    tie(lb, ub) = find_bounds(f, op_pos + 1, len - 1, &end_subscript);
+    left = parse(f, pos, op_pos - pos);
+    right = parse(f, end_subscript, end - end_subscript);
+    return new MLTLBinaryTempOpNode(MLTLBinaryTempOpType::Release, lb, ub, left,
+                                    right);
+  case '&':
+    left = parse(f, pos, op_pos - pos);
+    right = parse(f, op_pos + 1, end - op_pos - 1);
+    return new MLTLBinaryPropOpNode(MLTLBinaryPropOpType::And, left, right);
+  case '^':
+    left = parse(f, pos, op_pos - pos);
+    right = parse(f, op_pos + 1, end - op_pos - 1);
+    return new MLTLBinaryPropOpNode(MLTLBinaryPropOpType::Xor, left, right);
+  case '|':
+    left = parse(f, pos, op_pos - pos);
+    right = parse(f, op_pos + 1, end - op_pos - 1);
+    return new MLTLBinaryPropOpNode(MLTLBinaryPropOpType::Or, left, right);
+  case '-':
+    if (pos < op_pos && op_pos + 1 < end && f[op_pos - 1] != '<' &&
+        f[op_pos + 1] == '>') {
+      left = parse(f, pos, op_pos - pos);
+      right = parse(f, op_pos + 2, end - op_pos - 2);
+      return new MLTLBinaryPropOpNode(MLTLBinaryPropOpType::Implies, left,
+                                      right);
     }
     break;
-  case 'f':
-    if (len == 1 || (len == 2 && f[pos + 1] == 'f') ||
-        (len == 5 && f[pos + 1] == 'a' && f[pos + 2] == 'l' &&
-         f[pos + 3] == 's' && f[pos + 4] == 'e')) { // f, ff, false
-      return new MLTLPropConsNode(false);
+  case '<':
+    if (op_pos + 2 < end && f[op_pos + 1] == '-' && f[op_pos + 2] == '>') {
+      left = parse(f, pos, op_pos - pos);
+      right = parse(f, op_pos + 3, end - op_pos - 3);
+      return new MLTLBinaryPropOpNode(MLTLBinaryPropOpType::Equiv, left, right);
     }
-    break;
-  case 'p':
-    if (is_valid_num(f, pos + 1, len - 1)) {
-      id = stoul(f.substr(pos + 1, len - 1));
-      return new MLTLPropVarNode(id);
-    }
-    break;
-  case '(':
-    captured_length = captured_stmt_len(f, pos, len);
-    cout << "[debug]: captured_length: " << captured_length << "\n";
-    if (captured_length + 2 == len) {
-      // the whole string is encased in a set of parens, strip parse inside.
-      return parse(f, pos + 1, captured_length);
-    }
-    break;
-  case '~':
-  case '!':
-    operand = parse_single_stmt(f, pos + 1, len - 1);
-    if (operand) {
-      return new MLTLUnaryPropOpNode(MLTLUnaryPropOpType::Neg, operand);
-    }
-    break;
-  case 'F':
-  case 'G':
-    tie(lb, ub) = find_bounds(f, pos + 1, len - 1, &end_subscript);
-    operand = parse_single_stmt(f, end_subscript, len - (end_subscript - pos));
-    unary_temp_op_type = (f[pos] == 'F') ? MLTLUnaryTempOpType::Finally
-                                         : MLTLUnaryTempOpType::Globally;
-    return new MLTLUnaryTempOpNode(unary_temp_op_type, lb, ub, operand);
     break;
   default:
-    // statement is a compound statement
-    break;
+    break; // not an operator, continue the search
   }
   return nullptr;
 }
