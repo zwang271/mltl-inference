@@ -1,11 +1,10 @@
 TARGET = astar
 CC = gcc
 CXX = g++
-CFLAGS = -Wall -O3 -fopenmp -DNDEBUG
-# CFLAGS = -Wall -g
+CFLAGS = -Wall -O3 -fopenmp -DNDEBUG -fno-rtti
+# CFLAGS = -Wall -g -fno-rtti -fno-exceptions
 LDFLAGS = -fopenmp
-# OBJECTS = main.o mltl_ast.o evaluate_mltl.o quine_mccluskey.o utils.o
-OBJECTS = main.o mltl_ast.o quine_mccluskey.o
+OBJECTS = main.o libmltl.o quine_mccluskey.o
 
 
 .PHONY: default all clean
@@ -13,7 +12,7 @@ OBJECTS = main.o mltl_ast.o quine_mccluskey.o
 all: $(TARGET)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
-%.o: %.cpp
+%.o: %.cc
 	$(CXX) $(CFLAGS) -c $< -o $@
 $(TARGET): $(OBJECTS)
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
