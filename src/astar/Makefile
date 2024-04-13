@@ -22,6 +22,10 @@ pybind: $(PYBIND_TARGET)
 	$(CXX) $(CFLAGS) -c $< -o $@
 %.o: %.cpp
 	$(CXX) $(CFLAGS) -c $< -o $@
+%.o: %.C
+	$(CXX) $(CFLAGS) -c $< -o $@
+%.o: %.cxx
+	$(CXX) $(CFLAGS) -c $< -o $@
 $(TARGET): $(OBJECTS)
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
 
