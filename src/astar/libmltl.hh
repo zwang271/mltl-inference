@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -37,16 +36,21 @@ enum class MLTLBinaryTempOpType {
   Release,
 };
 
+class MLTLNode;
+
+MLTLNode *parse(const string &f);
+
 class MLTLNode {
 protected:
   const MLTLNodeType type;
   MLTLNode(MLTLNodeType type);
 
 public:
-  virtual ~MLTLNode() {}
   MLTLNodeType getType() const;
+
+  virtual ~MLTLNode() = 0;
   virtual string as_string() const = 0;
-  virtual unsigned int future_reach() const = 0;
+  virtual size_t future_reach() const = 0;
   virtual bool evaluate(vector<string> &trace) const = 0;
   virtual size_t size() const = 0;
   virtual size_t count(MLTLNodeType target_type) const = 0;
@@ -61,9 +65,10 @@ public:
   bool val;
 
   MLTLPropConsNode(bool val);
+  ~MLTLPropConsNode();
 
   string as_string() const;
-  unsigned int future_reach() const;
+  size_t future_reach() const;
   bool evaluate(vector<string> &trace) const;
   size_t size() const;
   size_t count(MLTLNodeType target_type) const;
@@ -75,12 +80,13 @@ public:
 
 class MLTLPropVarNode : public MLTLNode {
 public:
-  unsigned int var_id;
+  size_t var_id;
 
   MLTLPropVarNode(unsigned int var_id);
+  ~MLTLPropVarNode();
 
   string as_string() const;
-  unsigned int future_reach() const;
+  size_t future_reach() const;
   bool evaluate(vector<string> &trace) const;
   size_t size() const;
   size_t count(MLTLNodeType target_type) const;
@@ -93,12 +99,13 @@ public:
 class MLTLUnaryPropOpNode : public MLTLNode {
 public:
   MLTLUnaryPropOpType op_type;
-  unique_ptr<MLTLNode> child;
+  MLTLNode *operand;
 
-  MLTLUnaryPropOpNode(MLTLUnaryPropOpType op_type, unique_ptr<MLTLNode> child);
+  MLTLUnaryPropOpNode(MLTLUnaryPropOpType op_type, MLTLNode *operand);
+  ~MLTLUnaryPropOpNode();
 
   string as_string() const;
-  unsigned int future_reach() const;
+  size_t future_reach() const;
   bool evaluate(vector<string> &trace) const;
   size_t size() const;
   size_t count(MLTLNodeType target_type) const;
@@ -111,14 +118,15 @@ public:
 class MLTLBinaryPropOpNode : public MLTLNode {
 public:
   MLTLBinaryPropOpType op_type;
-  unique_ptr<MLTLNode> left;
-  unique_ptr<MLTLNode> right;
+  MLTLNode *left;
+  MLTLNode *right;
 
-  MLTLBinaryPropOpNode(MLTLBinaryPropOpType op_type, unique_ptr<MLTLNode> left,
-                       unique_ptr<MLTLNode> right);
+  MLTLBinaryPropOpNode(MLTLBinaryPropOpType op_type, MLTLNode *left,
+                       MLTLNode *right);
+  ~MLTLBinaryPropOpNode();
 
   string as_string() const;
-  unsigned int future_reach() const;
+  size_t future_reach() const;
   bool evaluate(vector<string> &trace) const;
   size_t size() const;
   size_t count(MLTLNodeType target_type) const;
@@ -131,15 +139,16 @@ public:
 class MLTLUnaryTempOpNode : public MLTLNode {
 public:
   MLTLUnaryTempOpType op_type;
-  unsigned int lb;
-  unsigned int ub;
-  unique_ptr<MLTLNode> child;
+  size_t lb;
+  size_t ub;
+  MLTLNode *operand;
 
-  MLTLUnaryTempOpNode(MLTLUnaryTempOpType op_type, unsigned int lb,
-                      unsigned int ub, unique_ptr<MLTLNode> child);
+  MLTLUnaryTempOpNode(MLTLUnaryTempOpType op_type, size_t lb, size_t ub,
+                      MLTLNode *operand);
+  ~MLTLUnaryTempOpNode();
 
   string as_string() const;
-  unsigned int future_reach() const;
+  size_t future_reach() const;
   bool evaluate(vector<string> &trace) const;
   size_t size() const;
   size_t count(MLTLNodeType target_type) const;
@@ -152,17 +161,17 @@ public:
 class MLTLBinaryTempOpNode : public MLTLNode {
 public:
   MLTLBinaryTempOpType op_type;
-  unsigned int lb;
-  unsigned int ub;
-  unique_ptr<MLTLNode> left;
-  unique_ptr<MLTLNode> right;
+  size_t lb;
+  size_t ub;
+  MLTLNode *left;
+  MLTLNode *right;
 
-  MLTLBinaryTempOpNode(MLTLBinaryTempOpType op_type, unsigned int lb,
-                       unsigned int ub, unique_ptr<MLTLNode> left,
-                       unique_ptr<MLTLNode> right);
+  MLTLBinaryTempOpNode(MLTLBinaryTempOpType op_type, size_t lb, size_t ub,
+                       MLTLNode *left, MLTLNode *right);
+  ~MLTLBinaryTempOpNode();
 
   string as_string() const;
-  unsigned int future_reach() const;
+  size_t future_reach() const;
   bool evaluate(vector<string> &trace) const;
   size_t size() const;
   size_t count(MLTLNodeType target_type) const;

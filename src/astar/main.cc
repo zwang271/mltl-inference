@@ -6,8 +6,8 @@
 #include <sys/time.h>
 
 // #include "evaluate_mltl.h"
-#include "mltl_ast.h"
-#include "quine_mccluskey.h"
+#include "libmltl.hh"
+#include "quine_mccluskey.hh"
 
 using namespace std;
 
@@ -43,6 +43,14 @@ vector<vector<string>> read_trace_files(const string &trace_directory_path) {
   return traces;
 }
 
+size_t max_trace_length(const vector<vector<string>> &traces) {
+  size_t max = 0;
+  for (auto &trace : traces) {
+    max = std::max(max, trace.size());
+  }
+  return max;
+}
+
 int main(int argc, char *argv[]) {
   // default options
   // TODO
@@ -63,22 +71,26 @@ int main(int argc, char *argv[]) {
   string base_path = "../dataset/basic_global";
   vector<vector<string>> traces_pos_train =
       read_trace_files(base_path + "/pos_train");
+  size_t max_pos_train_trace_len = max_trace_length(traces_pos_train);
   vector<vector<string>> traces_neg_train =
       read_trace_files(base_path + "/neg_train");
+  size_t max_neg_train_trace_len = max_trace_length(traces_neg_train);
   vector<vector<string>> traces_pos_test =
       read_trace_files(base_path + "/pos_test");
+  size_t max_pos_test_trace_len = max_trace_length(traces_pos_test);
   vector<vector<string>> traces_neg_test =
       read_trace_files(base_path + "/neg_test");
+  size_t max_neg_test_trace_len = max_trace_length(traces_neg_test);
 
   struct timeval start, end;
   double time_taken = 0;
   gettimeofday(&start, NULL); // start timer
 
-  const uint32_t num_vars = 3;
+  const uint32_t num_vars = 2;
   const uint32_t truth_table_rows = pow(2, num_vars);
   const uint64_t num_boolean_functions = pow(2, pow(2, num_vars));
   vector<string> inputs(truth_table_rows);
-  vector<unique_ptr<MLTLNode>> boolean_functions_asts(num_boolean_functions);
+  vector<MLTLUnaryTempOpNode *> boolean_functions_asts(num_boolean_functions);
 
   for (uint32_t i = 0; i < truth_table_rows; ++i) {
     inputs[i] = int_to_bin_str(i, num_vars);
@@ -92,33 +104,47 @@ int main(int argc, char *argv[]) {
         implicants.emplace_back(inputs[j]);
       }
     }
-    boolean_functions_asts[i] = make_unique<MLTLUnaryTempOpNode>(
-        MLTLUnaryTempOpType::Globally, 0, 10, quine_mccluskey(&implicants));
+    boolean_functions_asts[i] = new MLTLUnaryTempOpNode(
+        MLTLUnaryTempOpType::Globally, 0, 0, quine_mccluskey(implicants));
   }
 
-// #pragma omp parallel for
-// for (int i = 0; i < num_boolean_functions; ++i) {
-//     string formula = "G[0,3](" + boolean_functions[i] + ")";
-//     bool val =
-//         evaluate_mltl(formula, {"0101", "1101", "0101", "1101"}, false);
-// }
+  // #pragma omp parallel for
+  // for (int i = 0; i < num_boolean_functions; ++i) {
+  //     string formula = "G[0,3](" + boolean_functions[i] + ")";
+  //     bool val =
+  //         evaluate_mltl(formula, {"0101", "1101", "0101", "1101"}, false);
+  // }
 
 #pragma omp parallel for num_threads(1)
   for (uint64_t i = 0; i < num_boolean_functions; ++i) {
-    int traces_satisified = 0;
-    for (size_t j = 0; j < traces_pos_train.size(); ++j) {
-      traces_satisified += boolean_functions_asts[i]->evaluate(traces_pos_train[j]);
-    }
-    for (size_t j = 0; j < traces_neg_train.size(); ++j) {
-      traces_satisified += !boolean_functions_asts[i]->evaluate(traces_neg_train[j]);
-    }
+    // dynamic_cast<MLTLUnaryTempOpNode>(boolean_functions_asts[i])->child;
+    // for (int ub = 0; ub < max_pos_train_trace_len; ++ub) {
+    //   for (int lb = 0; lb <= ub; ++lb) {
+    //     if (ub - lb < 8) {
+    //       continue;
+    //     }
+        int traces_satisified = 0;
+        // boolean_functions_asts[i]->lb = lb;
+        // boolean_functions_asts[i]->ub = ub;
+        boolean_functions_asts[i]->lb = 0;
+        boolean_functions_asts[i]->ub = 10;
+        for (size_t j = 0; j < traces_pos_train.size(); ++j) {
+          traces_satisified +=
+              boolean_functions_asts[i]->evaluate(traces_pos_train[j]);
+        }
+        for (size_t j = 0; j < traces_neg_train.size(); ++j) {
+          traces_satisified +=
+              !boolean_functions_asts[i]->evaluate(traces_neg_train[j]);
+        }
 
-    float accuracy = traces_satisified /
-                     (float)(traces_pos_train.size() + traces_neg_train.size());
-    if (accuracy >= 0.5) {
-      cout << boolean_functions_asts[i]->as_string() << "\n";
-      cout << "accuracy: " << accuracy << "\n";
-    }
+        float accuracy = traces_satisified / (float)(traces_pos_train.size() +
+                                                     traces_neg_train.size());
+        if (accuracy >= 1) {
+          cout << boolean_functions_asts[i]->as_string() << "\n";
+          cout << "accuracy: " << accuracy << "\n";
+        }
+    //   }
+    // }
   }
 
   gettimeofday(&end, NULL); // stop timer
@@ -133,6 +159,21 @@ int main(int argc, char *argv[]) {
   cout << "total time taken: " << time_taken << "s\n";
   // cout << "path length: " << path.length() << "\n";
   // cout << "path: " << path << "\n";
+
+
+  for (MLTLUnaryTempOpNode *p : boolean_functions_asts) {
+    delete p;
+  }
+
+
+  MLTLNode *test = parse("true");
+  cout << test->as_string() << "\n";
+  test = parse("false");
+  cout << test->as_string() << "\n";
+  test = parse("(true)");
+  cout << test->as_string() << "\n";
+  test = parse("(false)");
+  cout << test->as_string() << "\n";
 
   return 0;
 }
