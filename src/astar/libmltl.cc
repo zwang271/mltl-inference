@@ -9,7 +9,7 @@
 #include <string>
 #include <tuple>
 
-#define DEBUG 1
+#define DEBUG 0
 
 /* Precedence:
  *   0 : true false p#
