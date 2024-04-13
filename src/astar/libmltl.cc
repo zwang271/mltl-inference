@@ -1,13 +1,8 @@
 #include "libmltl.hh"
 
 #include <algorithm>
-#include <cctype>
-#include <cstdint>
 #include <cstring>
 #include <iostream>
-#include <stdnoreturn.h>
-#include <string>
-#include <tuple>
 
 #define DEBUG 0
 
@@ -159,7 +154,7 @@ size_t find_lowest_prec_binary_op(const string &f, size_t pos, size_t len) {
   int pcount = 0;
   size_t begin = pos;
   size_t end = pos + len;
-  size_t lowest_prec_pos = SIZE_MAX;
+  size_t lowest_prec_pos = -1;
   int lowest_prec = -1;
   for (; pos < end; ++pos) {
     pcount += (f[pos] == '(');
@@ -216,7 +211,7 @@ size_t find_lowest_prec_binary_op(const string &f, size_t pos, size_t len) {
       }
     }
   }
-  if (lowest_prec_pos == SIZE_MAX) {
+  if (lowest_prec_pos == -1) {
     // no binary operator found :(
     error("unexpected token", f, begin, begin,
           end); // no return
@@ -734,7 +729,7 @@ bool MLTLBinaryTempOpNode::evaluate(vector<string> &trace) const {
     }
     // find first occurrence for which T[i:] |- F2
     end = min(ub, trace.size() - 1);
-    i = SIZE_MAX;
+    i = -1;
     for (k = lb; k <= end; ++k) {
       sub_trace = slice(trace, k, trace.size());
       if (right->evaluate(sub_trace)) {
@@ -742,7 +737,7 @@ bool MLTLBinaryTempOpNode::evaluate(vector<string> &trace) const {
         break;
       }
     } // no i in [a, b] such that trace[i:] |- right
-    if (i == SIZE_MAX) {
+    if (i == -1) {
       return false;
     }
     // check that for all j in [a, i-1], trace[j:] |- left
@@ -773,7 +768,7 @@ bool MLTLBinaryTempOpNode::evaluate(vector<string> &trace) const {
       }
     } // not all i in [a, b] trace[i:] |- right
     // find first occurrence of j in [a, b-1] for which trace[j:] |- left
-    j = SIZE_MAX;
+    j = -1;
     for (k = lb; k < ub; ++k) {
       sub_trace = slice(trace, k, trace.size());
       if (left->evaluate(sub_trace) || k == trace.size() - 1) {
@@ -781,7 +776,7 @@ bool MLTLBinaryTempOpNode::evaluate(vector<string> &trace) const {
         break;
       }
     } // no j in [a, b-1] such that T[j:] |- left
-    if (j == SIZE_MAX) {
+    if (j == -1) {
       return false;
     }
     // check that for all k in [a, j], T[k:] |- right
