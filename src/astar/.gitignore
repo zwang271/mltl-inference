@@ -1,2 +1,3 @@
 astar
 *.o
+vgcore.*

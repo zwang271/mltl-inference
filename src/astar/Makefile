@@ -2,7 +2,7 @@ TARGET = astar
 CC = gcc
 CXX = g++
 CFLAGS = -Wall -O3 -fopenmp -DNDEBUG -fno-rtti
-# CFLAGS = -Wall -g -fno-rtti -fno-exceptions
+# CFLAGS = -Wall -g -fno-rtti
 LDFLAGS = -fopenmp
 OBJECTS = main.o libmltl.o quine_mccluskey.o
 
@@ -12,11 +12,11 @@ OBJECTS = main.o libmltl.o quine_mccluskey.o
 all: $(TARGET)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
-%.o: %.cc
+%.o: %.cc %.cpp
 	$(CXX) $(CFLAGS) -c $< -o $@
 $(TARGET): $(OBJECTS)
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
 
 clean:
-	rm -f $(TARGET) *.o
+	rm -f $(TARGET) *.o vgcore.*
 

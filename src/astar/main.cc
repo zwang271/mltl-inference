@@ -166,21 +166,48 @@ int main(int argc, char *argv[]) {
   }
 
 
-  MLTLNode *test = parse("true");
-  cout << test->as_string() << "\n";
-  test = parse("false");
-  cout << test->as_string() << "\n";
-  test = parse("(true)");
-  cout << test->as_string() << "\n";
-  test = parse("~(false)");
-  cout << test->as_string() << "\n";
-  // test = parse("~fale");
-  test = parse("G[0,1]true");
-  cout << test->as_string() << "\n";
-  test = parse("F[0,1]!false");
-  cout << test->as_string() << "\n";
-  test = parse("G[10,0]false");
-  cout << test->as_string() << "\n";
+  // MLTLNode *test = parse("true");
+  // cout << test->as_string() << "\n";
+  // test = parse("false");
+  // cout << test->as_string() << "\n";
+  // test = parse("(true)");
+  // cout << test->as_string() << "\n";
+  // test = parse("~(false)");
+  // cout << test->as_string() << "\n";
+  // // test = parse("~fale");
+  // test = parse("G[0,1]true");
+  // cout << test->as_string() << "\n";
+  // test = parse("F[0,1]!false");
+  // cout << test->as_string() << "\n";
+  // // test = parse("G[10,0]false");
+  // test = parse("~falseU[0,10]!false");
+  // cout << test->as_string() << "\n";
+  // test = parse("(falseR[0,10](!false))");
+  // // test = parse("(falsasdR[0,10](!false))");
+  // // test = parse("(falseR[0,10](!falsasdfe))");
+  // cout << test->as_string() << "\n";
+  // test = parse("false&true");
+  // cout << test->as_string() << "\n";
+  // test = parse("((false&false)R[0,10](!false))");
+  // cout << test->as_string() << "\n";
+  // test = parse("((false&false|true)R[0,10](!false))");
+  // cout << test->as_string() << "\n";
+  // test = parse("~(true)&true");
+  // cout << test->as_string() << "\n";
+  // test = parse("G[0,4](true)&true");
+  // cout << test->as_string() << "\n";
+  // 
+  // test = parse("((false&false&true^G[0,4]true&~true)R[0,10](!false))");
+//   cout << test->as_string() << "\n";
+//   test = parse("((false&false&true^G[0,4](true)&~true)R[0,10](!false))");
+//   cout << test->as_string() << "\n";
+//   test = parse("((false&false&true^(G[0,4](true))&~true)R[0,10](!false))");
+//   cout << test->as_string() << "\n";
+// // ((false&false&true^G[0,4](true)&~true)R[0,10](!false))
+//   test = parse("~(true)&true");
+//   cout << test->as_string() << "\n";
+//   test = parse("G[0,4](true)&true");
+  // cout << test->as_string() << "\n";
 
   return 0;
 }
