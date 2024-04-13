@@ -79,6 +79,9 @@ bool matches_in_set(const string &f, size_t pos, size_t len,
 }
 
 bool is_valid_num(const string &f, size_t pos, size_t len) {
+  if (len == 0) {
+    return false;
+  }
   size_t end = pos + len;
   for (; pos < end; ++pos) {
     if (!isdigit(f[pos])) {
@@ -215,7 +218,7 @@ size_t find_lowest_prec_binary_op(const string &f, size_t pos, size_t len) {
   }
   if (lowest_prec_pos == SIZE_MAX) {
     // no binary operator found :(
-    error("unexpected token, expected binary operator", f, begin, begin,
+    error("unexpected token", f, begin, begin,
           end); // no return
   }
   return lowest_prec_pos;

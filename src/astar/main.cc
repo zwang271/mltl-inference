@@ -5,7 +5,7 @@
 #include <iostream>
 #include <sys/time.h>
 
-#include "evaluate_mltl.h"
+// #include "evaluate_mltl.h"
 #include "libmltl.hh"
 #include "quine_mccluskey.hh"
 
@@ -167,22 +167,22 @@ int main(int argc, char *argv[]) {
       // }
     }
   */
-  gettimeofday(&start, NULL); // start timer
-
-  for (uint64_t i = 0; i < num_boolean_functions; ++i) {
-    // MLTLNode *new_node = parse(boolean_functions_asts_string[i]);
-    for (size_t j = 0; j < traces_pos_train.size(); ++j) {
-      MLTLNode *new_node = parse(boolean_functions_asts_string[i]);
-      new_node->evaluate(traces_pos_train[j]);
-      delete new_node;
-    }
-    for (size_t j = 0; j < traces_neg_train.size(); ++j) {
-      MLTLNode *new_node = parse(boolean_functions_asts_string[i]);
-      new_node->evaluate(traces_neg_train[j]);
-      delete new_node;
-    }
-    // delete new_node;
-  }
+  // gettimeofday(&start, NULL); // start timer
+  //
+  // for (uint64_t i = 0; i < num_boolean_functions; ++i) {
+  //   // MLTLNode *new_node = parse(boolean_functions_asts_string[i]);
+  //   for (size_t j = 0; j < traces_pos_train.size(); ++j) {
+  //     MLTLNode *new_node = parse(boolean_functions_asts_string[i]);
+  //     new_node->evaluate(traces_pos_train[j]);
+  //     delete new_node;
+  //   }
+  //   for (size_t j = 0; j < traces_neg_train.size(); ++j) {
+  //     MLTLNode *new_node = parse(boolean_functions_asts_string[i]);
+  //     new_node->evaluate(traces_neg_train[j]);
+  //     delete new_node;
+  //   }
+  //   // delete new_node;
+  // }
   // for (uint64_t i = 0; i < num_boolean_functions; ++i) {
   //   MLTLNode *new_node = parse(boolean_functions_asts_until_string[i]);
   //   for (size_t j = 0; j < traces_pos_train.size(); ++j) {
@@ -194,20 +194,20 @@ int main(int argc, char *argv[]) {
   //   delete new_node;
   // }
 
-  gettimeofday(&end, NULL); // stop timer
-  time_taken = end.tv_sec + end.tv_usec / 1e6 - start.tv_sec -
-               start.tv_usec / 1e6; // in seconds
-  cout << "total time taken: " << time_taken << "s\n";
-  gettimeofday(&start, NULL); // start timer
-
-  for (uint64_t i = 0; i < num_boolean_functions; ++i) {
-    for (size_t j = 0; j < traces_pos_train.size(); ++j) {
-      evaluate_mltl(boolean_functions_asts_string[i], traces_pos_train[j]);
-    }
-    for (size_t j = 0; j < traces_neg_train.size(); ++j) {
-      evaluate_mltl(boolean_functions_asts_string[i], traces_neg_train[j]);
-    }
-  }
+  // gettimeofday(&end, NULL); // stop timer
+  // time_taken = end.tv_sec + end.tv_usec / 1e6 - start.tv_sec -
+  //              start.tv_usec / 1e6; // in seconds
+  // cout << "total time taken: " << time_taken << "s\n";
+  // gettimeofday(&start, NULL); // start timer
+  //
+  // for (uint64_t i = 0; i < num_boolean_functions; ++i) {
+  //   for (size_t j = 0; j < traces_pos_train.size(); ++j) {
+  //     evaluate_mltl(boolean_functions_asts_string[i], traces_pos_train[j]);
+  //   }
+  //   for (size_t j = 0; j < traces_neg_train.size(); ++j) {
+  //     evaluate_mltl(boolean_functions_asts_string[i], traces_neg_train[j]);
+  //   }
+  // }
   // for (uint64_t i = 0; i < num_boolean_functions; ++i) {
   //   for (size_t j = 0; j < traces_pos_train.size(); ++j) {
   //     evaluate_mltl(boolean_functions_asts_until_string[i],
@@ -236,7 +236,7 @@ int main(int argc, char *argv[]) {
     delete p;
   }
 
-  // MLTLNode *test = parse("true");
+  MLTLNode *test = parse("true");
   // cout << test->as_string() << "\n";
   // test = parse("false");
   // cout << test->as_string() << "\n";
@@ -268,15 +268,17 @@ int main(int argc, char *argv[]) {
   // cout << test->as_string() << "\n";
   //
   // test = parse("((false&false&true^G[0,4]true&~true)R[0,10](!false))");
-  //   cout << test->as_string() << "\n";
+  // cout << test->as_string() << "\n";
   //   test = parse("((false&false&true^G[0,4](true)&~true)R[0,10](!false))");
   //   cout << test->as_string() << "\n";
   //   test = parse("((false&false&true^(G[0,4](true))&~true)R[0,10](!false))");
   //   cout << test->as_string() << "\n";
   // // ((false&false&true^G[0,4](true)&~true)R[0,10](!false))
   //   test = parse("~(true)&true");
-  //   cout << test->as_string() << "\n";
+    // cout << test->as_string() << "\n";
   //   test = parse("G[0,4](true)&true");
+  // cout << test->as_string() << "\n";
+  //   test = parse("G[0,1](p)&true");
   // cout << test->as_string() << "\n";
 
   return 0;
