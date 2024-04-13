@@ -5,7 +5,41 @@
 #include <cstdint>
 #include <cstring>
 #include <iostream>
+#include <stdnoreturn.h>
 #include <string>
+#include <tuple>
+
+/* Emit diagnostic error and exit.
+ */
+[[noreturn]] void error(const string &msg, const string &f = "",
+                        size_t pos = string::npos,
+                        size_t ul_begin = string::npos,
+                        size_t ul_end = string::npos) {
+  cout << "error: " << msg << "\n";
+  if (!f.empty()) {
+    cout << f << "\n";
+  }
+  if (pos != string::npos) {
+    size_t end;
+    if (ul_begin != string::npos && ul_end != string::npos) {
+      end = max(pos, ul_end);
+    } else {
+      end = pos;
+    }
+    for (int i = 0; i < end; ++i) {
+      if (i == pos) {
+        cout << '^';
+      } else if (ul_begin <= i && i < ul_end) {
+        cout << '~';
+      } else {
+        cout << ' ';
+      }
+    }
+    cout << "\n";
+  }
+
+  exit(-1);
+}
 
 bool matches_in_set(const string &f, size_t pos, size_t len,
                     const vector<string> &targets) {
@@ -45,13 +79,40 @@ size_t captured_stmt_len(const string &f, size_t pos, size_t len) {
   }
 
   if (pcount) {
-    cout << "error: unbalanced parenthesis, expected ')' at "
-         << f.substr(pos, len) << "\n";
+    error("unbalanced parenthesis, expected ')'", f, pos, pos,
+          pos + len); // no return
     exit(1);
   }
 
   return pos - begin - 2;
 }
+
+tuple<size_t, size_t> find_bounds(const string &f, size_t pos, size_t len,
+                                  size_t *end_subscript = nullptr) {
+  size_t lbrace = f.find('[', pos);
+  size_t comma = f.find(',', pos);
+  size_t rbrace = f.find(']', pos);
+  size_t end = pos + len;
+  if (lbrace >= end || comma >= end || rbrace >= end) {
+    error("missing temporal operator subscript bounds", f, pos, pos,
+          pos + len); // no return
+  }
+  size_t lb = stoull(f.substr(lbrace + 1, comma - lbrace - 1));
+  size_t ub = stoull(f.substr(comma + 1, rbrace - comma - 1));
+  if (lb > ub) {
+    error("illegal temporal operator subscript bounds", f, pos, pos,
+          rbrace + 1); // no return
+  }
+  if (end_subscript) {
+    *end_subscript = rbrace + 1;
+  }
+
+  return make_tuple(lb, ub);
+}
+
+// forward declare
+MLTLNode *parse_single_stmt(const string &f, size_t pos, size_t len);
+MLTLNode *parse_compound_stmt(const string &f, size_t pos, size_t len);
 
 /* Parses MLTL formula f, starts at character position pos and spans len
  * characters.
@@ -59,41 +120,19 @@ size_t captured_stmt_len(const string &f, size_t pos, size_t len) {
 MLTLNode *parse(const string &f, size_t pos, size_t len) {
   unsigned int id;
   size_t lb, ub, tmp;
-  cout << "[debug]: f: " << f.substr(pos,len) << "\n";
-  cout << "[debug]: pos: " << pos << "\n";
-  cout << "[debug]: len: " << len << "\n";
+  MLTLNode *ast;
 
-  // attempt to parse as a non-compound statement
-  switch (f[pos]) {
-  case 't':
-    if (matches_in_set(f, pos, len, {"t", "tt", "true"})) {
-      return new MLTLPropConsNode(true);
-    }
-    break;
-  case 'f':
-    if (matches_in_set(f, pos, len, {"f", "ff", "false"})) {
-      return new MLTLPropConsNode(false);
-    }
-    break;
-  case 'p':
-    if (is_valid_num(f, pos + 1, len - 1)) {
-      id = stoul(f.substr(pos + 1, len - 1));
-      return new MLTLPropVarNode(id);
-    }
-    break;
-  case '(':
-    tmp = captured_stmt_len(f, pos, len);
-    cout << "[debug]: tmp: " << tmp << "\n";
-    if (tmp + 2 == len) {
-      // The whole string is encased in a set of parens, strip them.
-      return parse(f, pos + 1, tmp);
-    }
-    break;
-  default:
-    // statement is a compound statement
-    break;
+  // try to parse as a single statement first, if that fails (returns nullptr),
+  // then try to parse as a compound statement, if the fails then abort.
+  ast = parse_single_stmt(f, pos, len);
+  if (ast) {
+    return ast;
   }
-
+  ast = parse_compound_stmt(f, pos, len);
+  if (ast) {
+    return ast;
+  }
+  // attempt to parse as a single statement
   // attempt to parse as a compound statement
   //
   // // implies or equivalence (->,<-,<->)
@@ -118,8 +157,10 @@ MLTLNode *parse(const string &f, size_t pos, size_t len) {
   //   exit(1);
   // }
 
-  cout << "error: unexpected token at " << f.substr(pos, len) << "\n";
-  exit(1);
+  // cout << "error: unexpected token at " << f.substr(pos, len) << "\n";
+  // exit(1);
+  error("unexpeced token", f, pos, pos, pos + len); // no return
+  return nullptr;
 }
 
 /* Fast recursive decent parser for MLTL.
@@ -131,6 +172,129 @@ MLTLNode *parse(const string &f) {
                       [](unsigned char c) { return isspace(c); }),
             tmp.end());
   return parse(tmp, 0, tmp.length());
+}
+
+/* Parses a single statement, returns nullptr is statement is a compound
+ * statement.
+ */
+MLTLNode *parse_single_stmt(const string &f, size_t pos, size_t len) {
+  cout << "[debug]: f: " << f.substr(pos, len) << "\n";
+  cout << "[debug]: pos: " << pos << "\n";
+  cout << "[debug]: len: " << len << "\n";
+
+  unsigned int id;
+  size_t lb, ub, captured_length, end_subscript;
+  MLTLNode *operand;
+  MLTLUnaryTempOpType unary_temp_op_type;
+  switch (f[pos]) {
+  case 't':
+    if (len == 1 || (len == 2 && f[pos + 1] == 't') ||
+        (len == 4 && f[pos + 1] == 'r' && f[pos + 2] == 'u' &&
+         f[pos + 3] == 'e')) { // t, tt, true
+      return new MLTLPropConsNode(true);
+    }
+    break;
+  case 'f':
+    if (len == 1 || (len == 2 && f[pos + 1] == 'f') ||
+        (len == 5 && f[pos + 1] == 'a' && f[pos + 2] == 'l' &&
+         f[pos + 3] == 's' && f[pos + 4] == 'e')) { // f, ff, false
+      return new MLTLPropConsNode(false);
+    }
+    break;
+  case 'p':
+    if (is_valid_num(f, pos + 1, len - 1)) {
+      id = stoul(f.substr(pos + 1, len - 1));
+      return new MLTLPropVarNode(id);
+    }
+    break;
+  case '(':
+    captured_length = captured_stmt_len(f, pos, len);
+    cout << "[debug]: captured_length: " << captured_length << "\n";
+    if (captured_length + 2 == len) {
+      // the whole string is encased in a set of parens, strip parse inside.
+      return parse(f, pos + 1, captured_length);
+    }
+    break;
+  case '~':
+  case '!':
+    operand = parse_single_stmt(f, pos + 1, len - 1);
+    if (operand) {
+      return new MLTLUnaryPropOpNode(MLTLUnaryPropOpType::Neg, operand);
+    }
+    break;
+  case 'F':
+  case 'G':
+    tie(lb, ub) = find_bounds(f, pos + 1, len - 1, &end_subscript);
+    operand = parse_single_stmt(f, end_subscript, len - (end_subscript - pos));
+    unary_temp_op_type = (f[pos] == 'F') ? MLTLUnaryTempOpType::Finally
+                                         : MLTLUnaryTempOpType::Globally;
+    return new MLTLUnaryTempOpNode(unary_temp_op_type, lb, ub, operand);
+    break;
+  default:
+    // statement is a compound statement
+    break;
+  }
+  return nullptr;
+}
+
+MLTLNode *parse_compound_stmt(const string &f, size_t pos, size_t len) {
+  cout << "[debug]: f: " << f.substr(pos, len) << "\n";
+  cout << "[debug]: pos: " << pos << "\n";
+  cout << "[debug]: len: " << len << "\n";
+
+  unsigned int id;
+  size_t lb, ub, captured_length, end_subscript;
+  MLTLNode *operand;
+  MLTLBinaryTempOpType unary_temp_op_type;
+  switch (f[pos]) {
+  case 't':
+    if (len == 1 || (len == 2 && f[pos + 1] == 't') ||
+        (len == 4 && f[pos + 1] == 'r' && f[pos + 2] == 'u' &&
+         f[pos + 3] == 'e')) { // t, tt, true
+      return new MLTLPropConsNode(true);
+    }
+    break;
+  case 'f':
+    if (len == 1 || (len == 2 && f[pos + 1] == 'f') ||
+        (len == 5 && f[pos + 1] == 'a' && f[pos + 2] == 'l' &&
+         f[pos + 3] == 's' && f[pos + 4] == 'e')) { // f, ff, false
+      return new MLTLPropConsNode(false);
+    }
+    break;
+  case 'p':
+    if (is_valid_num(f, pos + 1, len - 1)) {
+      id = stoul(f.substr(pos + 1, len - 1));
+      return new MLTLPropVarNode(id);
+    }
+    break;
+  case '(':
+    captured_length = captured_stmt_len(f, pos, len);
+    cout << "[debug]: captured_length: " << captured_length << "\n";
+    if (captured_length + 2 == len) {
+      // the whole string is encased in a set of parens, strip parse inside.
+      return parse(f, pos + 1, captured_length);
+    }
+    break;
+  case '~':
+  case '!':
+    operand = parse_single_stmt(f, pos + 1, len - 1);
+    if (operand) {
+      return new MLTLUnaryPropOpNode(MLTLUnaryPropOpType::Neg, operand);
+    }
+    break;
+  case 'F':
+  case 'G':
+    tie(lb, ub) = find_bounds(f, pos + 1, len - 1, &end_subscript);
+    operand = parse_single_stmt(f, end_subscript, len - (end_subscript - pos));
+    unary_temp_op_type = (f[pos] == 'F') ? MLTLUnaryTempOpType::Finally
+                                         : MLTLUnaryTempOpType::Globally;
+    return new MLTLUnaryTempOpNode(unary_temp_op_type, lb, ub, operand);
+    break;
+  default:
+    // statement is a compound statement
+    break;
+  }
+  return nullptr;
 }
 
 /* Helper function to slice a given vector from range x to y.
@@ -198,9 +362,8 @@ bool MLTLPropVarNode::evaluate(vector<string> &trace) const {
     return false;
   }
   if (var_id >= trace[0].length()) {
-    cout << "error: propositional variable " << as_string()
-         << " is out of bounds of the trace\n";
-    exit(1);
+    error("propositional variable " + as_string() +
+          " is out of bounds on the trace"); // no return
   }
   return (trace[0][var_id] == '1');
 }
@@ -313,9 +476,8 @@ bool MLTLBinaryPropOpNode::evaluate(vector<string> &trace) const {
   case MLTLBinaryPropOpType::Equiv:
     return (left->evaluate(trace) == right->evaluate(trace));
   default:
-    cout << "error: unexpected binary propositional operator " << as_string()
-         << "\n";
-    exit(1);
+    error("unexpected binary propositional operator " +
+          as_string()); // no return
   }
 }
 
@@ -406,8 +568,7 @@ bool MLTLUnaryTempOpNode::evaluate(vector<string> &trace) const {
     return true;
 
   default:
-    cout << "error: unexpected unary temporal operator " << as_string() << "\n";
-    exit(1);
+    error("unexpected unary temporal operator " + as_string()); // no return
   }
 }
 
@@ -538,9 +699,7 @@ bool MLTLBinaryTempOpNode::evaluate(vector<string> &trace) const {
     return true;
 
   default:
-    cout << "error: unexpected binary temporal operator " << as_string()
-         << "\n";
-    exit(1);
+    error("unexpected binary temporal operator " + as_string()); // no return
   }
 }
 

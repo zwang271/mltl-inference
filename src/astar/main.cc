@@ -172,7 +172,14 @@ int main(int argc, char *argv[]) {
   cout << test->as_string() << "\n";
   test = parse("(true)");
   cout << test->as_string() << "\n";
-  test = parse("(false)");
+  test = parse("~(false)");
+  cout << test->as_string() << "\n";
+  // test = parse("~fale");
+  test = parse("G[0,1]true");
+  cout << test->as_string() << "\n";
+  test = parse("F[0,1]!false");
+  cout << test->as_string() << "\n";
+  test = parse("G[10,0]false");
   cout << test->as_string() << "\n";
 
   return 0;
