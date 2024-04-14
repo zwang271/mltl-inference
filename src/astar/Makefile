@@ -4,8 +4,7 @@ CXX = g++
 CFLAGS = -Wall -O3 -fopenmp -DNDEBUG -fno-rtti
 # CFLAGS = -Wall -g -fno-rtti
 LDFLAGS = -fopenmp
-# OBJECTS = main.o libmltl.o quine_mccluskey.o
-OBJECTS = main.o libmltl.o quine_mccluskey.o utils.o evaluate_mltl.o
+OBJECTS = main.o libmltl.o quine_mccluskey.o
 
 PYBIND_SRCS = libmltl_pybind.cc libmltl.cc
 PYBIND_TARGET = libmltl$(shell python3-config --extension-suffix)
