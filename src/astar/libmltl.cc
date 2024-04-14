@@ -200,10 +200,13 @@ size_t find_lowest_prec_binary_op(const string &f, size_t pos, size_t len) {
         }
         break;
       case '<':
-        if (pos + 2 < end && f[pos + 1] == '-' && f[pos + 2] == '>' &&
-            ImpliesPrec > lowest_prec) {
+        if (!(pos + 2 < end && f[pos + 1] == '-' && f[pos + 2] == '>')) {
+          break;
+        }
+      case '=':
+        if (EquivPrec > lowest_prec) {
           lowest_prec_pos = pos;
-          lowest_prec = ImpliesPrec;
+          lowest_prec = EquivPrec;
         }
         break;
       default:
