@@ -211,7 +211,7 @@ size_t find_lowest_prec_binary_op(const string &f, size_t pos, size_t len) {
       }
     }
   }
-  if (lowest_prec_pos == -1) {
+  if (lowest_prec_pos == (size_t)-1) {
     // no binary operator found :(
     error("unexpected token", f, begin, begin,
           end); // no return
@@ -378,12 +378,13 @@ MLTLNode *parse_compound_stmt(const string &f, size_t pos, size_t len) {
     }
     break;
   case '<':
-    if (op_pos + 2 < end && f[op_pos + 1] == '-' && f[op_pos + 2] == '>') {
-      left = parse(f, pos, op_pos - pos);
-      right = parse(f, op_pos + 3, end - op_pos - 3);
-      return new MLTLBinaryPropOpNode(MLTLBinaryPropOpType::Equiv, left, right);
+    if (!(op_pos + 2 < end && f[op_pos + 1] == '-' && f[op_pos + 2] == '>')) {
+      break;
     }
-    break;
+  case '=':
+    left = parse(f, pos, op_pos - pos);
+    right = parse(f, op_pos + 3, end - op_pos - 3);
+    return new MLTLBinaryPropOpNode(MLTLBinaryPropOpType::Equiv, left, right);
   default:
     break; // not an operator, continue the search
   }
@@ -418,9 +419,16 @@ MLTLPropConsNode::~MLTLPropConsNode() {}
 
 string MLTLPropConsNode::as_string() const { return val ? "true" : "false"; }
 
-size_t MLTLPropConsNode::future_reach() const { return 0; }
+size_t MLTLPropConsNode::future_reach() const {
+  // Mission-time LTL (MLTL) Formula Validation Via Regular Expressions
+  // https://temporallogic.org/research/WEST/WEST_extended.pdf
+  // Definition 6
+  return 0;
+}
 
-bool MLTLPropConsNode::evaluate(vector<string> &trace) const { return val; }
+bool MLTLPropConsNode::evaluate(const vector<string> &trace) const {
+  return val;
+}
 
 size_t MLTLPropConsNode::size() const { return 1; }
 size_t MLTLPropConsNode::count(MLTLNodeType target_type) const {
@@ -448,9 +456,14 @@ MLTLPropVarNode::~MLTLPropVarNode() {}
 
 string MLTLPropVarNode::as_string() const { return 'p' + to_string(var_id); }
 
-size_t MLTLPropVarNode::future_reach() const { return 1; }
+size_t MLTLPropVarNode::future_reach() const {
+  // Mission-time LTL (MLTL) Formula Validation Via Regular Expressions
+  // https://temporallogic.org/research/WEST/WEST_extended.pdf
+  // Definition 6
+  return 1;
+}
 
-bool MLTLPropVarNode::evaluate(vector<string> &trace) const {
+bool MLTLPropVarNode::evaluate(const vector<string> &trace) const {
   if (trace.size() == 0) {
     return false;
   }
@@ -491,10 +504,13 @@ string MLTLUnaryPropOpNode::as_string() const {
 }
 
 size_t MLTLUnaryPropOpNode::future_reach() const {
+  // Mission-time LTL (MLTL) Formula Validation Via Regular Expressions
+  // https://temporallogic.org/research/WEST/WEST_extended.pdf
+  // Definition 6
   return operand->future_reach();
 }
 
-bool MLTLUnaryPropOpNode::evaluate(vector<string> &trace) const {
+bool MLTLUnaryPropOpNode::evaluate(const vector<string> &trace) const {
   return !operand->evaluate(trace);
 }
 
@@ -553,10 +569,13 @@ string MLTLBinaryPropOpNode::as_string() const {
 }
 
 size_t MLTLBinaryPropOpNode::future_reach() const {
+  // Mission-time LTL (MLTL) Formula Validation Via Regular Expressions
+  // https://temporallogic.org/research/WEST/WEST_extended.pdf
+  // Definition 6
   return max(left->future_reach(), right->future_reach());
 }
 
-bool MLTLBinaryPropOpNode::evaluate(vector<string> &trace) const {
+bool MLTLBinaryPropOpNode::evaluate(const vector<string> &trace) const {
   switch (op_type) {
   case MLTLBinaryPropOpType::And:
     return (left->evaluate(trace) && right->evaluate(trace));
@@ -622,10 +641,13 @@ string MLTLUnaryTempOpNode::as_string() const {
 }
 
 size_t MLTLUnaryTempOpNode::future_reach() const {
+  // Mission-time LTL (MLTL) Formula Validation Via Regular Expressions
+  // https://temporallogic.org/research/WEST/WEST_extended.pdf
+  // Definition 6
   return ub + operand->future_reach();
 }
 
-bool MLTLUnaryTempOpNode::evaluate(vector<string> &trace) const {
+bool MLTLUnaryTempOpNode::evaluate(const vector<string> &trace) const {
   size_t end, i;
   vector<string> sub_trace;
   switch (op_type) {
@@ -713,10 +735,13 @@ string MLTLBinaryTempOpNode::as_string() const {
 }
 
 size_t MLTLBinaryTempOpNode::future_reach() const {
-  return ub + max(left->future_reach(), right->future_reach());
+  // Mission-time LTL (MLTL) Formula Validation Via Regular Expressions
+  // https://temporallogic.org/research/WEST/WEST_extended.pdf
+  // Definition 6
+  return ub + max(left->future_reach() - 1, right->future_reach());
 }
 
-bool MLTLBinaryTempOpNode::evaluate(vector<string> &trace) const {
+bool MLTLBinaryTempOpNode::evaluate(const vector<string> &trace) const {
   size_t end, i, j, k;
   vector<string> sub_trace;
   switch (op_type) {
@@ -727,7 +752,7 @@ bool MLTLBinaryTempOpNode::evaluate(vector<string> &trace) const {
     if (trace.size() <= lb) {
       return false;
     }
-    // find first occurrence for which T[i:] |- F2
+    // find first occurrence for which trace[i:] |- right
     end = min(ub, trace.size() - 1);
     i = -1;
     for (k = lb; k <= end; ++k) {
@@ -737,7 +762,7 @@ bool MLTLBinaryTempOpNode::evaluate(vector<string> &trace) const {
         break;
       }
     } // no i in [a, b] such that trace[i:] |- right
-    if (i == -1) {
+    if (i == (size_t)-1) {
       return false;
     }
     // check that for all j in [a, i-1], trace[j:] |- left
@@ -776,7 +801,7 @@ bool MLTLBinaryTempOpNode::evaluate(vector<string> &trace) const {
         break;
       }
     } // no j in [a, b-1] such that T[j:] |- left
-    if (j == -1) {
+    if (j == (size_t)-1) {
       return false;
     }
     // check that for all k in [a, j], T[k:] |- right

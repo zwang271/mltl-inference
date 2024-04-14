@@ -51,7 +51,7 @@ public:
   virtual ~MLTLNode() = 0;
   virtual string as_string() const = 0;
   virtual size_t future_reach() const = 0;
-  virtual bool evaluate(vector<string> &trace) const = 0;
+  virtual bool evaluate(const vector<string> &trace) const = 0;
   virtual size_t size() const = 0;
   virtual size_t count(MLTLNodeType target_type) const = 0;
   virtual size_t count(MLTLUnaryPropOpType target_type) const = 0;
@@ -69,7 +69,7 @@ public:
 
   string as_string() const;
   size_t future_reach() const;
-  bool evaluate(vector<string> &trace) const;
+  bool evaluate(const vector<string> &trace) const;
   size_t size() const;
   size_t count(MLTLNodeType target_type) const;
   size_t count(MLTLUnaryPropOpType target_type) const;
@@ -87,7 +87,7 @@ public:
 
   string as_string() const;
   size_t future_reach() const;
-  bool evaluate(vector<string> &trace) const;
+  bool evaluate(const vector<string> &trace) const;
   size_t size() const;
   size_t count(MLTLNodeType target_type) const;
   size_t count(MLTLUnaryPropOpType target_type) const;
@@ -106,7 +106,7 @@ public:
 
   string as_string() const;
   size_t future_reach() const;
-  bool evaluate(vector<string> &trace) const;
+  bool evaluate(const vector<string> &trace) const;
   size_t size() const;
   size_t count(MLTLNodeType target_type) const;
   size_t count(MLTLUnaryPropOpType target_type) const;
@@ -127,7 +127,7 @@ public:
 
   string as_string() const;
   size_t future_reach() const;
-  bool evaluate(vector<string> &trace) const;
+  bool evaluate(const vector<string> &trace) const;
   size_t size() const;
   size_t count(MLTLNodeType target_type) const;
   size_t count(MLTLUnaryPropOpType target_type) const;
@@ -149,7 +149,7 @@ public:
 
   string as_string() const;
   size_t future_reach() const;
-  bool evaluate(vector<string> &trace) const;
+  bool evaluate(const vector<string> &trace) const;
   size_t size() const;
   size_t count(MLTLNodeType target_type) const;
   size_t count(MLTLUnaryPropOpType target_type) const;
@@ -172,7 +172,7 @@ public:
 
   string as_string() const;
   size_t future_reach() const;
-  bool evaluate(vector<string> &trace) const;
+  bool evaluate(const vector<string> &trace) const;
   size_t size() const;
   size_t count(MLTLNodeType target_type) const;
   size_t count(MLTLUnaryPropOpType target_type) const;
