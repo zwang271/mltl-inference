@@ -93,11 +93,11 @@ size_t captured_stmt_len(const string &f, size_t pos, size_t len) {
   }
 
   if (pcount > 0) {
-    error("unbalanced parenthesis, expected ')'", f, pos + len, pos,
-          pos + len); // no return
+    error("unbalanced parenthesis, expected ')'", f, pos, begin,
+          pos + 1); // no return
   } else if (pcount < 0) {
-    error("unbalanced parenthesis, expected '('", f, pos, pos,
-          pos + len); // no return
+    error("unbalanced parenthesis, expected '('", f, begin, begin,
+          pos + 1); // no return
   }
 
   return pos - begin - 2;
