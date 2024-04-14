@@ -278,7 +278,7 @@ int main(int argc, char *argv[]) {
   // cout << test->as_string() << "\n";
   //   test = parse("G[0,4](true)&true");
   // cout << test->as_string() << "\n";
-  //   test = parse("G[0,1](p)&true");
+  //   test = parse("G[0,1](p&true");
   // cout << test->as_string() << "\n";
   test = parse("(p0&~p1)R[0,3](p2)");
   cout << test->as_string() << "\n";
