@@ -275,11 +275,16 @@ int main(int argc, char *argv[]) {
   //   cout << test->as_string() << "\n";
   // // ((false&false&true^G[0,4](true)&~true)R[0,10](!false))
   //   test = parse("~(true)&true");
-    // cout << test->as_string() << "\n";
+  // cout << test->as_string() << "\n";
   //   test = parse("G[0,4](true)&true");
   // cout << test->as_string() << "\n";
   //   test = parse("G[0,1](p)&true");
   // cout << test->as_string() << "\n";
+  test = parse("(p0&~p1)R[0,3](p2)");
+  cout << test->as_string() << "\n";
+  cout << test->evaluate(
+              {"001", "001", "101", "000", "000", "101", "100", "110"})
+       << "\n";
 
   return 0;
 }
