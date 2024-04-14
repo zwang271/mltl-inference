@@ -741,7 +741,12 @@ size_t MLTLBinaryTempOpNode::future_reach() const {
   // Mission-time LTL (MLTL) Formula Validation Via Regular Expressions
   // https://temporallogic.org/research/WEST/WEST_extended.pdf
   // Definition 6
-  return ub + max(left->future_reach() - 1, right->future_reach());
+  size_t lfr = left->future_reach();
+  // before subtracting 1 make sure we won't underflow
+  if (lfr > 0) {
+    lfr -= 1;
+  }
+  return ub + max(lfr, right->future_reach());
 }
 
 bool MLTLBinaryTempOpNode::evaluate(const vector<string> &trace) const {
