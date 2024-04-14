@@ -61,18 +61,6 @@ constexpr int EquivPrec = 7;
   exit(-1);
 }
 
-bool matches_in_set(const string &f, size_t pos, size_t len,
-                    const vector<string> &targets) {
-  for (const string &target : targets) {
-    if (target.length() != len) {
-      continue;
-    } else if (!strncmp(f.c_str() + pos, target.c_str(), len)) {
-      return true;
-    }
-  }
-  return false;
-}
-
 bool is_valid_num(const string &f, size_t pos, size_t len) {
   if (len == 0) {
     return false;
