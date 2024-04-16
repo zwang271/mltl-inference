@@ -1,0 +1,4 @@
+astar
+*.o
+*.so
+vgcore.*
