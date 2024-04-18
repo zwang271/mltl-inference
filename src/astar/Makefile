@@ -4,16 +4,16 @@ CXX = g++
 CFLAGS = -Wall -O3 -fopenmp -DNDEBUG -fno-rtti
 # CFLAGS = -Wall -g -fno-rtti
 LDFLAGS = -fopenmp
-OBJECTS = main.o libmltl.o quine_mccluskey.o
+OBJECTS = main.o libmltl/ast.o libmltl/parser.o quine_mccluskey.o
 
-PYBIND_SRCS = libmltl_pybind.cc libmltl.cc
-PYBIND_TARGET = libmltl$(shell python3-config --extension-suffix)
+PYTHON_SRCS = libmltl/libmltl_pybind.cc libmltl/ast.cc libmltl/parser.cc
+PYTHON_TARGET = libmltl$(shell python3-config --extension-suffix)
 
-.PHONY: default all clean cpp pybind
+.PHONY: default all clean cpp python
 
-all: $(TARGET) $(PYBIND_TARGET)
+all: $(TARGET) $(PYTHON_TARGET)
 cpp: $(TARGET)
-pybind: $(PYBIND_TARGET)
+python: $(PYTHON_TARGET)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -28,11 +28,11 @@ pybind: $(PYBIND_TARGET)
 $(TARGET): $(OBJECTS)
 	$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
 
-$(PYBIND_TARGET): $(PYBIND_SRCS)
+$(PYTHON_TARGET): $(PYTHON_SRCS)
 	$(CXX) -shared -fPIC \
 		$(shell python3-config --cflags --ldflags) \
-		-o $@ $(PYBIND_SRCS)
+		-o $@ $(PYTHON_SRCS)
 
 clean:
-	rm -f $(TARGET) $(PYBIND_TARGET) *.o *.so vgcore.*
+	rm -f $(TARGET) $(PYTHON_TARGET) $(OBJECTS) *.o *.so vgcore.*
 

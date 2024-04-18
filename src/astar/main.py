@@ -14,6 +14,28 @@ print(ast.evaluate(trace)) # false
 
 print("future reach:", ast.future_reach())
 
+# print(ast.get_operand().as_string())
+print(ast.get_upper_bound())
+print(ast.get_operand().as_string())
+print(ast.count(mltl.Type.Globally))
+print(ast.get_type())
+
+new_op =  mltl.parse("(~p1&p0)")
+ast.set_operand(new_op)
+print(ast.as_string())
+
+new_globally = mltl.Globally()
+new_globally.set_lower_bound(0)
+new_globally.set_upper_bound(10)
+new_globally.set_operand(mltl.Variable(1))
+print(new_globally.as_string())
+
+copy = new_globally.deep_copy()
+print(copy.as_string())
+
+
+# print(ast.release_operand().as_string())
+
 # error example (illegal bounds)
-# ast = libmltl.parse("G[11,10](~p1)")
+ast = mltl.parse("G[11,10](~p1)")
 
