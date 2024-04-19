@@ -11,113 +11,103 @@ vector<string> slice(const vector<string> &a, int x, int y) {
   return result;
 }
 
-bool Finally::evaluate(const vector<string> &trace) const {
-  vector<string> sub_trace;
-  // trace |- F[a, b] operand iff |T| > a and there exists i in [a, b] such
-  // that trace[i:] |- operand
-  if (trace.size() <= lb) {
+bool Finally::evaluate_subt(const vector<string> &trace, size_t begin,
+                            size_t end) const {
+  size_t subt_len = end - begin;
+  if (subt_len <= lb) {
     return false;
   }
-  size_t end = min(ub, trace.size() - 1);
-  for (size_t i = lb; i <= end; ++i) {
-    // |trace| > i
-    sub_trace = slice(trace, i, trace.size());
-    if (operand->evaluate(sub_trace)) {
+  size_t idx_lb = begin + lb;
+  size_t idx_ub = begin + ub;
+  size_t idx_end = min(idx_ub + 1, end);
+  for (size_t i = idx_lb; i < idx_end; ++i) {
+    if (operand->evaluate_subt(trace, i, end)) {
       return true;
     }
-  } // no i in [a, b] such that trace[i:] |- operand
+  }
   return false;
 }
 
-bool Globally::evaluate(const vector<string> &trace) const {
-  vector<string> sub_trace;
-  // trace |- G[a, b] operand iff |T| <= a or for all i in [a, b], trace[i:]
-  // |- operand
-  if (trace.size() <= lb) {
+bool Globally::evaluate_subt(const vector<string> &trace, size_t begin,
+                             size_t end) const {
+  size_t subt_len = end - begin;
+  if (subt_len <= lb) {
     return true;
   }
-  size_t end = min(ub, trace.size() - 1);
-  for (size_t i = lb; i <= end; ++i) {
-    // |T| > i
-    sub_trace = slice(trace, i, trace.size());
-    if (!operand->evaluate(sub_trace)) {
+  size_t idx_lb = begin + lb;
+  size_t idx_ub = begin + ub;
+  size_t idx_end = min(idx_ub + 1, end);
+  for (size_t i = idx_lb; i < idx_end; ++i) {
+    if (!operand->evaluate_subt(trace, i, end)) {
       return false;
     }
-  } // for all i in [a, b], trace[i:] |- operand
+  }
   return true;
 }
 
-bool Until::evaluate(const vector<string> &trace) const {
-  vector<string> sub_trace;
-  // trace |- left U[a,b] right iff |trace| > a and there exists i in [a,b]
-  // such that (trace[i:] |- right and for all j in [a, i-1], race[j:] |-
-  // left)
-  if (trace.size() <= lb) {
+bool Until::evaluate_subt(const vector<string> &trace, size_t begin,
+                          size_t end) const {
+  size_t subt_len = end - begin;
+  if (subt_len <= lb) {
     return false;
   }
-  // find first occurrence for which trace[i:] |- right
-  size_t end = min(ub, trace.size() - 1);
+  size_t idx_lb = begin + lb;
+  size_t idx_ub = begin + ub;
+  size_t idx_end = min(idx_ub + 1, end);
   size_t i = -1;
-  for (size_t k = lb; k <= end; ++k) {
-    sub_trace = slice(trace, k, trace.size());
-    if (right->evaluate(sub_trace)) {
+  for (size_t k = idx_lb; k < idx_end; ++k) {
+    if (right->evaluate_subt(trace, k, end)) {
       i = k;
       break;
     }
-  } // no i in [a, b] such that trace[i:] |- right
+  }
   if (i == (size_t)-1) {
     return false;
   }
-  // check that for all j in [a, i-1], trace[j:] |- left
-  for (size_t j = lb; j < i; ++j) {
-    sub_trace = slice(trace, j, trace.size());
-    if (!left->evaluate(sub_trace)) {
+  for (size_t j = idx_lb; j < i; ++j) {
+    if (!left->evaluate_subt(trace, j, end)) {
       return false;
     }
-  } // for all j in [a, i-1], trace[a:j] |- left
+  }
   return true;
 }
 
-bool Release::evaluate(const vector<string> &trace) const {
-  vector<string> sub_trace;
-  // trace |- left R[a,b] right iff |trace| <= a or for all i in [a, b]
-  // trace[i:] |- right or (there exists j in [a, b-1] such that trace[j:]
-  // |- left and for all k in [a, j], trace[k:] |- right)
-  if (trace.size() <= lb) {
+bool Release::evaluate_subt(const vector<string> &trace, size_t begin,
+                            size_t end) const {
+  size_t subt_len = end - begin;
+  if (subt_len <= lb) {
     return true;
   }
-  // check if all i in [a, b] trace[i:] |- right
-  size_t end = min(ub, trace.size() - 1);
-  for (size_t i = lb; i <= ub; ++i) {
-    sub_trace = slice(trace, i, trace.size());
-    if (!right->evaluate(sub_trace)) {
+  size_t idx_lb = begin + lb;
+  size_t idx_ub = begin + ub;
+  size_t idx_end = min(idx_ub + 1, end);
+  size_t i;
+  for (i = idx_lb; i < idx_end; ++i) {
+    if (!right->evaluate_subt(trace, i, end)) {
       break;
     }
-    if (i == end) {
-      return true;
-    }
-  } // not all i in [a, b] trace[i:] |- right
-  // find first occurrence of j in [a, b-1] for which trace[j:] |- left
+  }
+  if (i == idx_end) {
+    return true;
+  }
   size_t j = -1;
-  for (size_t k = lb; k < ub; ++k) {
-    sub_trace = slice(trace, k, trace.size());
-    if (left->evaluate(sub_trace) || k == trace.size() - 1) {
-      j = k;
+  size_t k;
+  for (k = idx_lb; k < idx_end; ++k) {
+    if (left->evaluate_subt(trace, k, end)) {
+      j = k + 1;
       break;
     }
-  } // no j in [a, b-1] such that T[j:] |- left
-  if (j == (size_t)-1) {
+  }
+  if (k == idx_end) {
+    j = k + 1;
+  } else if (j == (size_t)-1) {
     return false;
   }
-  // check that for all k in [a, j], T[k:] |- right
-  for (size_t k = lb; k <= j; ++k) {
-    sub_trace = slice(trace, k, trace.size());
-    if (!right->evaluate(sub_trace)) {
+  idx_end = min(j, end);
+  for (k = idx_lb; k < idx_end; ++k) {
+    if (!right->evaluate_subt(trace, k, end)) {
       return false;
     }
-    if (k == sub_trace.size() - 1) {
-      break;
-    }
-  } // for all k in [a, j], trace[k:] |- right
+  }
   return true;
 }
