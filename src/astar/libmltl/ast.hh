@@ -27,7 +27,13 @@ public:
 
   virtual ASTNode::Type get_type() const = 0;
   virtual string as_string() const = 0;
-  virtual bool evaluate(const vector<string> &trace) const = 0;
+  /* Evaluates as trace over time steps [begin, end).
+   */
+  virtual bool evaluate_subt(const vector<string> &trace, size_t begin,
+                             size_t end) const = 0;
+  bool evaluate(const vector<string> &trace) const {
+    return evaluate_subt(trace, 0, trace.size());
+  };
   /* Mission-time LTL (MLTL) Formula Validation Via Regular Expressions
    * https://temporallogic.org/research/WEST/WEST_extended.pdf
    * Definition 6
@@ -50,7 +56,10 @@ public:
 
   ASTNode::Type get_type() const { return ASTNode::Type::Constant; }
   string as_string() const { return val ? "true" : "false"; }
-  bool evaluate(const vector<string> &trace) const { return val; }
+  bool evaluate_subt(const vector<string> &trace, size_t begin,
+                     size_t end) const {
+    return val;
+  }
   size_t future_reach() const { return 0; }
   size_t size() const { return 1; }
   size_t count(ASTNode::Type target_type) const {
@@ -70,12 +79,13 @@ public:
 
   ASTNode::Type get_type() const { return ASTNode::Type::Variable; }
   string as_string() const { return 'p' + to_string(id); }
-  bool evaluate(const vector<string> &trace) const {
-    if (trace.size() == 0 || id >= trace[0].length()) {
+  bool evaluate_subt(const vector<string> &trace, size_t begin,
+                     size_t end) const {
+    if (begin == end || id >= trace[0].length()) {
       return false;
     }
-    return (trace[0][id] == '1');
-  };
+    return (trace[begin][id] == '1');
+  }
   size_t future_reach() const { return 1; }
   size_t size() const { return 1; }
   size_t count(ASTNode::Type target_type) const {
@@ -105,7 +115,8 @@ public:
 
   virtual ASTNode::Type get_type() const = 0;
   virtual string as_string() const = 0;
-  virtual bool evaluate(const vector<string> &trace) const = 0;
+  virtual bool evaluate_subt(const vector<string> &trace, size_t begin,
+                             size_t end) const = 0;
   virtual size_t future_reach() const = 0;
   virtual unique_ptr<ASTNode> deep_copy() const = 0;
 };
@@ -118,7 +129,8 @@ public:
 
   virtual ASTNode::Type get_type() const = 0;
   virtual string as_string() const = 0;
-  virtual bool evaluate(const vector<string> &trace) const = 0;
+  virtual bool evaluate_subt(const vector<string> &trace, size_t begin,
+                             size_t end) const = 0;
   virtual unique_ptr<ASTNode> deep_copy() const = 0;
 };
 
@@ -128,8 +140,9 @@ public:
 
   ASTNode::Type get_type() const { return ASTNode::Type::Negation; }
   string as_string() const { return '~' + operand->as_string(); }
-  bool evaluate(const vector<string> &trace) const {
-    return !operand->evaluate(trace);
+  bool evaluate_subt(const vector<string> &trace, size_t begin,
+                     size_t end) const {
+    return !operand->evaluate_subt(trace, begin, end);
   }
   unique_ptr<ASTNode> deep_copy() const {
     return make_unique<Negation>(operand->deep_copy());
@@ -154,7 +167,8 @@ public:
 
   virtual ASTNode::Type get_type() const = 0;
   virtual string as_string() const = 0;
-  virtual bool evaluate(const vector<string> &trace) const = 0;
+  virtual bool evaluate_subt(const vector<string> &trace, size_t begin,
+                             size_t end) const = 0;
   virtual unique_ptr<ASTNode> deep_copy() const = 0;
 };
 
@@ -167,7 +181,8 @@ public:
     return "F[" + to_string(lb) + ',' + to_string(ub) + "](" +
            operand->as_string() + ')';
   }
-  bool evaluate(const vector<string> &trace) const;
+  bool evaluate_subt(const vector<string> &trace, size_t begin,
+                     size_t end) const;
   unique_ptr<ASTNode> deep_copy() const {
     return make_unique<Finally>(operand->deep_copy(), lb, ub);
   }
@@ -182,7 +197,8 @@ public:
     return "G[" + to_string(lb) + ',' + to_string(ub) + "](" +
            operand->as_string() + ')';
   }
-  bool evaluate(const vector<string> &trace) const;
+  bool evaluate_subt(const vector<string> &trace, size_t begin,
+                     size_t end) const;
   unique_ptr<ASTNode> deep_copy() const {
     return make_unique<Globally>(operand->deep_copy(), lb, ub);
   }
@@ -212,7 +228,8 @@ public:
 
   virtual ASTNode::Type get_type() const = 0;
   virtual string as_string() const = 0;
-  virtual bool evaluate(const vector<string> &trace) const = 0;
+  virtual bool evaluate_subt(const vector<string> &trace, size_t begin,
+                             size_t end) const = 0;
   virtual size_t future_reach() const = 0;
   virtual unique_ptr<ASTNode> deep_copy() const = 0;
 };
@@ -227,7 +244,8 @@ public:
 
   virtual ASTNode::Type get_type() const = 0;
   virtual string as_string() const = 0;
-  virtual bool evaluate(const vector<string> &trace) const = 0;
+  virtual bool evaluate_subt(const vector<string> &trace, size_t begin,
+                             size_t end) const = 0;
   virtual unique_ptr<ASTNode> deep_copy() const = 0;
 };
 
@@ -239,8 +257,10 @@ public:
   string as_string() const {
     return '(' + left->as_string() + ")&(" + right->as_string() + ')';
   }
-  bool evaluate(const vector<string> &trace) const {
-    return (left->evaluate(trace) && right->evaluate(trace));
+  bool evaluate_subt(const vector<string> &trace, size_t begin,
+                     size_t end) const {
+    return left->evaluate_subt(trace, begin, end) &&
+           right->evaluate_subt(trace, begin, end);
   }
   unique_ptr<ASTNode> deep_copy() const {
     return make_unique<And>(left->deep_copy(), right->deep_copy());
@@ -255,8 +275,10 @@ public:
   string as_string() const {
     return '(' + left->as_string() + ")^(" + right->as_string() + ')';
   }
-  bool evaluate(const vector<string> &trace) const {
-    return (left->evaluate(trace) != right->evaluate(trace));
+  bool evaluate_subt(const vector<string> &trace, size_t begin,
+                     size_t end) const {
+    return left->evaluate_subt(trace, begin, end) !=
+           right->evaluate_subt(trace, begin, end);
   }
   unique_ptr<ASTNode> deep_copy() const {
     return make_unique<And>(left->deep_copy(), right->deep_copy());
@@ -271,8 +293,10 @@ public:
   string as_string() const {
     return '(' + left->as_string() + ")|(" + right->as_string() + ')';
   }
-  bool evaluate(const vector<string> &trace) const {
-    return (left->evaluate(trace) || right->evaluate(trace));
+  bool evaluate_subt(const vector<string> &trace, size_t begin,
+                     size_t end) const {
+    return left->evaluate_subt(trace, begin, end) ||
+           right->evaluate_subt(trace, begin, end);
   }
   unique_ptr<ASTNode> deep_copy() const {
     return make_unique<Or>(left->deep_copy(), right->deep_copy());
@@ -287,8 +311,10 @@ public:
   string as_string() const {
     return '(' + left->as_string() + ")->(" + right->as_string() + ')';
   }
-  bool evaluate(const vector<string> &trace) const {
-    return (!left->evaluate(trace) || right->evaluate(trace));
+  bool evaluate_subt(const vector<string> &trace, size_t begin,
+                     size_t end) const {
+    return !left->evaluate_subt(trace, begin, end) ||
+           right->evaluate_subt(trace, begin, end);
   }
   unique_ptr<ASTNode> deep_copy() const {
     return make_unique<Implies>(left->deep_copy(), right->deep_copy());
@@ -303,8 +329,10 @@ public:
   string as_string() const {
     return '(' + left->as_string() + ")<->(" + right->as_string() + ')';
   }
-  bool evaluate(const vector<string> &trace) const {
-    return (!left->evaluate(trace) == right->evaluate(trace));
+  bool evaluate_subt(const vector<string> &trace, size_t begin,
+                     size_t end) const {
+    return left->evaluate_subt(trace, begin, end) ==
+           right->evaluate_subt(trace, begin, end);
   }
   unique_ptr<ASTNode> deep_copy() const {
     return make_unique<Equiv>(left->deep_copy(), right->deep_copy());
@@ -338,7 +366,8 @@ public:
 
   virtual ASTNode::Type get_type() const = 0;
   virtual string as_string() const = 0;
-  virtual bool evaluate(const vector<string> &trace) const = 0;
+  virtual bool evaluate_subt(const vector<string> &trace, size_t begin,
+                             size_t end) const = 0;
   virtual unique_ptr<ASTNode> deep_copy() const = 0;
 };
 
@@ -351,7 +380,8 @@ public:
     return '(' + left->as_string() + ")U[" + to_string(lb) + ',' +
            to_string(ub) + "](" + right->as_string() + ')';
   }
-  bool evaluate(const vector<string> &trace) const;
+  bool evaluate_subt(const vector<string> &trace, size_t begin,
+                     size_t end) const;
   unique_ptr<ASTNode> deep_copy() const {
     return make_unique<Until>(left->deep_copy(), right->deep_copy(), lb, ub);
   }
@@ -366,7 +396,8 @@ public:
     return '(' + left->as_string() + ")R[" + to_string(lb) + ',' +
            to_string(ub) + "](" + right->as_string() + ')';
   }
-  bool evaluate(const vector<string> &trace) const;
+  bool evaluate_subt(const vector<string> &trace, size_t begin,
+                     size_t end) const;
   unique_ptr<ASTNode> deep_copy() const {
     return make_unique<Release>(left->deep_copy(), right->deep_copy(), lb, ub);
   }
