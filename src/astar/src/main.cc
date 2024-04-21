@@ -6,10 +6,11 @@
 #include <sys/time.h>
 
 // #include "evaluate_mltl.h"
-#include "libmltl/parser.hh"
+#include "parser.hh"
 #include "quine_mccluskey.hh"
 
 using namespace std;
+using namespace libmltl;
 
 size_t max_trace_length(const vector<vector<string>> &traces) {
   size_t max = 0;
