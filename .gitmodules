@@ -1,0 +1,3 @@
+[submodule "src/libmltl"]
+	path = src/libmltl
+	url = git@github.com:lmarzen/libmltl.git
