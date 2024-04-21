@@ -54,7 +54,7 @@ def test_crossover(params):
         genotype2["<wff>"][:4] = [3, 4, 0, 1]
         x = Individual(params, genotype1)
         y = Individual(params, genotype2)
-        print(f"{x.phenotype} | {y.phenotype}")
+        print(f"{x.phenotype} ----- {y.phenotype}")
         z = crossover(x, y)
         print(z.phenotype, "\n")
         input()
@@ -68,7 +68,7 @@ def test_parallel_evaluate(params):
     # print("Top 3 individuals parallel")
     # for i in range(3):
     #     print(population[i])
-    
+
     start_serial = time.perf_counter()
     evaluate_population(population, parallel=False)
     end_serial = time.perf_counter()
@@ -111,8 +111,8 @@ def test_genetic_difference(params):
 
 if __name__ == "__main__":
     # PARAMS
-    dataset_path = "./dataset/basic/global/"
-    population_size = 100
+    dataset_path = "../dataset/basic_global/"
+    population_size = 1000
     mutation_rate = 0.2
     mutation_rate_decay = 0.95
     num_generations = 30
@@ -127,14 +127,14 @@ if __name__ == "__main__":
     print_individuals = False
 
     # Additionally params that can be computed from the above params
-    pos_train = os.path.join(dataset_path, "pos_train.txt")
-    neg_train = os.path.join(dataset_path, "neg_train.txt")
-    pos_test = os.path.join(dataset_path, "pos_test.txt")
-    neg_test = os.path.join(dataset_path, "neg_test.txt")
-    pos_train_traces = load_dataset(pos_train)
-    neg_train_traces = load_dataset(neg_train)
-    neg_test_traces = load_dataset(neg_test)
-    pos_test_traces = load_dataset(pos_test)
+    pos_train = os.path.join(dataset_path, "pos_train/")
+    neg_train = os.path.join(dataset_path, "neg_train/")
+    pos_test = os.path.join(dataset_path, "pos_test/")
+    neg_test = os.path.join(dataset_path, "neg_test/")
+    pos_train_traces = load_traces(pos_train)
+    neg_train_traces = load_traces(neg_train)
+    neg_test_traces = load_traces(neg_test)
+    pos_test_traces = load_traces(pos_test)
     n = len(pos_train_traces[0][0])
     MAX_BOUND = max([len(trace) for trace in pos_train_traces + neg_train_traces])
     grammar = Grammar(n, MAX_BOUND)

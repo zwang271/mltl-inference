@@ -6,127 +6,8 @@ from pprint import pprint
 import random
 import re
 import mltl_parser
-
-if sys.platform == 'win32':
-    INTERPRET_PATH = os.path.join('MLTL_interpreter', 'bin', 'interpret.exe')
-    INTERPRET_BATCH_PATH = os.path.join('MLTL_interpreter', 'bin', 'interpret_batch.exe')
-    WEST_PATH = './west.exe'
-else:
-    INTERPRET_PATH = os.path.join('MLTL_interpreter', 'bin', 'interpret')
-    INTERPRET_BATCH_PATH = os.path.join('MLTL_interpreter', 'bin', 'interpret_batch')
-    WEST_PATH = './west'
-
-
-def interpret(formula: str, trace: list[str]) -> bool:
-    '''
-    Input
-        formula: a MLTL formula
-        trace: a list of strings, each string is the variable values at a time step
-    Output
-        result: the verdict of the formula on the trace
-        i.e. True if the trace satisifes the formula, False otherwise
-    '''
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(formula)
-        formula_path = f.name
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        for line in trace:
-            f.write(",".join(list(line)) + "\n")
-        trace_path = f.name
-    with tempfile.NamedTemporaryFile(delete=False) as outfile:
-        outfile = outfile.name
-    subprocess.run(f"{INTERPRET_PATH} {formula_path} {trace_path} {outfile}", 
-                stdout=subprocess.DEVNULL, 
-                stderr=subprocess.DEVNULL, 
-                shell=True)
-    with open(outfile, 'r') as f:
-        result = f.read()
-    return True if result == "0" else False
-
-def interpret_batch(formula: str, traces) -> dict:
-    '''
-    Input
-        formula: a MLTL formula
-        traces: a directory containing trace files OR a list of traces
-    Output
-        results: a dictionary of trace files and their verdicts if directory is given
-        OR a dictionary of index and verdict if list of traces is given
-    NOTE: USING A DIRECTORY IS PREFERRED FOR EFFICIENCY
-    '''
-    if type(traces) == str and os.path.isdir(traces):
-        traces_dir = traces
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-            f.write(formula)
-            formula_path = f.name
-        with tempfile.NamedTemporaryFile(delete=False) as outfile:
-            outfile = outfile.name
-        subprocess.run(f"{INTERPRET_BATCH_PATH} {formula_path} {traces_dir} {outfile}", 
-                    stdout=subprocess.DEVNULL, 
-                    stderr=subprocess.DEVNULL, 
-                    shell=True)
-        results = {}
-        with open(outfile, 'r') as f:
-            for line in f:
-                trace_file, verdict = line.strip().split(":")
-                results[trace_file.strip()] = True if verdict.strip() == "1" else False
-        return results
-    
-    elif type(traces) == list:
-        # create a temporary directory of traces and call interpret_batch
-        with tempfile.TemporaryDirectory() as traces_dir:
-            for i, trace in enumerate(traces):
-                # create a file for each trace with the name as the index
-                with open(os.path.join(traces_dir, f"{i}.txt"), 'w') as f:
-                    for line in trace:
-                        f.write(",".join(list(line)) + "\n")
-            results = interpret_batch(formula, traces_dir)
-            renamed_results = {}
-            for file, verdict in results.items():
-                index = file.replace(str(traces_dir), "").replace(".txt", "").strip()[1:]
-                renamed_results[int(index)] = verdict
-            return renamed_results
-                        
-    else:
-        print("Invalid traces argument")
-        sys.exit(1)
-
-def west(formula: str) -> list[str]:
-    '''
-    Input
-        formula: a MLTL formula
-    Output
-        result: the set of all possible traces that satisfy the formula
-    '''
-    subprocess.run(f"cd WEST/ && {WEST_PATH} \'{formula}\' && cd ..", 
-                stdout=subprocess.DEVNULL, 
-                stderr=subprocess.DEVNULL, 
-                shell=True)
-    outfile = os.path.join('WEST', 'output', 'output.txt')
-    with open(outfile, 'r') as f:
-        result = f.read().splitlines()
-    return result[1:]
-
-def random_trace(regexp: list[str], m_delta: int=0, seed=None):
-    '''
-    Input
-        regexp: a list of regular expressions
-        seed: optional seed for random number generator
-    Output
-        result: a random trace that satisfies a randomly chosen regular expression
-    '''
-    if seed:
-        random.seed(seed)
-    n = len(regexp[0].split(",")[0])
-    extra_time = random.randint(0, m_delta)
-    suffix = (","+("s"*n)) * extra_time
-    # choose a random regular expression in regexp
-    r = random.choice(regexp)
-    r = r + suffix
-    # randomly replace 's' with '0' or '1'
-    for i in range(len(r)):
-        if r[i] == 's':
-            r = r[:i] + str(random.randint(0, 1)) + r[i+1:]
-    return r
+sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/../libmltl/lib')
+import libmltl as mltl
 
 def comp_len(formula: str) -> int: 
     '''
@@ -255,67 +136,33 @@ def write_traces_to_dir(traces: list, directory: str):
             for line in trace:
                 f.write(",".join(list(line)) + "\n")
 
+def load_traces(dir: str) -> list[list[str]]:
+    '''
+    Input
+        dir: the directory to load traces from
+    Output
+        traces: a list of traces
+    '''
+    traces = []
+    for filename in os.listdir(dir):
+        with open(os.path.join(dir, filename), 'r') as f:
+            trace = [line.strip() for line in f]
+            traces.append(trace)
+    return traces
+
 if __name__ == '__main__':
     print("="*50)
     # SAMPLE USAGE FOR interpret
     formula = "G[0,3] (p0 | p1)"
+    ast = mltl.parse("G[0,3] (p0 | p1)")
     trace =["01", "11", "10", "00"]
-    verdict = interpret(formula, trace) 
+    verdict = ast.evaluate(trace)
     print("Sample usage for interpret")
     print(f"Formula: {formula}")
     print(f"Trace: {trace}")
     print(f"Verdict: {verdict}")
     # True
     print("="*50) 
-
-    # SAMPLE USAGE FOR interpret_batch with directory
-    formula = "G[0,3] (p0 | p1)"
-    traces_dir = "../MLTL_interpreter/traces" # look at ./MLTL_interpreter/traces
-    results = interpret_batch(formula, traces_dir)
-    print("Sample usage for interpret_batch with directory")
-    print(f"Formula: {formula}")
-    print(f"Traces directory: {traces_dir}")
-    pprint(results)
-    # {'trace1.csv': True, 
-    #  'trace2.csv': False, 
-    #  'trace3.csv': True}
-    print("="*50)
-
-    # SAMPLE USAGE FOR interpret_batch with list of traces
-    formula = "G[0,3] (p0 | p1)"
-    traces = [["01", "11", "01", "11"], 
-              ["01", "10", "11", "00"],
-              ["11", "11", "11", "11"],
-              ]
-    results = interpret_batch(formula, traces)
-    print("Sample usage for interpret_batch with list of traces")
-    print(f"Formula: {formula}")
-    print(f"Traces:")
-    [print(i, t) for i, t in enumerate(traces)]
-    pprint(results)
-    # {0: True,
-    #  1: False,
-    #  2: True}
-    print("="*50)
-
-    quit()
-
-    # SAMPLE USAGE FOR west
-    formula = "G[0,3] (p0 & p1)"
-    trace_regexes = west(formula)
-    print("Sample usage for west")
-    print(f"Formula: {formula}")
-    pprint(trace_regexes)
-    # ['11,11,11,11']
-    print("="*50)
-
-    # SAMPLE USAGE FOR random_trace
-    m_delta = 4
-    trace = random_trace(trace_regexes, m_delta)
-    print("Sample usage for random_trace")
-    print(f"Random trace: {trace}")
-    # non-deterministic
-    print("="*50)
 
     # SAMPLE USAGE FOR comp_len
     formula = "((G[0,2]!p0) R[0,3] (F[0,3]p2))"

@@ -2,17 +2,17 @@
 # Author: Zili Wang
 
 from utils import *
-from lark import Lark
-import argparse
 import mltl_parser
 import random
 import re
-from pprint import pprint
 import treelib
 from tqdm import tqdm
 from concurrent.futures import ProcessPoolExecutor
 import copy
 from analyze_log import analyze_log
+import numpy as np
+sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/../libmltl/lib')
+import libmltl as mltl
 
 ########################################################################
 # Grammar Class for SGE
@@ -71,18 +71,13 @@ class Grammar():
 ########################################################################
 class Individual():
     '''
-    Encodes an individual in SGE
+    Encodes an individual in the population
     '''
     def __init__(self, params, genotype=None):
         '''
         Initializes an individual object
         '''
-        # initialize params
         self.params = params
-        self.pos_train = params["pos_train"]
-        self.neg_train = params["neg_train"]
-        self.pos_test = params["pos_test"]
-        self.neg_test = params["neg_test"]
         self.pos_train_size = len(params["pos_train_traces"])
         self.neg_train_size = len(params["neg_train_traces"])
         self.pos_test_size = len(params["pos_test_traces"])
@@ -114,7 +109,7 @@ class Individual():
         self.complen = None
         self.fitness = None
         self.test_accuracy = None
-     
+
     def get_genotype(self):
         '''
         Initializes the individual's genotype
@@ -125,7 +120,7 @@ class Individual():
         for nt in self.grammar.non_terminals:
             genotype[nt] = ([random.randint(0, self.genotype_max) for _ in range(self.genotype_length)])
         return genotype
-
+    
     def get_phenotype_tree(self):
         '''
         Initializes the individual's phenotype
@@ -177,7 +172,7 @@ class Individual():
             self.genotype[nt] = popped_genes[nt] + self.genotype[nt]
         self.phenotype_tree = tree
         return tree
-    
+
     def get_phenotype(self):
         '''
         Initializes the individual's phenotype
@@ -197,32 +192,40 @@ class Individual():
         self.phenotype = node_to_str(tree.get_node(0))
         assert(mltl_parser.check_wff(self.phenotype)[0])
         return self.phenotype
-    
+
     def evaluate(self):
         '''
         Evaluates the individual's fitness
         '''
-        pos_verdicts = interpret_batch(self.phenotype, self.pos_train)
-        neg_verdicts = interpret_batch(self.phenotype, self.neg_train)
-        pos_score = sum(pos_verdicts)
-        neg_score = sum([1-v for v in neg_verdicts])
+        ast = mltl.parse(self.phenotype)
+        pos_score, neg_score = 0, 0
+        for trace in self.params["pos_train_traces"]:
+            if ast.evaluate(trace):
+                pos_score += 1
+        for trace in self.params["neg_train_traces"]:
+            if not ast.evaluate(trace):
+                neg_score += 1
         self.accuracy = (pos_score + neg_score) / (self.pos_train_size + self.neg_train_size)
         self.treedepth = treedepth(self.phenotype)
-        self.complen = complen(self.phenotype)
+        self.complen = comp_len(self.phenotype)
         self.fitness = self.fitness_weights["accuracy"] * self.accuracy + \
                        self.fitness_weights["complen"] * (1 - abs(self.complen - self.target_complen) / self.target_complen) + \
                        self.fitness_weights["length"] * (1 / (len(self.phenotype)+1)) + \
                        self.fitness_weights["treedepth"] * (1 / (self.treedepth+1))
         return self.accuracy, self.treedepth, self.complen, self.fitness
-                
+
     def test(self):
         '''
         Tests the individual's accuracy on the test set
         '''
-        pos_verdicts = interpret_batch(self.phenotype, self.pos_test)
-        neg_verdicts = interpret_batch(self.phenotype, self.neg_test)
-        pos_score = sum(pos_verdicts)
-        neg_score = sum([1-v for v in neg_verdicts])
+        ast = mltl.parse(self.phenotype)
+        pos_score, neg_score = 0, 0
+        for trace in self.params["pos_test_traces"]:
+            if ast.evaluate(trace):
+                pos_score += 1
+        for trace in self.params["neg_test_traces"]:
+            if not ast.evaluate(trace):
+                neg_score += 1
         self.test_accuracy = (pos_score + neg_score) / (self.pos_test_size + self.neg_test_size)
         return self.test_accuracy
 
@@ -288,7 +291,7 @@ def gendiff_sort(population):
     population[1:] = rest
     return population
 
-def evaluate_population(population, phenotypes=None, parallel=True):
+def evaluate_population(population, phenotypes=None, parallel=False):
     '''
     Evaluates the population
     '''
@@ -297,13 +300,10 @@ def evaluate_population(population, phenotypes=None, parallel=True):
     # serial evaluation
     if not parallel:
         for x in tqdm(population):
-            if x.phenotype not in phenotypes:
-                x.evaluate()
-                phenotypes[x.phenotype] = x.fitness
-            else:
-                x.fitness = phenotypes[x.phenotype]
+            x.evaluate()
         population.sort(key=lambda x: x.fitness, reverse=True)
         return 
+    
     # parallel evaluation
     cores = os.cpu_count()
     # print(f"Using {cores} cores")
@@ -314,10 +314,6 @@ def evaluate_population(population, phenotypes=None, parallel=True):
         for x, future in zip(population, tqdm(futures)):
             x.accuracy, x.treedepth, x.complen, x.fitness = future.result()
     population.sort(key=lambda x: x.fitness, reverse=True)
-    # sort populaiton[1:] by weighted score of 
-    # genetic difference to population[0], fitness
-    if params["genetic_difference"] > 0:
-        population = gendiff_sort(population)
             
     # update phenotypes
     for x in population:
@@ -453,19 +449,19 @@ def read_params(file_path="params.txt"):
     '''
     Reads parameters from file and returns a dictionary of parameters
     '''
-    essential_keys = ["dataset_path", 
+    essential_keys = ["seed",
+                      "dataset_path", 
                       "population_size", 
+                      "num_generations",
+                      "max_tree_depth",
                       "mutation_rate", 
-                      "mutation_rate_decay", 
-                      "num_generations", 
-                      "max_tree_depth", 
-                      "temporal_nesting", 
-                      "seed",
+                      "mutation_rate_decay",    
+                      "genetic_difference",
+                      "temporal_nesting",
                       "accuracy",
                       "treedepth",
                       "complen",
                       "length",
-                      "genetic_difference"
                       ]
     params = {"fitness_weights": {}}
     # Read file and parse parameters
@@ -476,8 +472,7 @@ def read_params(file_path="params.txt"):
             if line == '\n':
                 continue
             key, value = line.split('=')
-            key = key.strip()
-            value = value.strip()
+            key, value = key.strip(), value.strip()
             # Convert numeric values from string
             if key in ['population_size', 
                        'num_generations', 
@@ -502,18 +497,18 @@ def read_params(file_path="params.txt"):
         if key not in params:
             raise ValueError(f"Missing essential parameter: {key}")
 
-    # Compute additional parameters
+    # Infer additional parameters
     dataset_path = params['dataset_path']
-    pos_train = os.path.join(dataset_path, "pos_train.txt")
-    neg_train = os.path.join(dataset_path, "neg_train.txt")
-    pos_test = os.path.join(dataset_path, "pos_test.txt")
-    neg_test = os.path.join(dataset_path, "neg_test.txt")
+    pos_train = os.path.join(dataset_path, "pos_train/")
+    neg_train = os.path.join(dataset_path, "neg_train/")
+    pos_test = os.path.join(dataset_path, "pos_test/")
+    neg_test = os.path.join(dataset_path, "neg_test/")
 
     # Assuming load_dataset and Grammar are defined elsewhere
-    pos_train_traces = load_dataset(pos_train)
-    neg_train_traces = load_dataset(neg_train)
-    pos_test_traces = load_dataset(pos_test)
-    neg_test_traces = load_dataset(neg_test)
+    pos_train_traces = load_traces(pos_train)
+    neg_train_traces = load_traces(neg_train)
+    pos_test_traces = load_traces(pos_test)
+    neg_test_traces = load_traces(neg_test)
 
     n = len(pos_train_traces[0][0])
     MAX_BOUND = max([len(trace) for trace in pos_train_traces + neg_train_traces])
@@ -561,9 +556,6 @@ def read_params(file_path="params.txt"):
         log.write("="*50 + "\n\n")
     return params
 
-########################################################################
-# Main 
-########################################################################
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         params_path = sys.argv[1]
@@ -592,6 +584,3 @@ if __name__ == "__main__":
 
     # analyze logs and plot
     # analyze_log(log_path)
-    
-
-    

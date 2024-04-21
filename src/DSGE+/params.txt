@@ -1,6 +1,6 @@
 seed = 123
-log_path = ./logs/nasa-atc/log_nasa-atc_formula2.txt
-dataset_path = ../dataset/nasa-atc/formula2/
+log_path = ./logs/log_nasa-atc_formula2.txt
+dataset_path = ../dataset/nasa-atc_formula2/
 population_size = 300
 num_generations = 30
 max_tree_depth = 6
