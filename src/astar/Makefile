@@ -1,7 +1,7 @@
 CXX := g++
 CFLAGS := -std=c++17 -pedantic -Wall -fno-rtti
-LDFLAGS := -Llibmltl/lib -lmltl
-INCLUDES := -Ilibmltl/include
+LDFLAGS := -L../libmltl/lib -lmltl
+INCLUDES := -I../libmltl/include
 ifeq ($(DEBUG), 1)
   CFLAGS += -DDEBUG -g -O0
 else
@@ -42,8 +42,8 @@ $(COMPILE_FLAGS): Makefile
 	done
 
 libmltl:
-	$(MAKE) -C libmltl cpp DEBUG=$(DEBUG)
+	$(MAKE) -C ../libmltl cpp DEBUG=$(DEBUG)
 
 clean:
 	rm -rf $(BIN_PATH) $(OBJ_PATH) $(COMPILE_FLAGS)
-	$(MAKE) -C libmltl clean
+	$(MAKE) -C ../libmltl clean
