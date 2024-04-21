@@ -42,7 +42,7 @@ $(COMPILE_FLAGS): Makefile
 	done
 
 libmltl:
-	$(MAKE) -C libmltl cpp
+	$(MAKE) -C libmltl cpp DEBUG=$(DEBUG)
 
 clean:
 	rm -rf $(BIN_PATH) $(OBJ_PATH) $(COMPILE_FLAGS)
