@@ -62,9 +62,6 @@ def west_sampling(formula: str,
     return pos, neg
 
 if __name__ == '__main__':
-    pos, neg = random_sampling("G[2,5] p1", 10, 20)
-    quit()
-
     parser = argparse.ArgumentParser(description='Creates a dataset')
     # required argument: input folder containing formula.txt file
     parser.add_argument('dataset_folder', type=str, 
