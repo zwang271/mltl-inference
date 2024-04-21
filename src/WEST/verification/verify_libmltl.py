@@ -9,6 +9,7 @@ import sys
 from string_src.parser import from_west
 import re
 from verify_r2u2 import compare_files, iterate_traces, get_n
+sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/../../libmltl/lib')
 import libmltl as mltl
 
 def run_west(formula):

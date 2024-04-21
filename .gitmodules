@@ -1,6 +1,0 @@
-[submodule "src/astar/libmltl"]
-	path = src/astar/libmltl
-	url = git@github.com:lmarzen/libmltl.git
-[submodule "libmltl"]
-	path = libmltl
-	url = https://github.com/lmarzen/libmltl
