@@ -62,45 +62,22 @@ int main(int argc, char *argv[]) {
 
   struct timeval start, end;
   double time_taken = 0;
-  gettimeofday(&start, NULL); // start timer
 
-  const size_t num_vars = traces_pos_train[0][0].length();
+  // const size_t num_vars = traces_pos_train[0][0].length();
+  const size_t num_vars = min((size_t)4, traces_pos_train[0][0].length());
   const size_t truth_table_rows = pow(2, num_vars);
   const size_t num_boolean_functions = pow(2, pow(2, num_vars));
   vector<string> inputs(truth_table_rows);
-  // vector<unique_ptr<Globally>> boolean_functions_asts(num_boolean_functions);
-  // vector<unique_ptr<Globally>> boolean_functions_asts;
-  set<unique_ptr<ASTNode>, ASTNodeUniquePtrCompare> boolean_functions_asts;
+  // set<unique_ptr<ASTNode>, ASTNodeUniquePtrCompare> example_set;
+  vector<unique_ptr<ASTNode>> boolean_functions_asts;
 
+
+  gettimeofday(&start, NULL); // start timer
+
+  // ENUMERATE ALL BOOLEAN FUNCTIONS
   for (uint32_t i = 0; i < truth_table_rows; ++i) {
     inputs[i] = int_to_bin_str(i, num_vars);
   }
-
-  // #pragma omp parallel for num_threads(12)
-  gettimeofday(&start, NULL); // start timer
-
-  for (size_t i = 0; i < traces_pos_train.size(); ++i) {
-    for (size_t end = 0; end < traces_pos_train[i].size(); ++end) {
-      for (size_t start = 0; start <= end; ++start) {
-        boost::container::flat_set<string> implicantsset;
-        for (size_t j = start; j <= end; ++j) {
-          implicantsset.emplace(traces_pos_train[i][j]);
-        }
-        vector<string> implicants(implicantsset.begin(), implicantsset.end());
-        boolean_functions_asts.emplace(quine_mccluskey(implicants));
-      }
-    }
-  }
-
-  gettimeofday(&end, NULL); // stop timer
-  time_taken = end.tv_sec + end.tv_usec / 1e6 - start.tv_sec -
-               start.tv_usec / 1e6; // in seconds
-
-  for (auto &formula : boolean_functions_asts) {
-    cout << formula->as_string() << "\n";
-  }
-
-  /* ENUMERATE ALL BOOLEAN FUNCTIONS
   for (uint64_t i = 0; i < num_boolean_functions; ++i) {
     vector<string> implicants;
     for (uint32_t j = 0; j < truth_table_rows; ++j) {
@@ -108,13 +85,16 @@ int main(int argc, char *argv[]) {
         implicants.emplace_back(inputs[j]);
       }
     }
-    // cout << quine_mccluskey(implicants)->as_string() << "\n";
-    boolean_functions_asts.emplace_back(
-        make_unique<Globally>(quine_mccluskey(implicants), 0, 10));
-    // boolean_functions_asts_string[i] =
-  boolean_functions_asts[i]->as_string();
+    boolean_functions_asts.emplace_back(quine_mccluskey(implicants));
   }
-  */
+  gettimeofday(&end, NULL); // stop timer
+  time_taken = end.tv_sec + end.tv_usec / 1e6 - start.tv_sec -
+               start.tv_usec / 1e6; // in seconds
+
+  for (auto &formula : boolean_functions_asts) {
+    cout << formula->as_pretty_string() << "\n";
+  }
+
 
   // #pragma omp parallel for
   // for (int i = 0; i < num_boolean_functions; ++i) {
