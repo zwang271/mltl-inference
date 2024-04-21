@@ -3,6 +3,9 @@
 #include <algorithm>
 #include <assert.h>
 
+using namespace std;
+using namespace libmltl;
+
 /* Returns true if two terms differ by just one bit.
  */
 bool is_grey_code(const string &a, const string &b) {
