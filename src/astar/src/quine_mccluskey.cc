@@ -3,18 +3,8 @@
 #include <algorithm>
 #include <assert.h>
 
-/* Takes an integer and returns a string of 0s and 1s corresponding to the
- * binary value of n. The string will be padded so that it has length of width.
- * ex: 14 = "1110"
- */
-string int_to_bin_str(unsigned int n, int width) {
-  string result;
-  for (int i = 0; i < width; ++i) {
-    result += (n & 1) ? "1" : "0";
-    n >>= 1;
-  }
-  return result;
-}
+using namespace std;
+using namespace libmltl;
 
 /* Returns true if two terms differ by just one bit.
  */
@@ -110,30 +100,29 @@ string get_clause_as_string(const string &a) {
 
 /* Returns the ast representation of a clause.
  */
-MLTLNode *get_clause_as_ast(const string &a) {
+unique_ptr<ASTNode> get_clause_as_ast(const string &a) {
   const string dontcares(a.size(), '-');
   string temp = "";
   if (a == dontcares)
-    return new MLTLPropConsNode(true);
+    return make_unique<Constant>(true);
 
-  vector<MLTLNode *> literals;
+  vector<unique_ptr<ASTNode>> literals;
 
   for (size_t i = 0; i < a.length(); ++i) {
     if (a[i] != '-') {
       if (a[i] == '0') {
-        literals.emplace_back(new MLTLUnaryPropOpNode(
-            MLTLUnaryPropOpType::Neg, new MLTLPropVarNode((unsigned int)i)));
+        literals.emplace_back(make_unique<Negation>(
+            make_unique<Variable>((unsigned int)i)));
       } else {
-        literals.emplace_back(new MLTLPropVarNode((unsigned int)i));
+        literals.emplace_back(make_unique<Variable>((unsigned int)i));
       }
     }
   }
 
   // build ast from literals
-  MLTLNode *root_node = literals.back();
+  unique_ptr<ASTNode> root_node = std::move(literals.back());
   for (int i = (int)literals.size() - 2; i >= 0; --i) {
-    root_node = new MLTLBinaryPropOpNode(MLTLBinaryPropOpType::And, literals[i],
-                                         root_node);
+    root_node = make_unique<And>(std::move(literals[i]), std::move(root_node));
   }
 
   return root_node;
@@ -191,9 +180,9 @@ string quine_mccluskey_fast_string(const vector<string> &implicants) {
  * satisfying assignment.
  * ex: "1011" means that the assignment p0, -p1, p2, p3 evaluates to true.
  */
-MLTLNode *quine_mccluskey(const vector<string> &implicants) {
+unique_ptr<ASTNode> quine_mccluskey(const vector<string> &implicants) {
   if (implicants.size() == 0) {
-    return new MLTLPropConsNode(false);
+    return make_unique<Constant>(false);
   }
 
 #ifndef NDEBUG
@@ -211,11 +200,11 @@ MLTLNode *quine_mccluskey(const vector<string> &implicants) {
     sort(minterms.begin(), minterms.end());
   } while (minterms != reduce(minterms));
 
-  MLTLNode *reduced_dnf = get_clause_as_ast(minterms.back());
+  unique_ptr<ASTNode> root_node = get_clause_as_ast(minterms.back());
   for (int i = (int)minterms.size() - 2; i >= 0; --i) {
-    reduced_dnf = new MLTLBinaryPropOpNode(
-        MLTLBinaryPropOpType::Or, get_clause_as_ast(minterms[i]), reduced_dnf);
+    unique_ptr<ASTNode> new_clause = get_clause_as_ast(minterms[i]);
+    root_node = make_unique<Or>(std::move(new_clause), std::move(root_node));
   }
 
-  return reduced_dnf;
+  return root_node;
 }

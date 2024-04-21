@@ -1,4 +1,3 @@
-astar
-*.o
-*.so
-vgcore.*
+bin
+obj
+compile_flags.txt
