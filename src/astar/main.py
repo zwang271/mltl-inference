@@ -5,6 +5,7 @@ ast = mltl.parse("G[0,10](~p1)")
 
 # Print the parsed AST
 print(ast.as_string())
+print(ast)
 
 # Evaluate a trace on the function
 trace = ["101","100","001","101","100","001"]
