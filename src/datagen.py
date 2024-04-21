@@ -15,12 +15,15 @@ def random_sampling(formula: str,
     pos, neg = [], []
     target_num = samples // 2
     batch_size = samples
+    n, m = get_n(formula), comp_len(formula)
     while len(pos) < target_num or len(neg) < target_num:
+        print(f"pos: {len(pos)}, neg: {len(neg)}")
         traces = np.random.randint(0, 2, (batch_size, m+np.random.randint(0, m_delta+1), n))
         traces = [trace.tolist() for trace in traces]
         for i, trace in enumerate(traces):
             traces[i] = [str(row).replace("[", "").replace("]", "").replace("," , "").replace(" ", "") for row in trace]
         results = interpret_batch(formula, traces)
+        print(results)
         pos_idx, neg_idx = [], []
         for i, value in results.items():
             if value:
