@@ -1,11 +1,12 @@
 CXX := g++
-CFLAGS := -std=c++17 -pedantic -Wall -fno-rtti
-LDFLAGS := -L../libmltl/lib -lmltl
+CFLAGS := -std=c++17 -pedantic -Wall -fno-rtti -fopenmp
+LDFLAGS := -L../libmltl/lib -lmltl -fopenmp
 INCLUDES := -I../libmltl/include
 ifeq ($(DEBUG), 1)
   CFLAGS += -DDEBUG -g -O0
 else
-  CFLAGS += -DNDEBUG -O2
+  CFLAGS += -DNDEBUG -O3
+  DEBUG := 0
 endif
 
 SRC_PATH := src
