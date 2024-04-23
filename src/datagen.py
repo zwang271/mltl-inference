@@ -3,6 +3,8 @@ import numpy as np
 import argparse
 import random
 import time
+sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/libmltl/lib')
+import libmltl as mltl
 
 def random_sampling(formula: str, 
                     samples: int,
@@ -61,7 +63,50 @@ def west_sampling(formula: str,
     neg = [trace.split(",") for trace in neg]
     return pos, neg
 
+def generate_traces(formula: str,
+            samples: int,
+            m_delta: int,
+            max_attempts: int=1e6,
+            ) -> tuple[list, list]: 
+    '''
+    Samples traces for the formula using random sampling via libmltl
+    Returns a tuple of positive and negative samples (pos, neg)
+    If not enough samples are found within max_attempts traces, return None
+    '''   
+    ast = mltl.parse(formula)  
+    pos, neg = [], []
+    target_num = samples // 2
+    n, m = get_n(formula), comp_len(formula)
+    attempts = 0
+    while attempts < max_attempts:
+        attempts += 1
+        trace = np.random.randint(0, 2, (m+np.random.randint(0, m_delta+1), n))
+        trace = trace.tolist()
+        trace = [str(row).replace("[", "").replace("]", "").replace("," , "").replace(" ", "") for row in trace]
+        verdict = ast.evaluate(trace)
+        if verdict and len(pos) < target_num:
+            pos.append(trace)
+        elif not verdict and len(neg) < target_num:
+            neg.append(trace)
+        if len(pos) == target_num and len(neg) == target_num:
+            return pos, neg
+    return None, None
+
+    
 if __name__ == '__main__':
+    formula = "G[0,4] (p0 & p3)"
+    samples = 256
+    m_delta = 8
+    pos, neg = generate_traces(formula, samples, m_delta)
+    if pos is not None:
+        print(f"Number of positive samples: {len(pos)}")
+        print(f"Number of negative samples: {len(neg)}")
+        print(pos[0])
+        print(neg[0])
+    else:
+        print("Not enough samples found")
+
+    exit()
     parser = argparse.ArgumentParser(description='Creates a dataset')
     # required argument: input folder containing formula.txt file
     parser.add_argument('dataset_folder', type=str, 
