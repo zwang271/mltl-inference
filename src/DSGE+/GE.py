@@ -33,7 +33,6 @@ class Grammar():
     def get_grammar(self):
         grammar = {
             "<wff>": [
-                "<prop_cons>",
                 "<prop_var>",
                 "!<wff>",
                 "(<wff> <binary_prop_conn> <wff>)",
@@ -44,7 +43,6 @@ class Grammar():
             "<unary_temp_conn>": ["F", "G"],
             "<binary_temp_conn>": ["U", "R"],
             "<interval>": [f"[{i},{j}]" for i in range(self.MAX_BOUND) for j in range(i, self.MAX_BOUND)],
-            "<prop_cons>": ["true", "false"],
             "<prop_var>": [f"p{i}" for i in range(self.n)]
         }
         return grammar
@@ -54,7 +52,7 @@ class Grammar():
         Expands a non-terminal to a random terminal symbol
         '''
         if nt == "<wff>":
-            terminals = self.rules["<prop_cons>"] + self.rules["<prop_var>"]
+            terminals = self.rules["<prop_var>"]
             return terminals[idx % len(terminals)]
         else:
             return self.rules[nt][idx % len(self.rules[nt])]
@@ -212,6 +210,8 @@ class Individual():
                        self.fitness_weights["complen"] * (1 - abs(self.complen - self.target_complen) / self.target_complen) + \
                        self.fitness_weights["length"] * (1 / (len(self.phenotype)+1)) + \
                        self.fitness_weights["treedepth"] * (1 / (self.treedepth+1))
+        # evaluate test accuracy
+        self.test()
         return self.accuracy, self.treedepth, self.complen, self.fitness
 
     def test(self):
@@ -248,7 +248,6 @@ class Individual():
         self.test_accuracy = None
 
     def __str__(self):
-        self.test()
         return f'''
         Phenotype: {self.phenotype}
         Fitness: {self.fitness}
@@ -291,36 +290,17 @@ def gendiff_sort(population):
     population[1:] = rest
     return population
 
-def evaluate_population(population, phenotypes=None, parallel=False):
+def evaluate_population(population, phenotypes=None):
     '''
     Evaluates the population
     '''
     if phenotypes is None:
         phenotypes = dict()
-    # serial evaluation
-    if not parallel:
-        for x in tqdm(population):
-            x.evaluate()
-        population.sort(key=lambda x: x.fitness, reverse=True)
-        return 
-    
-    # parallel evaluation
-    cores = os.cpu_count()
-    # print(f"Using {cores} cores")
-    with ProcessPoolExecutor(max_workers=cores) as executor:
-        # Submit tasks
-        futures = [executor.submit(x.evaluate) for x in population]
-        # Collect results and update objects
-        for x, future in zip(population, tqdm(futures)):
-            x.accuracy, x.treedepth, x.complen, x.fitness = future.result()
-    population.sort(key=lambda x: x.fitness, reverse=True)
-            
-    # update phenotypes
-    for x in population:
+    for x in tqdm(population):
+        x.evaluate()
         if x.phenotype not in phenotypes:
             phenotypes[x.phenotype] = x.fitness
-        else:
-            x.fitness = phenotypes[x.phenotype]
+    population.sort(key=lambda x: x.fitness, reverse=True)
     return
 
 def selection(population):
@@ -511,6 +491,7 @@ def read_params(file_path="params.txt"):
     neg_test_traces = load_traces(neg_test)
 
     n = len(pos_train_traces[0][0])
+    print(f"n = {n}")
     MAX_BOUND = max([len(trace) for trace in pos_train_traces + neg_train_traces])
     grammar = Grammar(n, MAX_BOUND)
     genotype_length = 2 ** (params['max_tree_depth'] + 1)
@@ -564,7 +545,7 @@ if __name__ == "__main__":
         params_path = "params.txt"
     params = read_params(params_path)
     log_path = params["log_path"]
-    # use seed if provided
+    # use seed if provided 
     if params["seed"] is not None:
         random.seed(params["seed"])
         np.random.seed(params["seed"])

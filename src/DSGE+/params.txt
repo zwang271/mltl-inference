@@ -1,16 +1,33 @@
+# Random seed
 seed = 123
-log_path = ./logs/log_nasa-atc_formula2.txt
+
+# Path of dataset 
 dataset_path = ../dataset/nasa-atc_formula2/
-population_size = 300
+
+# Path to save training logs to
+log_path = ./logs/log_nasa-atc_formula2.txt
+
+# Population size per generation 
+population_size = 1000
+
+# Number of generations to run for
 num_generations = 30
+
+# Maximum treedepth of individuals created
 max_tree_depth = 6
-mutation_rate = 0.2
+
+# Mutation rate during reproduction
+mutation_rate = 0.4
+
+# Factor of decay of mutation_rate from one generation to the next
 mutation_rate_decay = 0.95
+
+# Deprecated for now
 genetic_difference = 0
 temporal_nesting = 2
 
 # fitness weights
-accuracy = 0.9
+accuracy = 0.95
 treedepth = 0.01 
-complen = 0.05
-length = 0.04
+complen = 0.02
+length = 0.02

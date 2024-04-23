@@ -146,7 +146,7 @@ def load_traces(dir: str) -> list[list[str]]:
     traces = []
     for filename in os.listdir(dir):
         with open(os.path.join(dir, filename), 'r') as f:
-            trace = [line.strip() for line in f]
+            trace = [line.strip().replace(",","") for line in f]
             traces.append(trace)
     return traces
 
