@@ -1,4 +1,6 @@
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
 import os
 import re
 import sys
@@ -78,8 +80,9 @@ def extract_data_from_log(file_path):
     return data
 
 def get_target_formula(DATASET):
-    with open(os.path.join(DATASET,"formula.txt"), 'r') as file:
-        formula = file.read()
+    with open(os.path.join(DATASET,"metadata.txt"), 'r') as file:
+        # read the first line
+        formula = file.readline().replace("formula: ", "")
     return formula.strip()
 
 def analyze_log(log_path):
@@ -95,7 +98,7 @@ def analyze_log(log_path):
         print(f'{key}: {len(data[key])}')
 
     # Create several plots side by side, horizontally
-    fig, axs = plt.subplots(2, 3, figsize=(15,4))
+    fig, axs = plt.subplots(2, 3, figsize=(20,12))
     fig.suptitle(f"Target Formula: {target_formula}\n Best Phenotype: {data['phenotype'][-1]}")
     # Plot 1: Fitness vs. Iteration
     axs[0, 0].plot(data['iteration'], data['fitness'])
@@ -156,17 +159,11 @@ def analyze_log(log_path):
             axs[1, 2].text(0, 0.9 - (count * 0.05), f'Iteration {i}: {phenotype}')
             last_unique_index = i
             change_indices.append(i)
-            
-
-    # maximize window
-    manager = plt.get_current_fig_manager()
-    manager.window.showMaximized()
-    plt.show()
-    # save the figure to a file
-    save_path = f'{log_path.replace(".log", "")}.png'
-    fig.savefig(save_path)
-    print(f'Figure saved to {save_path}')
     
+    save_path = f'{log_path.replace(".log", "")}.png'
+    plt.savefig(save_path)
+    print(f"Saved plot to {save_path}")
+
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
