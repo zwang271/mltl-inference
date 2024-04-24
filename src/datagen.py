@@ -94,41 +94,28 @@ def generate_traces(formula: str,
 
     
 if __name__ == '__main__':
-    formula = "G[0,4] (p0 & p3)"
-    samples = 256
-    m_delta = 8
-    pos, neg = generate_traces(formula, samples, m_delta)
-    if pos is not None:
-        print(f"Number of positive samples: {len(pos)}")
-        print(f"Number of negative samples: {len(neg)}")
-        print(pos[0])
-        print(neg[0])
-    else:
-        print("Not enough samples found")
-
-    exit()
     parser = argparse.ArgumentParser(description='Creates a dataset')
     # required argument: input folder containing formula.txt file
-    parser.add_argument('dataset_folder', type=str, 
+    parser.add_argument('--dataset', type=str, 
                         help='Input folder must contain formula.txt file')
     # optional arguments
-    parser.add_argument('--samples', type=int, default=1000, 
+    parser.add_argument('--samples', type=int, default=1500, 
                         help='Number of samples. Half will be positive, half negative')
-    parser.add_argument('--percent_train', type=float, default=0.8,)
+    parser.add_argument('--num_train', type=float, default=500,)
     parser.add_argument('--max', type=int, default=10, 
                         help='Maximum interval bound to scale formula to')
     parser.add_argument('--method', type=str, default='random', choices=['random', 'west'],
                         help='Method to generate the dataset')
-    parser.add_argument('--seed', type=int, default=None, 
+    parser.add_argument('--seed', type=int, default=42, 
                         help='Seed for random number generator')
-    parser.add_argument('--m_delta', type=int, default=4,
+    parser.add_argument('--m_delta', type=int, default=6,
                         help='Variation of generated trace length from complen of formula')
 
     # parse arguments
     args = parser.parse_args()
-    dataset_folder = args.dataset_folder
+    dataset_folder = args.dataset
     samples = args.samples
-    percent_train = args.percent_train
+    num_train = args.num_train
     method = args.method
     m_delta = args.m_delta
     seed = args.seed
@@ -157,7 +144,7 @@ if __name__ == '__main__':
     # generate dataset
     start = time.perf_counter()
     if method == 'random':
-        pos, neg = random_sampling(formula, samples, m_delta)
+        pos, neg = generate_traces(formula, samples, m_delta, max_attempts=1e7)
     elif method == 'west':
         pos, neg = west_sampling(formula, samples, m_delta)
     end = time.perf_counter()
@@ -165,11 +152,11 @@ if __name__ == '__main__':
     assert(all([value for k, value in interpret_batch(formula, pos).items()]))
     assert(all([not value for k, value in interpret_batch(formula, neg).items()]))
 
-    # Split pos and neg into train and test, PERCENT_TRAIN% for train
-    pos_train = pos[:int(len(pos)*percent_train)]
-    pos_test = pos[int(len(pos)*percent_train):]
-    neg_train = neg[:int(len(neg)*percent_train)]
-    neg_test = neg[int(len(neg)*percent_train):]
+    # Split pos and neg into train and test, number of train samples is num_train
+    pos_train = pos[:num_train]
+    pos_test = pos[num_train:]
+    neg_train = neg[:num_train]    
+    neg_test = neg[num_train:]
     print(f"Number of positive samples: {len(pos)}")
     print(f"Number of positive train samples: {len(pos_train)}")
     print(f"Number of positive test samples: {len(pos_test)}")
@@ -196,7 +183,7 @@ if __name__ == '__main__':
         f.write(f'n: {n}\n')
         f.write(f'm: {m}\n')
         f.write(f'samples: {samples}\n')
-        f.write(f'percent_train: {percent_train}\n')
+        f.write(f'num_train: {num_train}\n')
         f.write(f'method: {method}\n')
         f.write(f'm_delta: {m_delta}\n')
         f.write(f'seed: {seed}\n')

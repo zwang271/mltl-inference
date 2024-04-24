@@ -1,0 +1,5084 @@
+PARAMETERS
+==================================================
+fitness_weights: {'accuracy': 0.9, 'treedepth': 0.02, 'complen': 0.03, 'length': 0.05}
+seed: 123
+dataset_path: ../dataset/basic_future/
+log_path: ./logs/basic_future.txt
+population_size: 500
+num_generations: 30
+max_tree_depth: 6
+mutation_rate: 0.2
+mutation_rate_decay: 0.95
+genetic_difference: 0.0
+temporal_nesting: 2
+accuracy: 0.9
+treedepth: 0.02
+complen: 0.03
+length: 0.05
+pos_train: ../dataset/basic_future/pos_train/
+neg_train: ../dataset/basic_future/neg_train/
+pos_test: ../dataset/basic_future/pos_test/
+neg_test: ../dataset/basic_future/neg_test/
+n: 2
+MAX_BOUND: 17
+genotype_length: 128
+genotype_max: 1000000.0
+target_complen: 11
+==================================================
+
+Iteration 0 of 30
+Initial population:
+Number of unique phenotypes: 500
+Best individual:
+
+        Phenotype: F[1,8] p0
+        Fitness: 0.9344121212121212
+        Training Accuracy: 0.998 
+        Computation Length: 9 
+        Tree Depth: 2
+        Length: 9
+        Test Accuracy: 1.0
+        
+==================================================
+Iteration 1 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[2,9] p0
+        Fitness: 0.9353393939393939
+        Training Accuracy: 0.996 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 9
+        Test Accuracy: 0.998
+        
+Mutation rate: 0.19
+Number of unique phenotypes: 894
+==================================================
+Iteration 2 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[4,10] p0
+        Fitness: 0.9394121212121213
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.1805
+Number of unique phenotypes: 1290
+==================================================
+Iteration 3 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.171475
+Number of unique phenotypes: 1687
+==================================================
+Iteration 4 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.16290124999999997
+Number of unique phenotypes: 2081
+==================================================
+Iteration 5 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.15475618749999998
+Number of unique phenotypes: 2471
+==================================================
+Iteration 6 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.14701837812499996
+Number of unique phenotypes: 2865
+==================================================
+Iteration 7 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.13966745921874996
+Number of unique phenotypes: 3258
+==================================================
+Iteration 8 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.13268408625781244
+Number of unique phenotypes: 3654
+==================================================
+Iteration 9 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.1260498819449218
+Number of unique phenotypes: 4048
+==================================================
+Iteration 10 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.11974738784767572
+Number of unique phenotypes: 4445
+==================================================
+Iteration 11 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.11376001845529193
+Number of unique phenotypes: 4843
+==================================================
+Iteration 12 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.10807201753252733
+Number of unique phenotypes: 5242
+==================================================
+Iteration 13 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.10266841665590096
+Number of unique phenotypes: 5641
+==================================================
+Iteration 14 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.0975349958231059
+Number of unique phenotypes: 6036
+==================================================
+Iteration 15 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.09265824603195061
+Number of unique phenotypes: 6433
+==================================================
+Iteration 16 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.08802533373035308
+Number of unique phenotypes: 6830
+==================================================
+Iteration 17 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.08362406704383542
+Number of unique phenotypes: 7224
+==================================================
+Iteration 18 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.07944286369164365
+Number of unique phenotypes: 7624
+==================================================
+Iteration 19 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.07547072050706147
+Number of unique phenotypes: 8021
+==================================================
+Iteration 20 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.07169718448170839
+Number of unique phenotypes: 8417
+==================================================
+Iteration 21 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.06811232525762297
+Number of unique phenotypes: 8816
+==================================================
+Iteration 22 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.06470670899474182
+Number of unique phenotypes: 9212
+==================================================
+Iteration 23 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.061471373545004725
+Number of unique phenotypes: 9609
+==================================================
+Iteration 24 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.058397804867754484
+Number of unique phenotypes: 10008
+==================================================
+Iteration 25 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.055477914624366756
+Number of unique phenotypes: 10407
+==================================================
+Iteration 26 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.052704018893148415
+Number of unique phenotypes: 10806
+==================================================
+Iteration 27 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.05006881794849099
+Number of unique phenotypes: 11204
+==================================================
+Iteration 28 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.047565377051066435
+Number of unique phenotypes: 11603
+==================================================
+Iteration 29 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.04518710819851311
+Number of unique phenotypes: 12002
+==================================================
+Iteration 30 of 30
+Selecting parents...
+Recombining parents...
+Mutating offspring...
+Evaluating offspring...
+Best individual:
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+Mutation rate: 0.04292775278858745
+Number of unique phenotypes: 12400
+==================================================
+All individuals
+==================================================
+
+        Phenotype: F[0,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[2,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[0,10] p0
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[1,10] p1
+        Fitness: 0.9412121212121213
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[0,10] !!p0
+        Fitness: 0.9405128205128206
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[0,10] !!p1
+        Fitness: 0.9405128205128206
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[0,10] !p0
+        Fitness: 0.9405128205128206
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[0,10] !p1
+        Fitness: 0.9405128205128206
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[0,10] p0
+        Fitness: 0.9405128205128206
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[2,10] !p1
+        Fitness: 0.9405128205128206
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[0,10] p1
+        Fitness: 0.9405128205128206
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[2,10] !!p1
+        Fitness: 0.9405128205128206
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[1,10] !!p1
+        Fitness: 0.9405128205128206
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[1,10] p1
+        Fitness: 0.9405128205128206
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[1,10] !p1
+        Fitness: 0.9405128205128206
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[2,10] p1
+        Fitness: 0.9405128205128206
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[1,10] !p1
+        Fitness: 0.9405128205128206
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[3,10] p1
+        Fitness: 0.9403121212121213
+        Training Accuracy: 0.999 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[3,10] p1
+        Fitness: 0.9403121212121213
+        Training Accuracy: 0.999 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[3,10] p1
+        Fitness: 0.9403121212121213
+        Training Accuracy: 0.999 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[1,10] p0
+        Fitness: 0.9403121212121213
+        Training Accuracy: 0.999 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[0,10] !!!!p0
+        Fitness: 0.9400000000000001
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[0,10] !!!!p1
+        Fitness: 0.9400000000000001
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[0,10] !!!p0
+        Fitness: 0.9400000000000001
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[0,10] !!!p1
+        Fitness: 0.9400000000000001
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[2,10] !!!!p1
+        Fitness: 0.9400000000000001
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[0,10] !!p1
+        Fitness: 0.9400000000000001
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[2,10] !!p1
+        Fitness: 0.9400000000000001
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[0,10] !!p0
+        Fitness: 0.9400000000000001
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[1,10] !!p1
+        Fitness: 0.9400000000000001
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[2,10] !!!p1
+        Fitness: 0.9400000000000001
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[3,10] !p1
+        Fitness: 0.9396128205128206
+        Training Accuracy: 0.999 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[3,10] !!p1
+        Fitness: 0.9396128205128206
+        Training Accuracy: 0.999 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[3,10] p1
+        Fitness: 0.9396128205128206
+        Training Accuracy: 0.999 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[1,10] !!p0
+        Fitness: 0.9396128205128206
+        Training Accuracy: 0.999 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[1,10] p0
+        Fitness: 0.9396128205128206
+        Training Accuracy: 0.999 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[1,10] !p0
+        Fitness: 0.9396128205128206
+        Training Accuracy: 0.999 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: (!p0 U[0,10] p0)
+        Fitness: 0.939607843137255
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 16
+        Test Accuracy: 1.0
+        
+
+        Phenotype: (!p1 U[2,10] p1)
+        Fitness: 0.939607843137255
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 16
+        Test Accuracy: 1.0
+        
+
+        Phenotype: (!p1 U[0,10] p1)
+        Fitness: 0.939607843137255
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 16
+        Test Accuracy: 1.0
+        
+
+        Phenotype: (!p1 U[1,10] p1)
+        Fitness: 0.939607843137255
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 16
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[4,10] p0
+        Fitness: 0.9394121212121213
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[4,10] p0
+        Fitness: 0.9394121212121213
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[4,10] p1
+        Fitness: 0.9394121212121213
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[4,10] p1
+        Fitness: 0.9394121212121213
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[2,10] p0
+        Fitness: 0.9394121212121213
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[3,10] p0
+        Fitness: 0.9394121212121213
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 1.0
+        
+
+        Phenotype: (!p1 U[0,10] !!p1)
+        Fitness: 0.9392982456140352
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 18
+        Test Accuracy: 1.0
+        
+
+        Phenotype: (!!!p1 U[0,10] p1)
+        Fitness: 0.9392982456140352
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 18
+        Test Accuracy: 1.0
+        
+
+        Phenotype: (!!!p1 U[0,10] p1)
+        Fitness: 0.9392982456140352
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 18
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[3,10] !!!p1
+        Fitness: 0.9391
+        Training Accuracy: 0.999 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[3,10] !!!!p1
+        Fitness: 0.9391
+        Training Accuracy: 0.999 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[1,10] !!p0
+        Fitness: 0.9391
+        Training Accuracy: 0.999 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[1,10] !!!!p0
+        Fitness: 0.9391
+        Training Accuracy: 0.999 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[3,10] !!p1
+        Fitness: 0.9391
+        Training Accuracy: 0.999 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[1,9] p1
+        Fitness: 0.938939393939394
+        Training Accuracy: 1.0 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 9
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[0,9] p0
+        Fitness: 0.938939393939394
+        Training Accuracy: 1.0 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 9
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[0,9] p1
+        Fitness: 0.938939393939394
+        Training Accuracy: 1.0 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 9
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[4,10] !!p0
+        Fitness: 0.9387128205128206
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[4,10] !!p1
+        Fitness: 0.9387128205128206
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[4,10] !p0
+        Fitness: 0.9387128205128206
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[3,10] !!p0
+        Fitness: 0.9387128205128206
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[3,10] !p0
+        Fitness: 0.9387128205128206
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[4,10] !p1
+        Fitness: 0.9387128205128206
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[4,10] p0
+        Fitness: 0.9387128205128206
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[4,10] p1
+        Fitness: 0.9387128205128206
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[2,10] !p0
+        Fitness: 0.9387128205128206
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[2,10] !!p0
+        Fitness: 0.9387128205128206
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[3,10] p0
+        Fitness: 0.9387128205128206
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[2,10] p0
+        Fitness: 0.9387128205128206
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 1.0
+        
+
+        Phenotype: (!p1 U[3,10] p1)
+        Fitness: 0.938707843137255
+        Training Accuracy: 0.999 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 16
+        Test Accuracy: 1.0
+        
+
+        Phenotype: (!p0 U[1,10] p0)
+        Fitness: 0.938707843137255
+        Training Accuracy: 0.999 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 16
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[5,10] p0
+        Fitness: 0.9385121212121212
+        Training Accuracy: 0.997 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 0.994
+        
+
+        Phenotype: F[5,10] p0
+        Fitness: 0.9385121212121212
+        Training Accuracy: 0.997 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 0.994
+        
+
+        Phenotype: F[5,10] p1
+        Fitness: 0.9385121212121212
+        Training Accuracy: 0.997 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 0.992
+        
+
+        Phenotype: F[5,10] p1
+        Fitness: 0.9385121212121212
+        Training Accuracy: 0.997 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 0.992
+        
+
+        Phenotype: (!!!p1 U[3,10] p1)
+        Fitness: 0.9383982456140352
+        Training Accuracy: 0.999 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 18
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[3,10] !!!!p0
+        Fitness: 0.9382
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[3,10] !!!!p0
+        Fitness: 0.9382
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[2,10] !!!!p0
+        Fitness: 0.9382
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[2,10] !!!p0
+        Fitness: 0.9382
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[4,10] !!!!p1
+        Fitness: 0.9382
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[4,10] !!!!p0
+        Fitness: 0.9382
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[3,10] !!!p0
+        Fitness: 0.9382
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[4,10] !!p0
+        Fitness: 0.9382
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[3,10] !!p0
+        Fitness: 0.9382
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[4,10] !!!p0
+        Fitness: 0.9382
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[4,10] !!p1
+        Fitness: 0.9382
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[4,10] !!!p1
+        Fitness: 0.9382
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[2,10] !!p0
+        Fitness: 0.9382
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 1.0
+        
+
+        Phenotype: (!!!!!p1 U[3,10] p1)
+        Fitness: 0.9381476190476191
+        Training Accuracy: 0.999 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 20
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[1,9] !p1
+        Fitness: 0.9381060606060606
+        Training Accuracy: 1.0 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 11
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[1,9] !!p1
+        Fitness: 0.9381060606060606
+        Training Accuracy: 1.0 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 11
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[0,9] !!p0
+        Fitness: 0.9381060606060606
+        Training Accuracy: 1.0 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 11
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[0,9] !!p1
+        Fitness: 0.9381060606060606
+        Training Accuracy: 1.0 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 11
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[0,9] p0
+        Fitness: 0.9381060606060606
+        Training Accuracy: 1.0 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 11
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[0,9] !p1
+        Fitness: 0.9381060606060606
+        Training Accuracy: 1.0 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 11
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[0,9] p1
+        Fitness: 0.9381060606060606
+        Training Accuracy: 1.0 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 11
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[1,9] p1
+        Fitness: 0.9381060606060606
+        Training Accuracy: 1.0 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 11
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[0,9] !p0
+        Fitness: 0.9381060606060606
+        Training Accuracy: 1.0 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 11
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[1,9] p0
+        Fitness: 0.938039393939394
+        Training Accuracy: 0.999 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 9
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[2,9] p1
+        Fitness: 0.938039393939394
+        Training Accuracy: 0.999 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 9
+        Test Accuracy: 0.996
+        
+
+        Phenotype: F[5,10] !!p0
+        Fitness: 0.9378128205128206
+        Training Accuracy: 0.997 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 0.994
+        
+
+        Phenotype: F[5,10] !!p1
+        Fitness: 0.9378128205128206
+        Training Accuracy: 0.997 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 0.992
+        
+
+        Phenotype: !!F[5,10] p0
+        Fitness: 0.9378128205128206
+        Training Accuracy: 0.997 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 0.994
+        
+
+        Phenotype: !G[5,10] !p1
+        Fitness: 0.9378128205128206
+        Training Accuracy: 0.997 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 0.992
+        
+
+        Phenotype: F[1,10] !!!!(p1 | p1)
+        Fitness: 0.9372727272727274
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 21
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[1,10] !!(p1 | p0)
+        Fitness: 0.9372727272727274
+        Training Accuracy: 1.0 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 21
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !G[3,10] !G[0,0] p0
+        Fitness: 0.9357
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 19
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[4,10] !!(p1 | !!p1)
+        Fitness: 0.9354727272727273
+        Training Accuracy: 0.998 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 21
+        Test Accuracy: 1.0
+        
+
+        Phenotype: (!p1 U[2,8] p1)
+        Fitness: 0.9316371212121213
+        Training Accuracy: 0.997 
+        Computation Length: 9 
+        Tree Depth: 2
+        Length: 15
+        Test Accuracy: 0.994
+        
+
+        Phenotype: F[0,7] !!!!p1
+        Fitness: 0.9311562770562771
+        Training Accuracy: 0.999 
+        Computation Length: 8 
+        Tree Depth: 2
+        Length: 13
+        Test Accuracy: 0.998
+        
+
+        Phenotype: !!F[6,10] !!p0
+        Fitness: 0.9283
+        Training Accuracy: 0.987 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 0.982
+        
+
+        Phenotype: F[3,8] !!!!p0
+        Fitness: 0.9266835497835498
+        Training Accuracy: 0.991 
+        Computation Length: 9 
+        Tree Depth: 2
+        Length: 13
+        Test Accuracy: 0.996
+        
+
+        Phenotype: !!F[0,10] !!(p1 U[0,8] p1)
+        Fitness: 0.9150336700336701
+        Training Accuracy: 1.0 
+        Computation Length: 19 
+        Tree Depth: 3
+        Length: 26
+        Test Accuracy: 1.0
+        
+
+        Phenotype: F[1,10] (p1 U[0,10] p1)
+        Fitness: 0.909810606060606
+        Training Accuracy: 1.0 
+        Computation Length: 21 
+        Tree Depth: 3
+        Length: 23
+        Test Accuracy: 1.0
+        
+
+        Phenotype: !!F[4,10] (p0 & p1)
+        Fitness: 0.8934
+        Training Accuracy: 0.951 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 19
+        Test Accuracy: 0.936
+        
+
+        Phenotype: F[0,3] !!!!p0
+        Fitness: 0.8905471861471861
+        Training Accuracy: 0.966 
+        Computation Length: 4 
+        Tree Depth: 2
+        Length: 13
+        Test Accuracy: 0.976
+        
+
+        Phenotype: ((!(!F[1,6] p1 & p0) U[3,8] p0) U[1,10] p1)
+        Fitness: 0.8872878787878787
+        Training Accuracy: 0.99 
+        Computation Length: 25 
+        Tree Depth: 5
+        Length: 43
+        Test Accuracy: 0.996
+        
+
+        Phenotype: ((F[11,13] p1 -> !((p1 | (p1 R[4,14] p1)) | ((p0 & p0) R[1,12] !p0))) U[4,10] p1)
+        Fitness: 0.8754850807728857
+        Training Accuracy: 0.978 
+        Computation Length: 25 
+        Tree Depth: 6
+        Length: 81
+        Test Accuracy: 0.978
+        
+
+        Phenotype: !G[1,3] !p0
+        Fitness: 0.8614424242424243
+        Training Accuracy: 0.933 
+        Computation Length: 4 
+        Tree Depth: 2
+        Length: 11
+        Test Accuracy: 0.936
+        
+
+        Phenotype: F[8,9] !!p0
+        Fitness: 0.8382060606060606
+        Training Accuracy: 0.889 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 11
+        Test Accuracy: 0.896
+        
+
+        Phenotype: F[5,10] (F[3,16] (!(p1 U[0,10] p0) R[1,7] !p0) & p0)
+        Fitness: 0.830300539083558
+        Training Accuracy: 0.985 
+        Computation Length: 44 
+        Tree Depth: 6
+        Length: 52
+        Test Accuracy: 0.986
+        
+
+        Phenotype: !!((p1 | (F[2,7] p1 R[5,9] (p1 R[2,4] p1))) | p1)
+        Fitness: 0.827069696969697
+        Training Accuracy: 0.899 
+        Computation Length: 17 
+        Tree Depth: 5
+        Length: 49
+        Test Accuracy: 0.886
+        
+
+        Phenotype: (F[0,5] ((G[6,8] (p0 R[6,11] p1) | G[7,10] (p1 & p1)) & (((p1 -> p0) R[4,12] p0) U[7,15] ((p0 R[4,6] p0) U[0,5] p0))) U[1,10] p0)
+        Fitness: 0.8267118881118881
+        Training Accuracy: 0.979 
+        Computation Length: 43 
+        Tree Depth: 7
+        Length: 129
+        Test Accuracy: 0.974
+        
+
+        Phenotype: (G[3,10] F[2,7] p1 | p0)
+        Fitness: 0.8152090909090909
+        Training Accuracy: 0.887 
+        Computation Length: 18 
+        Tree Depth: 4
+        Length: 24
+        Test Accuracy: 0.898
+        
+
+        Phenotype: (F[6,12] (!!p1 R[4,16] ((p0 U[1,1] p0) R[3,13] (!p1 | p1))) U[2,10] p0)
+        Fitness: 0.8100061327561328
+        Training Accuracy: 0.99 
+        Computation Length: 53 
+        Tree Depth: 6
+        Length: 71
+        Test Accuracy: 0.994
+        
+
+        Phenotype: ((G[1,12] p0 U[4,10] p1) | p1)
+        Fitness: 0.8011856304985338
+        Training Accuracy: 0.887 
+        Computation Length: 23 
+        Tree Depth: 4
+        Length: 30
+        Test Accuracy: 0.9
+        
+
+        Phenotype: (((((!p1 & (p1 U[13,16] p0)) & (!p1 | p1)) -> !!(p0 U[2,16] p1)) & (G[0,11] !G[3,13] p1 U[6,12] (p0 | p0))) | !!G[0,10] (F[2,9] p0 | p0))
+        Fitness: 0.7998532279314888
+        Training Accuracy: 0.931 
+        Computation Length: 37 
+        Tree Depth: 7
+        Length: 137
+        Test Accuracy: 0.926
+        
+
+        Phenotype: (((!((p1 & p1) U[7,15] (p1 | p0)) -> p0) R[3,10] !!p0) | p1)
+        Fitness: 0.7946677240791996
+        Training Accuracy: 0.891 
+        Computation Length: 26 
+        Tree Depth: 6
+        Length: 60
+        Test Accuracy: 0.89
+        
+
+        Phenotype: !(F[0,16] F[5,11] G[0,5] F[4,6] p1 R[0,10] !p0)
+        Fitness: 0.788862445887446
+        Training Accuracy: 0.954 
+        Computation Length: 49 
+        Tree Depth: 6
+        Length: 47
+        Test Accuracy: 0.944
+        
+
+        Phenotype: (!!!(!p1 & (p0 | p1)) U[0,10] p1)
+        Fitness: 0.7887705882352941
+        Training Accuracy: 0.837 
+        Computation Length: 11 
+        Tree Depth: 4
+        Length: 33
+        Test Accuracy: 0.844
+        
+
+        Phenotype: (!!((!p0 R[7,9] G[6,14] p0) U[3,12] ((p1 | p1) R[1,3] (p0 U[13,14] p0))) U[1,7] F[5,9] ((!!p0 U[16,16] G[11,16] !p0) | (!(p0 R[0,0] p1) -> p1)))
+        Fitness: 0.7845656068069862
+        Training Accuracy: 0.95 
+        Computation Length: 49 
+        Tree Depth: 6
+        Length: 144
+        Test Accuracy: 0.946
+        
+
+        Phenotype: ((!G[1,14] p0 & p0) U[1,5] p1)
+        Fitness: 0.7841674486803519
+        Training Accuracy: 0.859 
+        Computation Length: 20 
+        Tree Depth: 4
+        Length: 30
+        Test Accuracy: 0.858
+        
+
+        Phenotype: (p1 U[8,16] p0)
+        Fitness: 0.7803280303030304
+        Training Accuracy: 0.841 
+        Computation Length: 17 
+        Tree Depth: 2
+        Length: 15
+        Test Accuracy: 0.846
+        
+
+        Phenotype: F[2,10] !(!F[5,9] !p1 -> !!!p1)
+        Fitness: 0.7760170454545455
+        Training Accuracy: 0.85 
+        Computation Length: 20 
+        Tree Depth: 4
+        Length: 31
+        Test Accuracy: 0.882
+        
+
+        Phenotype: !((G[14,14] p0 & ((p0 R[9,12] !p1) U[7,14] !F[5,14] p0)) -> G[0,10] (!p0 & !p1))
+        Fitness: 0.7759597081930416
+        Training Accuracy: 0.879 
+        Computation Length: 29 
+        Tree Depth: 5
+        Length: 80
+        Test Accuracy: 0.876
+        
+
+        Phenotype: !!((F[1,13] (p1 R[0,0] p0) R[8,15] p1) | p0)
+        Fitness: 0.7683535353535353
+        Training Accuracy: 0.87 
+        Computation Length: 29 
+        Tree Depth: 5
+        Length: 44
+        Test Accuracy: 0.894
+        
+
+        Phenotype: (p1 U[1,3] p0)
+        Fitness: 0.7679090909090909
+        Training Accuracy: 0.83 
+        Computation Length: 4 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 0.842
+        
+
+        Phenotype: (!(!p0 R[4,9] G[4,11] G[2,6] p1) U[2,10] p0)
+        Fitness: 0.7573353535353535
+        Training Accuracy: 0.882 
+        Computation Length: 37 
+        Tree Depth: 5
+        Length: 44
+        Test Accuracy: 0.852
+        
+
+        Phenotype: !!((!!p0 U[6,14] p0) U[4,10] !!p1)
+        Fitness: 0.7551467532467533
+        Training Accuracy: 0.841 
+        Computation Length: 25 
+        Tree Depth: 3
+        Length: 34
+        Test Accuracy: 0.832
+        
+
+        Phenotype: (p1 U[1,10] p1)
+        Fitness: 0.7444916666666668
+        Training Accuracy: 0.783 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 15
+        Test Accuracy: 0.782
+        
+
+        Phenotype: !(!p0 & (p1 -> ((p0 U[1,7] (p0 U[4,8] p0)) U[5,5] (!p0 -> !p1))))
+        Fitness: 0.7317419913419914
+        Training Accuracy: 0.806 
+        Computation Length: 21 
+        Tree Depth: 6
+        Length: 65
+        Test Accuracy: 0.782
+        
+
+        Phenotype: (!(p0 | (F[4,12] (p0 R[10,10] p1) & p1)) U[3,10] p1)
+        Fitness: 0.727100539083558
+        Training Accuracy: 0.837 
+        Computation Length: 33 
+        Tree Depth: 6
+        Length: 52
+        Test Accuracy: 0.826
+        
+
+        Phenotype: (p1 U[2,10] p1)
+        Fitness: 0.7255916666666669
+        Training Accuracy: 0.762 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 15
+        Test Accuracy: 0.788
+        
+
+        Phenotype: (!!(!!p1 & p1) U[0,10] p1)
+        Fitness: 0.7253518518518519
+        Training Accuracy: 0.765 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 26
+        Test Accuracy: 0.764
+        
+
+        Phenotype: F[9,9] !!!!p1
+        Fitness: 0.7242108225108225
+        Training Accuracy: 0.763 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 13
+        Test Accuracy: 0.746
+        
+
+        Phenotype: F[1,1] !!p1
+        Fitness: 0.7209878787878788
+        Training Accuracy: 0.783 
+        Computation Length: 2 
+        Tree Depth: 2
+        Length: 11
+        Test Accuracy: 0.782
+        
+
+        Phenotype: (p1 R[4,10] !!p1)
+        Fitness: 0.7171444444444445
+        Training Accuracy: 0.753 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 17
+        Test Accuracy: 0.77
+        
+
+        Phenotype: F[3,8] (p0 R[3,11] p1)
+        Fitness: 0.7155284584980238
+        Training Accuracy: 0.781 
+        Computation Length: 20 
+        Tree Depth: 3
+        Length: 22
+        Test Accuracy: 0.754
+        
+
+        Phenotype: (p0 U[1,10] p0)
+        Fitness: 0.7111916666666668
+        Training Accuracy: 0.746 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 15
+        Test Accuracy: 0.77
+        
+
+        Phenotype: (!!p0 U[1,9] p0)
+        Fitness: 0.7082805704099822
+        Training Accuracy: 0.746 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 16
+        Test Accuracy: 0.77
+        
+
+        Phenotype: ((((F[3,9] p0 R[6,8] (!p1 U[1,4] (p0 -> p0))) -> !G[2,12] !p0) & p0) | p0)
+        Fitness: 0.7070757575757576
+        Training Accuracy: 0.77 
+        Computation Length: 18 
+        Tree Depth: 7
+        Length: 74
+        Test Accuracy: 0.75
+        
+
+        Phenotype: (!(!((p1 U[2,15] p0) R[15,16] !p0) U[9,13] p1) U[2,7] p1)
+        Fitness: 0.7062772204806688
+        Training Accuracy: 0.871 
+        Computation Length: 52 
+        Tree Depth: 5
+        Length: 57
+        Test Accuracy: 0.878
+        
+
+        Phenotype: !(G[8,15] (F[0,2] !p1 -> p1) | !p1)
+        Fitness: 0.7005313131313131
+        Training Accuracy: 0.761 
+        Computation Length: 18 
+        Tree Depth: 5
+        Length: 35
+        Test Accuracy: 0.756
+        
+
+        Phenotype: ((!(F[2,10] p1 R[3,10] p1) | p0) & p0)
+        Fitness: 0.7003426573426573
+        Training Accuracy: 0.77 
+        Computation Length: 21 
+        Tree Depth: 5
+        Length: 38
+        Test Accuracy: 0.75
+        
+
+        Phenotype: (p0 U[10,16] p0)
+        Fitness: 0.6991442067736187
+        Training Accuracy: 0.751 
+        Computation Length: 17 
+        Tree Depth: 2
+        Length: 16
+        Test Accuracy: 0.716
+        
+
+        Phenotype: ((G[0,3] (p0 & (p0 U[7,9] F[1,9] p0)) R[2,14] (!p0 | F[6,7] p1)) U[0,10] ((((!p0 & !p1) U[3,10] p1) R[8,16] (((p1 R[4,6] p1) U[4,16] !p0) & ((p1 -> p0) R[9,16] !p1))) -> F[1,10] p0))
+        Fitness: 0.6986368604073522
+        Training Accuracy: 0.855 
+        Computation Length: 49 
+        Tree Depth: 7
+        Length: 182
+        Test Accuracy: 0.862
+        
+
+        Phenotype: !(((p0 R[5,9] ((p1 | p1) | (p0 -> p1))) U[0,10] (p0 | p1)) -> !p1)
+        Fitness: 0.6975579569684048
+        Training Accuracy: 0.765 
+        Computation Length: 20 
+        Tree Depth: 6
+        Length: 66
+        Test Accuracy: 0.764
+        
+
+        Phenotype: ((G[6,10] (!!p1 R[5,15] p1) & !((!p1 R[4,10] (p0 R[1,2] p0)) & (G[1,8] p1 | (p0 | p1)))) | p1)
+        Fitness: 0.6971743677375257
+        Training Accuracy: 0.783 
+        Computation Length: 26 
+        Tree Depth: 6
+        Length: 94
+        Test Accuracy: 0.788
+        
+
+        Phenotype: !G[2,2] !p0
+        Fitness: 0.6967151515151515
+        Training Accuracy: 0.753 
+        Computation Length: 3 
+        Tree Depth: 2
+        Length: 11
+        Test Accuracy: 0.732
+        
+
+        Phenotype: !!F[2,2] p0
+        Fitness: 0.6967151515151515
+        Training Accuracy: 0.753 
+        Computation Length: 3 
+        Tree Depth: 2
+        Length: 11
+        Test Accuracy: 0.732
+        
+
+        Phenotype: (!(!(!p1 R[5,9] F[1,12] p0) -> p1) U[1,10] p1)
+        Fitness: 0.6962244358478402
+        Training Accuracy: 0.799 
+        Computation Length: 32 
+        Tree Depth: 5
+        Length: 46
+        Test Accuracy: 0.796
+        
+
+        Phenotype: (G[2,12] !p1 U[8,13] p0)
+        Fitness: 0.6935909090909091
+        Training Accuracy: 0.775 
+        Computation Length: 26 
+        Tree Depth: 3
+        Length: 24
+        Test Accuracy: 0.764
+        
+
+        Phenotype: (((G[8,9] F[12,14] F[13,16] p1 U[3,11] F[2,15] !(p0 U[10,13] p1)) U[8,8] p1) | p0)
+        Fitness: 0.6932933187294632
+        Training Accuracy: 0.879 
+        Computation Length: 59 
+        Tree Depth: 7
+        Length: 82
+        Test Accuracy: 0.902
+        
+
+        Phenotype: (!!((p1 -> (p1 | p1)) | F[4,10] !p0) R[0,11] !!p1)
+        Fitness: 0.692813725490196
+        Training Accuracy: 0.765 
+        Computation Length: 22 
+        Tree Depth: 5
+        Length: 50
+        Test Accuracy: 0.764
+        
+
+        Phenotype: (!!!G[12,12] (p1 -> p1) U[0,10] p1)
+        Fitness: 0.6911616161616162
+        Training Accuracy: 0.765 
+        Computation Length: 23 
+        Tree Depth: 4
+        Length: 35
+        Test Accuracy: 0.764
+        
+
+        Phenotype: (!!!G[1,10] p1 R[3,10] p0)
+        Fitness: 0.6872791245791245
+        Training Accuracy: 0.753 
+        Computation Length: 21 
+        Tree Depth: 3
+        Length: 26
+        Test Accuracy: 0.774
+        
+
+        Phenotype: !((!((p1 U[3,3] p0) R[0,5] G[7,15] p0) | p1) R[3,10] !!!p1)
+        Fitness: 0.6816212121212122
+        Training Accuracy: 0.78 
+        Computation Length: 31 
+        Tree Depth: 5
+        Length: 59
+        Test Accuracy: 0.768
+        
+
+        Phenotype: (p1 | G[14,15] p0)
+        Fitness: 0.6791952153110048
+        Training Accuracy: 0.728 
+        Computation Length: 16 
+        Tree Depth: 3
+        Length: 18
+        Test Accuracy: 0.702
+        
+
+        Phenotype: (!(p0 & (F[7,11] p1 -> ((p1 U[7,16] p0) R[0,14] !p0))) -> p1)
+        Fitness: 0.6730181399245917
+        Training Accuracy: 0.771 
+        Computation Length: 31 
+        Tree Depth: 6
+        Length: 61
+        Test Accuracy: 0.77
+        
+
+        Phenotype: !(F[7,15] F[11,14] !(p1 R[7,15] p1) | G[4,6] ((F[5,14] p0 & p1) U[3,16] !p1))
+        Fitness: 0.6715708957708959
+        Training Accuracy: 0.812 
+        Computation Length: 45 
+        Tree Depth: 6
+        Length: 77
+        Test Accuracy: 0.812
+        
+
+        Phenotype: ((p1 U[8,10] p0) | (G[0,16] G[1,10] ((p0 & p1) R[12,14] G[5,5] p1) U[4,10] F[11,13] (!p1 U[4,4] (!p0 R[1,2] !p0))))
+        Fitness: 0.6662037617554858
+        Training Accuracy: 0.84 
+        Computation Length: 56 
+        Tree Depth: 7
+        Length: 115
+        Test Accuracy: 0.84
+        
+
+        Phenotype: !!F[9,11] !!p0
+        Fitness: 0.6591727272727272
+        Training Accuracy: 0.691 
+        Computation Length: 12 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 0.694
+        
+
+        Phenotype: (!p0 R[0,9] p1)
+        Fitness: 0.655364393939394
+        Training Accuracy: 0.687 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 15
+        Test Accuracy: 0.672
+        
+
+        Phenotype: F[4,10] (((!p1 & G[3,13] p0) | (!p1 -> ((p0 -> p1) U[0,5] (p0 | p1)))) R[1,5] p1)
+        Fitness: 0.6545188470066519
+        Training Accuracy: 0.745 
+        Computation Length: 29 
+        Tree Depth: 7
+        Length: 81
+        Test Accuracy: 0.738
+        
+
+        Phenotype: ((G[8,13] G[7,11] !p1 & !(F[5,6] (p0 U[4,4] p0) & ((p0 U[4,13] p1) & F[4,10] p0))) R[9,11] p1)
+        Fitness: 0.6519016404647984
+        Training Accuracy: 0.763 
+        Computation Length: 36 
+        Tree Depth: 6
+        Length: 94
+        Test Accuracy: 0.746
+        
+
+        Phenotype: (((p1 | p0) U[3,11] (!!!p0 R[6,9] !((p1 U[3,3] p1) | p1))) R[7,10] p0)
+        Fitness: 0.6503340954819828
+        Training Accuracy: 0.755 
+        Computation Length: 34 
+        Tree Depth: 6
+        Length: 70
+        Test Accuracy: 0.754
+        
+
+        Phenotype: !!(p0 R[4,10] !!p1)
+        Fitness: 0.6502666666666668
+        Training Accuracy: 0.679 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 19
+        Test Accuracy: 0.668
+        
+
+        Phenotype: ((!!(!p1 -> p1) & p0) R[4,10] p1)
+        Fitness: 0.6465705882352942
+        Training Accuracy: 0.679 
+        Computation Length: 11 
+        Tree Depth: 4
+        Length: 33
+        Test Accuracy: 0.668
+        
+
+        Phenotype: !!((F[0,15] (p0 U[0,5] p0) U[1,10] p1) R[3,10] !!p0)
+        Fitness: 0.6319585477415667
+        Training Accuracy: 0.755 
+        Computation Length: 41 
+        Tree Depth: 5
+        Length: 52
+        Test Accuracy: 0.774
+        
+
+        Phenotype: G[5,5] G[7,9] !p0
+        Fitness: 0.6235686868686868
+        Training Accuracy: 0.663 
+        Computation Length: 15 
+        Tree Depth: 3
+        Length: 17
+        Test Accuracy: 0.66
+        
+
+        Phenotype: G[2,10] G[12,12] !(G[1,16] p1 | ((p1 -> p1) & (p0 | p0)))
+        Fitness: 0.6206555754590237
+        Training Accuracy: 0.737 
+        Computation Length: 39 
+        Tree Depth: 6
+        Length: 57
+        Test Accuracy: 0.748
+        
+
+        Phenotype: !!G[13,14] p0
+        Fitness: 0.6170290043290043
+        Training Accuracy: 0.653 
+        Computation Length: 15 
+        Tree Depth: 2
+        Length: 13
+        Test Accuracy: 0.66
+        
+
+        Phenotype: !(((!!p1 & (p0 R[0,16] (p1 | p0))) -> G[12,12] ((p0 R[12,12] p0) R[1,16] !p0)) R[0,10] !p1)
+        Fitness: 0.6128097120271033
+        Training Accuracy: 0.765 
+        Computation Length: 51 
+        Tree Depth: 6
+        Length: 91
+        Test Accuracy: 0.764
+        
+
+        Phenotype: !!G[7,8] !!p0
+        Fitness: 0.6107835497835499
+        Training Accuracy: 0.64 
+        Computation Length: 9 
+        Tree Depth: 2
+        Length: 13
+        Test Accuracy: 0.618
+        
+
+        Phenotype: (((G[12,15] (G[2,12] p1 | (p0 R[8,12] p1)) | G[11,14] p1) U[6,14] p0) R[2,10] G[4,10] (!((p0 U[3,3] p0) U[6,9] p0) | !!p0))
+        Fitness: 0.6077850439882697
+        Training Accuracy: 0.763 
+        Computation Length: 52 
+        Tree Depth: 7
+        Length: 123
+        Test Accuracy: 0.778
+        
+
+        Phenotype: (F[4,6] (G[5,8] ((p1 U[11,12] p0) & p1) U[15,16] p1) U[0,10] p1)
+        Fitness: 0.6072237762237761
+        Training Accuracy: 0.765 
+        Computation Length: 53 
+        Tree Depth: 7
+        Length: 64
+        Test Accuracy: 0.764
+        
+
+        Phenotype: G[13,14] ((G[1,12] p0 | !p0) U[3,11] !p0)
+        Fitness: 0.5998874458874459
+        Training Accuracy: 0.71 
+        Computation Length: 38 
+        Tree Depth: 5
+        Length: 41
+        Test Accuracy: 0.708
+        
+
+        Phenotype: G[5,6] p0
+        Fitness: 0.5995575757575757
+        Training Accuracy: 0.632 
+        Computation Length: 7 
+        Tree Depth: 2
+        Length: 9
+        Test Accuracy: 0.63
+        
+
+        Phenotype: !(p1 U[14,14] !!p0)
+        Fitness: 0.5988575757575757
+        Training Accuracy: 0.634 
+        Computation Length: 15 
+        Tree Depth: 2
+        Length: 19
+        Test Accuracy: 0.632
+        
+
+        Phenotype: (G[8,12] p0 U[7,14] p0)
+        Fitness: 0.5964469696969698
+        Training Accuracy: 0.67 
+        Computation Length: 27 
+        Tree Depth: 3
+        Length: 23
+        Test Accuracy: 0.686
+        
+
+        Phenotype: F[3,12] !!p1
+        Fitness: 0.5939582750582751
+        Training Accuracy: 0.621 
+        Computation Length: 13 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 0.642
+        
+
+        Phenotype: !(((p0 | p0) U[8,10] p1) U[2,10] !p1)
+        Fitness: 0.5921430622009569
+        Training Accuracy: 0.649 
+        Computation Length: 21 
+        Tree Depth: 4
+        Length: 37
+        Test Accuracy: 0.656
+        
+
+        Phenotype: !!F[10,11] !!p0
+        Fitness: 0.588764393939394
+        Training Accuracy: 0.613 
+        Computation Length: 12 
+        Tree Depth: 2
+        Length: 15
+        Test Accuracy: 0.6
+        
+
+        Phenotype: !!F[1,9] !F[3,11] (p0 -> p0)
+        Fitness: 0.5880514106583071
+        Training Accuracy: 0.644 
+        Computation Length: 21 
+        Tree Depth: 4
+        Length: 28
+        Test Accuracy: 0.62
+        
+
+        Phenotype: F[3,10] G[3,11] (((p0 -> (p0 | p1)) | ((p0 & p1) R[4,14] !p0)) -> p0)
+        Fitness: 0.5860324675324674
+        Training Accuracy: 0.69 
+        Computation Length: 36 
+        Tree Depth: 7
+        Length: 69
+        Test Accuracy: 0.694
+        
+
+        Phenotype: !!!(!!p1 | !p0)
+        Fitness: 0.5831189393939394
+        Training Accuracy: 0.634 
+        Computation Length: 1 
+        Tree Depth: 2
+        Length: 15
+        Test Accuracy: 0.624
+        
+
+        Phenotype: !!!(!!p0 -> !!p1)
+        Fitness: 0.5827717171717172
+        Training Accuracy: 0.634 
+        Computation Length: 1 
+        Tree Depth: 2
+        Length: 17
+        Test Accuracy: 0.624
+        
+
+        Phenotype: !(G[7,14] p0 U[1,10] !F[5,9] (p1 R[4,13] !p1))
+        Fitness: 0.5825638297872341
+        Training Accuracy: 0.675 
+        Computation Length: 33 
+        Tree Depth: 4
+        Length: 46
+        Test Accuracy: 0.714
+        
+
+        Phenotype: G[0,16] G[12,12] p0
+        Fitness: 0.581509090909091
+        Training Accuracy: 0.659 
+        Computation Length: 29 
+        Tree Depth: 3
+        Length: 19
+        Test Accuracy: 0.656
+        
+
+        Phenotype: ((!(p1 U[1,9] !F[1,13] p0) U[2,6] F[12,14] G[9,12] G[1,11] (p0 -> p1)) -> !!(((p0 R[5,11] p0) R[3,3] (p0 R[9,9] p1)) R[12,15] G[3,5] F[7,15] p1))
+        Fitness: 0.5800424657534246
+        Training Accuracy: 0.708 
+        Computation Length: 44 
+        Tree Depth: 7
+        Length: 145
+        Test Accuracy: 0.71
+        
+
+        Phenotype: (!p0 & !!p1)
+        Fitness: 0.5793400932400933
+        Training Accuracy: 0.629 
+        Computation Length: 1 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 0.638
+        
+
+        Phenotype: (((G[11,13] ((p0 U[8,9] p1) R[4,11] (p0 -> p0)) -> (!(p1 R[4,8] p1) U[1,12] p1)) R[0,14] p0) & p0)
+        Fitness: 0.5773959595959595
+        Training Accuracy: 0.717 
+        Computation Length: 48 
+        Tree Depth: 7
+        Length: 98
+        Test Accuracy: 0.71
+        
+
+        Phenotype: ((p1 R[3,11] F[9,12] (((p1 U[9,9] p0) R[5,8] p0) U[10,16] !(p1 | p1))) U[0,10] p0)
+        Fitness: 0.5733751369112815
+        Training Accuracy: 0.77 
+        Computation Length: 67 
+        Tree Depth: 7
+        Length: 82
+        Test Accuracy: 0.75
+        
+
+        Phenotype: ((F[5,13] !(F[6,13] p0 R[6,10] (p1 -> p0)) | p1) R[8,11] G[5,9] (G[5,6] p1 U[4,13] !!p1))
+        Fitness: 0.5715036075036075
+        Training Accuracy: 0.71 
+        Computation Length: 48 
+        Tree Depth: 6
+        Length: 89
+        Test Accuracy: 0.708
+        
+
+        Phenotype: (p0 R[13,14] F[7,9] G[0,1] (((p0 -> p1) & p0) U[0,7] F[3,16] (p0 & p0)))
+        Fitness: 0.5712758405977584
+        Training Accuracy: 0.71 
+        Computation Length: 48 
+        Tree Depth: 7
+        Length: 72
+        Test Accuracy: 0.708
+        
+
+        Phenotype: ((p0 | (G[1,8] F[6,9] F[0,7] p0 -> (F[3,8] p1 & ((p1 & p1) & G[0,13] p1)))) U[0,10] !(p1 -> !!F[2,9] p0))
+        Fitness: 0.5624171526586622
+        Training Accuracy: 0.661 
+        Computation Length: 35 
+        Tree Depth: 7
+        Length: 105
+        Test Accuracy: 0.67
+        
+
+        Phenotype: !!G[12,14] !((p1 R[0,15] p1) | G[2,3] p1)
+        Fitness: 0.5602722943722944
+        Training Accuracy: 0.641 
+        Computation Length: 30 
+        Tree Depth: 4
+        Length: 41
+        Test Accuracy: 0.614
+        
+
+        Phenotype: !!G[0,10] !!(p1 R[15,15] p0)
+        Fitness: 0.5565150470219435
+        Training Accuracy: 0.623 
+        Computation Length: 26 
+        Tree Depth: 3
+        Length: 28
+        Test Accuracy: 0.626
+        
+
+        Phenotype: F[4,10] !F[1,10] p1
+        Fitness: 0.5556272727272726
+        Training Accuracy: 0.606 
+        Computation Length: 21 
+        Tree Depth: 3
+        Length: 19
+        Test Accuracy: 0.596
+        
+
+        Phenotype: (!(!((p0 | p0) U[2,9] (p0 | p1)) & (((p1 R[8,12] p1) | !p1) | (p1 U[0,13] G[0,16] p1))) U[1,10] !F[15,16] (p1 | !p1))
+        Fitness: 0.5553899625797932
+        Training Accuracy: 0.668 
+        Computation Length: 40 
+        Tree Depth: 6
+        Length: 117
+        Test Accuracy: 0.662
+        
+
+        Phenotype: (((p1 U[3,12] p0) -> (p0 R[4,14] p1)) R[8,12] (((p0 U[2,12] (!p1 R[6,7] G[7,7] p0)) | p1) & G[0,13] ((p1 -> G[15,15] p0) & G[4,16] !p0)))
+        Fitness: 0.5531168642951251
+        Training Accuracy: 0.672 
+        Computation Length: 42 
+        Tree Depth: 7
+        Length: 137
+        Test Accuracy: 0.676
+        
+
+        Phenotype: !((p0 R[5,12] (F[3,16] G[3,10] p0 -> !!p1)) | !p0)
+        Fitness: 0.5514738986503693
+        Training Accuracy: 0.66 
+        Computation Length: 39 
+        Tree Depth: 6
+        Length: 50
+        Test Accuracy: 0.66
+        
+
+        Phenotype: G[0,10] !F[15,15] p0
+        Fitness: 0.5508718614718615
+        Training Accuracy: 0.616 
+        Computation Length: 26 
+        Tree Depth: 3
+        Length: 20
+        Test Accuracy: 0.65
+        
+
+        Phenotype: !G[2,10] !!F[4,10] p0
+        Fitness: 0.55
+        Training Accuracy: 0.6 
+        Computation Length: 21 
+        Tree Depth: 3
+        Length: 21
+        Test Accuracy: 0.608
+        
+
+        Phenotype: !F[0,2] !p1
+        Fitness: 0.5437151515151515
+        Training Accuracy: 0.583 
+        Computation Length: 3 
+        Tree Depth: 2
+        Length: 11
+        Test Accuracy: 0.584
+        
+
+        Phenotype: (((p0 U[11,13] p1) | !!F[5,14] (p0 -> p0)) R[2,10] G[9,12] !!!p0)
+        Fitness: 0.5404090909090908
+        Training Accuracy: 0.605 
+        Computation Length: 25 
+        Tree Depth: 5
+        Length: 65
+        Test Accuracy: 0.614
+        
+
+        Phenotype: !((G[8,12] !(p0 & p0) | (!(p1 | p0) & (F[5,9] p0 -> (p0 -> p0)))) | (G[3,14] p0 U[8,15] p0))
+        Fitness: 0.5368765954475632
+        Training Accuracy: 0.617 
+        Computation Length: 30 
+        Tree Depth: 6
+        Length: 92
+        Test Accuracy: 0.63
+        
+
+        Phenotype: F[1,13] !!!!p1
+        Fitness: 0.535818181818182
+        Training Accuracy: 0.56 
+        Computation Length: 14 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 0.564
+        
+
+        Phenotype: !!F[4,13] p0
+        Fitness: 0.5345310023310025
+        Training Accuracy: 0.558 
+        Computation Length: 14 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 0.576
+        
+
+        Phenotype: (!!((G[12,16] p0 | (p1 U[1,7] p1)) -> p0) R[1,10] F[3,16] !p0)
+        Fitness: 0.5250906204906204
+        Training Accuracy: 0.594 
+        Computation Length: 27 
+        Tree Depth: 5
+        Length: 62
+        Test Accuracy: 0.592
+        
+
+        Phenotype: ((p0 -> p0) U[1,8] !F[3,12] !!p0)
+        Fitness: 0.5239978609625667
+        Training Accuracy: 0.572 
+        Computation Length: 21 
+        Tree Depth: 3
+        Length: 33
+        Test Accuracy: 0.57
+        
+
+        Phenotype: !F[8,11] !!!p0
+        Fitness: 0.5214727272727273
+        Training Accuracy: 0.538 
+        Computation Length: 12 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 0.524
+        
+
+        Phenotype: (((!F[0,16] !p0 -> (F[6,6] !p1 | ((p1 U[1,7] p0) U[11,14] (p0 U[9,16] p0)))) | ((F[1,16] p0 U[7,14] (G[3,15] p0 & !p0)) R[6,15] (G[1,4] F[5,10] p0 U[0,8] (F[10,11] p0 & (p0 R[5,15] p0))))) U[4,10] G[4,10] !p1)
+        Fitness: 0.5202108225108225
+        Training Accuracy: 0.678 
+        Computation Length: 56 
+        Tree Depth: 7
+        Length: 209
+        Test Accuracy: 0.716
+        
+
+        Phenotype: F[7,7] (p0 R[4,7] p0)
+        Fitness: 0.5141636363636365
+        Training Accuracy: 0.542 
+        Computation Length: 15 
+        Tree Depth: 3
+        Length: 21
+        Test Accuracy: 0.534
+        
+
+        Phenotype: !F[6,10] !p1
+        Fitness: 0.5094128205128206
+        Training Accuracy: 0.521 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 0.52
+        
+
+        Phenotype: !!G[2,5] !!p0
+        Fitness: 0.5090017316017317
+        Training Accuracy: 0.536 
+        Computation Length: 6 
+        Tree Depth: 2
+        Length: 13
+        Test Accuracy: 0.53
+        
+
+        Phenotype: (G[2,15] (!(!p0 R[2,14] p1) R[10,13] (F[13,16] (p0 R[1,15] p0) | (F[3,7] p1 U[3,13] (p1 & p0)))) R[10,11] !F[3,11] !!p1)
+        Fitness: 0.5064768595041322
+        Training Accuracy: 0.708 
+        Computation Length: 71 
+        Tree Depth: 7
+        Length: 120
+        Test Accuracy: 0.72
+        
+
+        Phenotype: !!F[1,14] !!p0
+        Fitness: 0.5042909090909091
+        Training Accuracy: 0.528 
+        Computation Length: 15 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 0.544
+        
+
+        Phenotype: !G[2,10] !(((p0 R[12,12] p0) R[2,6] p0) | (!p0 U[12,12] (p1 & p0)))
+        Fitness: 0.5033777183600713
+        Training Accuracy: 0.576 
+        Computation Length: 29 
+        Tree Depth: 5
+        Length: 67
+        Test Accuracy: 0.582
+        
+
+        Phenotype: (!!!p0 R[0,3] p0)
+        Fitness: 0.5027535353535354
+        Training Accuracy: 0.536 
+        Computation Length: 4 
+        Tree Depth: 2
+        Length: 17
+        Test Accuracy: 0.536
+        
+
+        Phenotype: F[8,9] !(p1 U[6,13] p1)
+        Fitness: 0.5011560606060607
+        Training Accuracy: 0.552 
+        Computation Length: 23 
+        Tree Depth: 3
+        Length: 23
+        Test Accuracy: 0.568
+        
+
+        Phenotype: (p0 U[3,10] (!!p1 R[5,9] !!!p0))
+        Fitness: 0.500669696969697
+        Training Accuracy: 0.543 
+        Computation Length: 20 
+        Tree Depth: 3
+        Length: 32
+        Test Accuracy: 0.542
+        
+
+        Phenotype: !!G[1,5] p1
+        Fitness: 0.49789696969696967
+        Training Accuracy: 0.523 
+        Computation Length: 6 
+        Tree Depth: 2
+        Length: 11
+        Test Accuracy: 0.522
+        
+
+        Phenotype: !G[5,15] !p0
+        Fitness: 0.49757645687645685
+        Training Accuracy: 0.523 
+        Computation Length: 16 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 0.53
+        
+
+        Phenotype: G[4,10] !!!!p1
+        Fitness: 0.4972
+        Training Accuracy: 0.508 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 0.51
+        
+
+        Phenotype: F[4,15] !!!!p0
+        Fitness: 0.4970636363636364
+        Training Accuracy: 0.523 
+        Computation Length: 16 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 0.532
+        
+
+        Phenotype: !!G[6,11] !!p0
+        Fitness: 0.4962727272727273
+        Training Accuracy: 0.51 
+        Computation Length: 12 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[1,10] F[0,5] p1
+        Fitness: 0.49574141414141415
+        Training Accuracy: 0.524 
+        Computation Length: 16 
+        Tree Depth: 3
+        Length: 17
+        Test Accuracy: 0.522
+        
+
+        Phenotype: !G[0,10] !!!(p0 U[3,11] p1)
+        Fitness: 0.4954857142857143
+        Training Accuracy: 0.543 
+        Computation Length: 22 
+        Tree Depth: 3
+        Length: 27
+        Test Accuracy: 0.542
+        
+
+        Phenotype: F[4,10] !!G[6,16] !p0
+        Fitness: 0.49493636363636373
+        Training Accuracy: 0.557 
+        Computation Length: 27 
+        Tree Depth: 3
+        Length: 21
+        Test Accuracy: 0.554
+        
+
+        Phenotype: F[2,16] !!p1
+        Fitness: 0.4948491841491841
+        Training Accuracy: 0.523 
+        Computation Length: 17 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 0.52
+        
+
+        Phenotype: !!F[1,16] !!p1
+        Fitness: 0.49433636363636363
+        Training Accuracy: 0.523 
+        Computation Length: 17 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 0.52
+        
+
+        Phenotype: !((!!!p1 & (F[8,10] p0 & ((p1 & p0) & p0))) | ((p1 | !G[10,15] p1) | p1))
+        Fitness: 0.4932964548964549
+        Training Accuracy: 0.526 
+        Computation Length: 16 
+        Tree Depth: 6
+        Length: 73
+        Test Accuracy: 0.53
+        
+
+        Phenotype: !G[2,10] !!F[0,13] p1
+        Fitness: 0.4932181818181819
+        Training Accuracy: 0.546 
+        Computation Length: 24 
+        Tree Depth: 3
+        Length: 21
+        Test Accuracy: 0.532
+        
+
+        Phenotype: F[5,16] !!!!p0
+        Fitness: 0.49253636363636366
+        Training Accuracy: 0.521 
+        Computation Length: 17 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 0.524
+        
+
+        Phenotype: !F[1,10] !p1
+        Fitness: 0.4923128205128205
+        Training Accuracy: 0.502 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 0.504
+        
+
+        Phenotype: (!p1 U[2,13] p0)
+        Fitness: 0.4922260249554367
+        Training Accuracy: 0.512 
+        Computation Length: 14 
+        Tree Depth: 2
+        Length: 16
+        Test Accuracy: 0.494
+        
+
+        Phenotype: (p1 U[0,10] !!G[5,9] p0)
+        Fitness: 0.49215454545454546
+        Training Accuracy: 0.533 
+        Computation Length: 20 
+        Tree Depth: 3
+        Length: 24
+        Test Accuracy: 0.524
+        
+
+        Phenotype: (!p0 R[1,9] p0)
+        Fitness: 0.49066439393939393
+        Training Accuracy: 0.504 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 15
+        Test Accuracy: 0.5
+        
+
+        Phenotype: (!p0 R[1,9] p0)
+        Fitness: 0.49066439393939393
+        Training Accuracy: 0.504 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 15
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[1,9] !!G[2,9] F[8,11] (p0 | p0)
+        Fitness: 0.4905857397504456
+        Training Accuracy: 0.564 
+        Computation Length: 30 
+        Tree Depth: 5
+        Length: 33
+        Test Accuracy: 0.56
+        
+
+        Phenotype: !!G[7,13] p0
+        Fitness: 0.4904310023310023
+        Training Accuracy: 0.509 
+        Computation Length: 14 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 0.504
+        
+
+        Phenotype: G[0,14] (p1 | p0)
+        Fitness: 0.4903686868686869
+        Training Accuracy: 0.515 
+        Computation Length: 15 
+        Tree Depth: 3
+        Length: 17
+        Test Accuracy: 0.518
+        
+
+        Phenotype: !!G[0,10] !!p1
+        Fitness: 0.49
+        Training Accuracy: 0.5 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 0.502
+        
+
+        Phenotype: !!F[7,15] !!p0
+        Fitness: 0.4898636363636364
+        Training Accuracy: 0.515 
+        Computation Length: 16 
+        Tree Depth: 2
+        Length: 14
+        Test Accuracy: 0.52
+        
+
+        Phenotype: !!F[0,10] !!!p1
+        Fitness: 0.4897916666666666
+        Training Accuracy: 0.5 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 15
+        Test Accuracy: 0.498
+        
+
+        Phenotype: !F[1,9] !!!p1
+        Fitness: 0.48931082251082253
+        Training Accuracy: 0.502 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 13
+        Test Accuracy: 0.504
+        
+
+        Phenotype: G[3,11] !!p1
+        Fitness: 0.4886855477855478
+        Training Accuracy: 0.501 
+        Computation Length: 12 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 0.504
+        
+
+        Phenotype: !(!p0 | F[3,10] p1)
+        Fitness: 0.4884
+        Training Accuracy: 0.501 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 19
+        Test Accuracy: 0.5
+        
+
+        Phenotype: ((p1 | p0) U[3,10] (!(!!p0 U[3,3] p1) U[3,11] !!(!p0 R[4,7] p1)))
+        Fitness: 0.4878666666666667
+        Training Accuracy: 0.558 
+        Computation Length: 29 
+        Tree Depth: 4
+        Length: 65
+        Test Accuracy: 0.56
+        
+
+        Phenotype: F[5,10] (p1 | !p1)
+        Fitness: 0.4876315789473684
+        Training Accuracy: 0.5 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 18
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !G[0,10] (p1 | p1)
+        Fitness: 0.4876315789473684
+        Training Accuracy: 0.5 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 18
+        Test Accuracy: 0.498
+        
+
+        Phenotype: F[2,10] (p0 | !!!p0)
+        Fitness: 0.48738095238095236
+        Training Accuracy: 0.5 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 20
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[2,10] !!!!(p0 -> p0)
+        Fitness: 0.48717391304347823
+        Training Accuracy: 0.5 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 22
+        Test Accuracy: 0.5
+        
+
+        Phenotype: ((p1 R[0,10] p1) -> p1)
+        Fitness: 0.4870833333333333
+        Training Accuracy: 0.5 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 23
+        Test Accuracy: 0.5
+        
+
+        Phenotype: G[0,5] !!!!p1
+        Fitness: 0.4865017316017316
+        Training Accuracy: 0.511 
+        Computation Length: 6 
+        Tree Depth: 2
+        Length: 13
+        Test Accuracy: 0.508
+        
+
+        Phenotype: (p1 & G[2,9] p1)
+        Fitness: 0.48611390374331553
+        Training Accuracy: 0.501 
+        Computation Length: 10 
+        Tree Depth: 3
+        Length: 16
+        Test Accuracy: 0.504
+        
+
+        Phenotype: (!p1 R[6,14] p1)
+        Fitness: 0.484998752228164
+        Training Accuracy: 0.507 
+        Computation Length: 15 
+        Tree Depth: 2
+        Length: 16
+        Test Accuracy: 0.506
+        
+
+        Phenotype: F[1,9] (!p1 | !p0)
+        Fitness: 0.4849043062200957
+        Training Accuracy: 0.5 
+        Computation Length: 10 
+        Tree Depth: 3
+        Length: 18
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[2,10] (!p1 & !p1)
+        Fitness: 0.48480000000000006
+        Training Accuracy: 0.497 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 19
+        Test Accuracy: 0.496
+        
+
+        Phenotype: !G[0,10] !(p1 | (!p1 | (p1 | p0)))
+        Fitness: 0.4847619047619048
+        Training Accuracy: 0.5 
+        Computation Length: 11 
+        Tree Depth: 5
+        Length: 34
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[3,10] !((!!p0 -> (p0 | p1)) | p1)
+        Fitness: 0.4847222222222222
+        Training Accuracy: 0.5 
+        Computation Length: 11 
+        Tree Depth: 5
+        Length: 35
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[1,9] !F[0,0] p1
+        Fitness: 0.48325050505050504
+        Training Accuracy: 0.498 
+        Computation Length: 10 
+        Tree Depth: 3
+        Length: 17
+        Test Accuracy: 0.496
+        
+
+        Phenotype: F[4,12] !p1
+        Fitness: 0.48177878787878786
+        Training Accuracy: 0.496 
+        Computation Length: 13 
+        Tree Depth: 2
+        Length: 11
+        Test Accuracy: 0.496
+        
+
+        Phenotype: G[4,10] (!(!F[6,9] p0 | ((p0 & p0) U[6,10] (p0 R[13,13] p0))) R[6,11] (!(G[1,2] p1 | !p1) | (p0 & p0)))
+        Fitness: 0.48151063936063937
+        Training Accuracy: 0.601 
+        Computation Length: 45 
+        Tree Depth: 6
+        Length: 103
+        Test Accuracy: 0.582
+        
+
+        Phenotype: F[5,10] ((!((p0 U[5,5] p0) & (p1 | p0)) U[15,16] (!G[12,14] p0 | ((p0 U[1,10] p1) R[2,15] G[0,8] p1))) R[4,16] p0)
+        Fitness: 0.4804802371541503
+        Training Accuracy: 0.67 
+        Computation Length: 68 
+        Tree Depth: 7
+        Length: 114
+        Test Accuracy: 0.67
+        
+
+        Phenotype: !F[6,16] !p1
+        Fitness: 0.48044918414918414
+        Training Accuracy: 0.507 
+        Computation Length: 17 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 0.506
+        
+
+        Phenotype: !G[4,10] (p1 | p1)
+        Fitness: 0.48043157894736843
+        Training Accuracy: 0.492 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 18
+        Test Accuracy: 0.49
+        
+
+        Phenotype: F[1,9] !(p0 | !!(p0 | p0))
+        Fitness: 0.47952457912457913
+        Training Accuracy: 0.496 
+        Computation Length: 10 
+        Tree Depth: 4
+        Length: 26
+        Test Accuracy: 0.5
+        
+
+        Phenotype: G[1,15] p1
+        Fitness: 0.47757575757575754
+        Training Accuracy: 0.5 
+        Computation Length: 16 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 0.502
+        
+
+        Phenotype: (!p1 R[1,15] p1)
+        Fitness: 0.47597147950089125
+        Training Accuracy: 0.5 
+        Computation Length: 16 
+        Tree Depth: 2
+        Length: 16
+        Test Accuracy: 0.502
+        
+
+        Phenotype: !!G[1,16] p0
+        Fitness: 0.4750491841491841
+        Training Accuracy: 0.501 
+        Computation Length: 17 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !!F[0,9] G[7,9] ((p0 U[10,13] p0) | p0)
+        Fitness: 0.4750106060606061
+        Training Accuracy: 0.553 
+        Computation Length: 32 
+        Tree Depth: 5
+        Length: 39
+        Test Accuracy: 0.54
+        
+
+        Phenotype: !G[0,10] (!!!p0 & !F[3,11] p0)
+        Fitness: 0.47451290322580647
+        Training Accuracy: 0.521 
+        Computation Length: 22 
+        Tree Depth: 4
+        Length: 30
+        Test Accuracy: 0.526
+        
+
+        Phenotype: !G[7,8] F[1,12] p0
+        Fitness: 0.4738588516746412
+        Training Accuracy: 0.515 
+        Computation Length: 21 
+        Tree Depth: 3
+        Length: 18
+        Test Accuracy: 0.508
+        
+
+        Phenotype: F[1,10] !G[0,5] p0
+        Fitness: 0.4730952153110048
+        Training Accuracy: 0.499 
+        Computation Length: 16 
+        Tree Depth: 3
+        Length: 18
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !!F[2,10] !G[2,4] p0
+        Fitness: 0.4728718614718615
+        Training Accuracy: 0.496 
+        Computation Length: 15 
+        Tree Depth: 3
+        Length: 20
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[3,10] !G[3,4] !!p0
+        Fitness: 0.4719718614718615
+        Training Accuracy: 0.495 
+        Computation Length: 15 
+        Tree Depth: 3
+        Length: 20
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[4,10] !!(!(p0 | p0) | F[1,5] (p1 | p0))
+        Fitness: 0.4708874458874459
+        Training Accuracy: 0.5 
+        Computation Length: 16 
+        Tree Depth: 5
+        Length: 41
+        Test Accuracy: 0.5
+        
+
+        Phenotype: (!p1 U[10,13] p0)
+        Fitness: 0.46506262626262623
+        Training Accuracy: 0.482 
+        Computation Length: 14 
+        Tree Depth: 2
+        Length: 17
+        Test Accuracy: 0.47
+        
+
+        Phenotype: (!(!p0 | ((p1 | !p1) U[2,9] !(p0 R[0,8] p1))) -> !F[5,11] p0)
+        Fitness: 0.4650488758553275
+        Training Accuracy: 0.5 
+        Computation Length: 18 
+        Tree Depth: 5
+        Length: 61
+        Test Accuracy: 0.498
+        
+
+        Phenotype: !G[10,13] !p1
+        Fitness: 0.464956277056277
+        Training Accuracy: 0.481 
+        Computation Length: 14 
+        Tree Depth: 2
+        Length: 13
+        Test Accuracy: 0.498
+        
+
+        Phenotype: !!!F[1,2] (G[15,16] p0 | p1)
+        Fitness: 0.4639059561128527
+        Training Accuracy: 0.5 
+        Computation Length: 19 
+        Tree Depth: 4
+        Length: 28
+        Test Accuracy: 0.5
+        
+
+        Phenotype: G[1,9] !!!!G[3,11] p0
+        Fitness: 0.4636
+        Training Accuracy: 0.504 
+        Computation Length: 21 
+        Tree Depth: 3
+        Length: 21
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[2,9] !F[9,10] p0
+        Fitness: 0.4630861244019139
+        Training Accuracy: 0.5 
+        Computation Length: 20 
+        Tree Depth: 3
+        Length: 18
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[0,10] ((!((p0 -> p0) U[15,16] G[8,12] p0) & F[3,11] p1) -> !!p0)
+        Fitness: 0.4630397751502229
+        Training Accuracy: 0.562 
+        Computation Length: 39 
+        Tree Depth: 6
+        Length: 66
+        Test Accuracy: 0.542
+        
+
+        Phenotype: !G[4,4] F[15,15] p1
+        Fitness: 0.46295454545454545
+        Training Accuracy: 0.5 
+        Computation Length: 20 
+        Tree Depth: 3
+        Length: 19
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[7,7] !!!!G[12,12] p1
+        Fitness: 0.4626284584980237
+        Training Accuracy: 0.5 
+        Computation Length: 20 
+        Tree Depth: 3
+        Length: 22
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[5,10] !(p0 U[6,12] p0)
+        Fitness: 0.46147272727272726
+        Training Accuracy: 0.508 
+        Computation Length: 23 
+        Tree Depth: 3
+        Length: 24
+        Test Accuracy: 0.502
+        
+
+        Phenotype: !!F[1,14] !(p0 U[4,5] (p1 & p1))
+        Fitness: 0.460969696969697
+        Training Accuracy: 0.5 
+        Computation Length: 20 
+        Tree Depth: 4
+        Length: 32
+        Test Accuracy: 0.5
+        
+
+        Phenotype: G[0,9] G[9,16] !p0
+        Fitness: 0.46022248803827753
+        Training Accuracy: 0.515 
+        Computation Length: 26 
+        Tree Depth: 3
+        Length: 18
+        Test Accuracy: 0.508
+        
+
+        Phenotype: F[4,10] !!(!(p1 U[2,9] p0) | (p0 | (p0 | p0)))
+        Fitness: 0.4598517085751128
+        Training Accuracy: 0.5 
+        Computation Length: 20 
+        Tree Depth: 5
+        Length: 46
+        Test Accuracy: 0.5
+        
+
+        Phenotype: (G[10,13] p1 R[2,3] !G[6,12] !!p1)
+        Fitness: 0.4583649350649351
+        Training Accuracy: 0.487 
+        Computation Length: 17 
+        Tree Depth: 3
+        Length: 34
+        Test Accuracy: 0.48
+        
+
+        Phenotype: !!!(!(p0 | p0) | (p0 & (p0 | p1)))
+        Fitness: 0.4581558441558442
+        Training Accuracy: 0.5 
+        Computation Length: 1 
+        Tree Depth: 4
+        Length: 34
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !G[0,10] (G[4,15] (!p0 | p1) U[3,11] p1)
+        Fitness: 0.45774375461936445
+        Training Accuracy: 0.549 
+        Computation Length: 37 
+        Tree Depth: 5
+        Length: 40
+        Test Accuracy: 0.538
+        
+
+        Phenotype: F[2,10] F[1,10] !p0
+        Fitness: 0.4575272727272728
+        Training Accuracy: 0.497 
+        Computation Length: 21 
+        Tree Depth: 3
+        Length: 19
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[5,16] (!!p0 R[3,5] !p0)
+        Fitness: 0.45692307692307693
+        Training Accuracy: 0.5 
+        Computation Length: 22 
+        Tree Depth: 3
+        Length: 25
+        Test Accuracy: 0.5
+        
+
+        Phenotype: (p0 & !(!!F[10,10] p0 | (((p0 -> p1) R[7,11] (p0 R[0,15] p0)) R[8,16] p1)))
+        Fitness: 0.45654231032125764
+        Training Accuracy: 0.567 
+        Computation Length: 43 
+        Tree Depth: 6
+        Length: 75
+        Test Accuracy: 0.578
+        
+
+        Phenotype: F[1,9] !G[3,11] !!p1
+        Fitness: 0.45650822510822514
+        Training Accuracy: 0.496 
+        Computation Length: 21 
+        Tree Depth: 3
+        Length: 20
+        Test Accuracy: 0.498
+        
+
+        Phenotype: !G[5,9] !(G[0,0] p0 -> G[4,10] !p1)
+        Fitness: 0.45634343434343433
+        Training Accuracy: 0.495 
+        Computation Length: 20 
+        Tree Depth: 4
+        Length: 35
+        Test Accuracy: 0.498
+        
+
+        Phenotype: F[3,10] (G[6,11] p1 | !p1)
+        Fitness: 0.45585185185185184
+        Training Accuracy: 0.5 
+        Computation Length: 22 
+        Tree Depth: 4
+        Length: 26
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !!F[1,10] F[0,12] !p1
+        Fitness: 0.45454545454545453
+        Training Accuracy: 0.5 
+        Computation Length: 23 
+        Tree Depth: 3
+        Length: 21
+        Test Accuracy: 0.498
+        
+
+        Phenotype: F[4,14] (!(!(p0 -> p1) & (!p0 -> p0)) | ((p0 -> !!p0) R[4,7] !!p0))
+        Fitness: 0.4540686274509804
+        Training Accuracy: 0.5 
+        Computation Length: 22 
+        Tree Depth: 5
+        Length: 67
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !!!F[0,5] G[11,12] p1
+        Fitness: 0.4537818181818182
+        Training Accuracy: 0.484 
+        Computation Length: 18 
+        Tree Depth: 3
+        Length: 21
+        Test Accuracy: 0.492
+        
+
+        Phenotype: (p0 U[4,10] F[6,12] !(p1 | !p1))
+        Fitness: 0.4527878787878788
+        Training Accuracy: 0.5 
+        Computation Length: 23 
+        Tree Depth: 4
+        Length: 32
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[3,10] !F[12,13] p1
+        Fitness: 0.45192640692640695
+        Training Accuracy: 0.5 
+        Computation Length: 24 
+        Tree Depth: 3
+        Length: 20
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !!F[2,10] !(G[1,10] p1 | p0)
+        Fitness: 0.45125141065830726
+        Training Accuracy: 0.492 
+        Computation Length: 21 
+        Tree Depth: 4
+        Length: 28
+        Test Accuracy: 0.496
+        
+
+        Phenotype: !F[2,10] (!(p1 U[0,1] p1) R[12,12] p0)
+        Fitness: 0.44982750582750586
+        Training Accuracy: 0.5 
+        Computation Length: 24 
+        Tree Depth: 4
+        Length: 38
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[10,11] !!!!(p0 -> p1)
+        Fitness: 0.44925606060606066
+        Training Accuracy: 0.461 
+        Computation Length: 12 
+        Tree Depth: 3
+        Length: 23
+        Test Accuracy: 0.454
+        
+
+        Phenotype: !!((G[4,16] p1 R[2,9] (F[10,13] p1 | (p0 U[3,13] p1))) R[2,10] p0)
+        Fitness: 0.4491977838082316
+        Training Accuracy: 0.537 
+        Computation Length: 36 
+        Tree Depth: 5
+        Length: 66
+        Test Accuracy: 0.538
+        
+
+        Phenotype: F[8,16] G[2,9] p0
+        Fitness: 0.44686868686868686
+        Training Accuracy: 0.5 
+        Computation Length: 26 
+        Tree Depth: 3
+        Length: 17
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !G[5,9] (p0 U[4,5] p1)
+        Fitness: 0.44656482213438736
+        Training Accuracy: 0.467 
+        Computation Length: 15 
+        Tree Depth: 3
+        Length: 22
+        Test Accuracy: 0.474
+        
+
+        Phenotype: F[0,10] !!F[7,14] (!p0 | (p0 & p0))
+        Fitness: 0.44654040404040407
+        Training Accuracy: 0.5 
+        Computation Length: 25 
+        Tree Depth: 5
+        Length: 35
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !G[0,10] F[15,15] p1
+        Fitness: 0.44647186147186146
+        Training Accuracy: 0.5 
+        Computation Length: 26 
+        Tree Depth: 3
+        Length: 20
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[2,13] !((!(p0 -> p1) & p1) U[7,11] !!p1)
+        Fitness: 0.44631430584918963
+        Training Accuracy: 0.5 
+        Computation Length: 25 
+        Tree Depth: 5
+        Length: 42
+        Test Accuracy: 0.5
+        
+
+        Phenotype: (G[3,8] G[3,6] (!p0 -> p0) U[3,10] !(!((p0 -> p0) | F[6,12] p1) & (!(p0 -> p0) | (p1 & (p0 R[9,13] p0)))))
+        Fitness: 0.44514261439495084
+        Training Accuracy: 0.5 
+        Computation Length: 25 
+        Tree Depth: 6
+        Length: 106
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !(((!!p1 -> G[4,11] p1) R[2,9] p1) | F[0,10] !(!p0 | (p0 | p0)))
+        Fitness: 0.44512983682983687
+        Training Accuracy: 0.487 
+        Computation Length: 21 
+        Tree Depth: 5
+        Length: 64
+        Test Accuracy: 0.486
+        
+
+        Phenotype: (!(F[6,7] p1 R[5,9] (p1 R[4,13] !p1)) | !F[1,14] p0)
+        Fitness: 0.4450161234991424
+        Training Accuracy: 0.492 
+        Computation Length: 23 
+        Tree Depth: 4
+        Length: 52
+        Test Accuracy: 0.488
+        
+
+        Phenotype: (F[0,9] G[9,16] p0 | !p0)
+        Fitness: 0.445013986013986
+        Training Accuracy: 0.5 
+        Computation Length: 26 
+        Tree Depth: 4
+        Length: 25
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[4,10] !(p0 | !(!p0 & (p0 R[12,12] p0)))
+        Fitness: 0.4445965367965368
+        Training Accuracy: 0.492 
+        Computation Length: 23 
+        Tree Depth: 5
+        Length: 41
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !!G[0,10] !!G[0,16] p1
+        Fitness: 0.44353754940711465
+        Training Accuracy: 0.5 
+        Computation Length: 27 
+        Tree Depth: 3
+        Length: 22
+        Test Accuracy: 0.502
+        
+
+        Phenotype: F[0,10] !!!((p1 | p0) U[2,9] p0)
+        Fitness: 0.44296969696969696
+        Training Accuracy: 0.48 
+        Computation Length: 20 
+        Tree Depth: 4
+        Length: 32
+        Test Accuracy: 0.488
+        
+
+        Phenotype: !!F[5,11] !(p1 U[8,16] p1)
+        Fitness: 0.4404882154882155
+        Training Accuracy: 0.5 
+        Computation Length: 28 
+        Tree Depth: 3
+        Length: 26
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !(!(!p1 | (!p0 -> !p0)) -> ((G[6,7] !p1 | F[3,11] p0) R[10,15] p1))
+        Fitness: 0.4404322638146168
+        Training Accuracy: 0.5 
+        Computation Length: 27 
+        Tree Depth: 5
+        Length: 67
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !((G[3,13] !(p1 U[10,12] p0) | F[0,10] (!p1 R[2,4] F[1,12] p0)) | !p1)
+        Fitness: 0.4399250045728919
+        Training Accuracy: 0.5 
+        Computation Length: 27 
+        Tree Depth: 6
+        Length: 70
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !(F[0,9] (F[0,13] G[0,4] p1 | G[7,16] p1) | !(!(p0 -> p0) & (p1 | (p0 | p1))))
+        Fitness: 0.4398536906131843
+        Training Accuracy: 0.5 
+        Computation Length: 27 
+        Tree Depth: 6
+        Length: 78
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !G[3,10] (p0 R[0,16] !!p0)
+        Fitness: 0.4387154882154882
+        Training Accuracy: 0.495 
+        Computation Length: 27 
+        Tree Depth: 3
+        Length: 26
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !G[4,14] !((G[1,12] p1 & (p0 U[9,13] p0)) & !!p0)
+        Fitness: 0.437969696969697
+        Training Accuracy: 0.5 
+        Computation Length: 28 
+        Tree Depth: 5
+        Length: 49
+        Test Accuracy: 0.5
+        
+
+        Phenotype: (p0 R[3,10] F[0,16] !p1)
+        Fitness: 0.4379636363636364
+        Training Accuracy: 0.494 
+        Computation Length: 27 
+        Tree Depth: 3
+        Length: 24
+        Test Accuracy: 0.496
+        
+
+        Phenotype: F[1,8] ((!!(p1 & p0) R[4,14] !G[3,4] !p0) | !(((p0 | p1) U[3,12] (p0 & p0)) & ((p1 -> p0) -> p0)))
+        Fitness: 0.4379258297258297
+        Training Accuracy: 0.498 
+        Computation Length: 27 
+        Tree Depth: 6
+        Length: 98
+        Test Accuracy: 0.498
+        
+
+        Phenotype: G[1,9] (!(p0 -> p0) R[3,11] !p1)
+        Fitness: 0.4375424242424243
+        Training Accuracy: 0.477 
+        Computation Length: 21 
+        Tree Depth: 4
+        Length: 32
+        Test Accuracy: 0.48
+        
+
+        Phenotype: F[2,2] !(!((p0 | p1) R[9,16] F[14,16] p1) U[8,10] !!(p1 U[1,2] p1))
+        Fitness: 0.43724135472370773
+        Training Accuracy: 0.551 
+        Computation Length: 45 
+        Tree Depth: 5
+        Length: 67
+        Test Accuracy: 0.554
+        
+
+        Phenotype: F[0,10] G[2,9] G[6,9] p1
+        Fitness: 0.4369090909090909
+        Training Accuracy: 0.5 
+        Computation Length: 29 
+        Tree Depth: 4
+        Length: 24
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[3,10] !!(G[1,11] p1 R[7,7] !p1)
+        Fitness: 0.436379679144385
+        Training Accuracy: 0.5 
+        Computation Length: 29 
+        Tree Depth: 4
+        Length: 33
+        Test Accuracy: 0.5
+        
+
+        Phenotype: (((G[5,7] ((p0 U[5,10] p0) & (p0 U[7,7] p0)) & !p1) | (G[3,15] ((p0 -> p0) & !p1) R[1,10] F[4,9] ((p0 U[12,12] p1) R[2,11] (p0 R[4,15] p1)))) R[4,10] !!p0)
+        Fitness: 0.43479324009324005
+        Training Accuracy: 0.583 
+        Computation Length: 56 
+        Tree Depth: 7
+        Length: 155
+        Test Accuracy: 0.568
+        
+
+        Phenotype: F[7,12] (p1 R[7,16] !(p1 -> ((p0 | p1) -> (p0 | p0))))
+        Fitness: 0.43467532467532466
+        Training Accuracy: 0.5 
+        Computation Length: 29 
+        Tree Depth: 6
+        Length: 54
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !(F[1,15] (p0 U[6,15] p0) | G[3,4] F[5,9] ((p1 -> p0) | (p1 -> p0)))
+        Fitness: 0.42993632599284776
+        Training Accuracy: 0.501 
+        Computation Length: 31 
+        Tree Depth: 6
+        Length: 68
+        Test Accuracy: 0.502
+        
+
+        Phenotype: ((F[9,13] G[4,4] p0 | p1) U[3,12] F[2,4] (p1 R[7,14] !p0))
+        Fitness: 0.42963533641499746
+        Training Accuracy: 0.5 
+        Computation Length: 31 
+        Tree Depth: 5
+        Length: 58
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !!(p1 R[15,16] !!G[5,15] p0)
+        Fitness: 0.4294514106583072
+        Training Accuracy: 0.5 
+        Computation Length: 32 
+        Tree Depth: 3
+        Length: 28
+        Test Accuracy: 0.5
+        
+
+        Phenotype: G[4,5] (F[1,12] (F[11,13] (p0 & p1) -> G[4,14] !p1) | (p0 & p1))
+        Fitness: 0.4259965034965035
+        Training Accuracy: 0.5 
+        Computation Length: 32 
+        Tree Depth: 7
+        Length: 64
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[0,10] (G[2,9] !(p1 -> (p0 U[6,12] p0)) | !!!p0)
+        Fitness: 0.42568441558441555
+        Training Accuracy: 0.499 
+        Computation Length: 32 
+        Tree Depth: 6
+        Length: 49
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[2,10] !!F[2,9] !(p0 | p1)
+        Fitness: 0.42524025974025975
+        Training Accuracy: 0.46 
+        Computation Length: 20 
+        Tree Depth: 4
+        Length: 27
+        Test Accuracy: 0.47
+        
+
+        Phenotype: !!F[3,10] (F[0,1] !p1 R[3,11] F[4,13] p1)
+        Fitness: 0.42513593073593076
+        Training Accuracy: 0.506 
+        Computation Length: 35 
+        Tree Depth: 4
+        Length: 41
+        Test Accuracy: 0.492
+        
+
+        Phenotype: F[3,10] ((!p0 U[8,11] (!(p0 -> p0) | !p1)) U[2,9] !p1)
+        Fitness: 0.4238207792207792
+        Training Accuracy: 0.494 
+        Computation Length: 31 
+        Tree Depth: 6
+        Length: 54
+        Test Accuracy: 0.494
+        
+
+        Phenotype: F[8,13] !G[0,16] !!p1
+        Fitness: 0.4237545454545455
+        Training Accuracy: 0.487 
+        Computation Length: 30 
+        Tree Depth: 3
+        Length: 21
+        Test Accuracy: 0.48
+        
+
+        Phenotype: F[5,10] !!F[3,16] (p0 R[1,7] p1)
+        Fitness: 0.4227878787878788
+        Training Accuracy: 0.5 
+        Computation Length: 34 
+        Tree Depth: 4
+        Length: 32
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[4,6] (p1 -> ((G[4,5] (p1 & p0) U[4,15] p1) U[0,0] (!(p0 R[3,4] p0) R[2,11] p1)))
+        Fitness: 0.42236604600219063
+        Training Accuracy: 0.481 
+        Computation Length: 27 
+        Tree Depth: 7
+        Length: 82
+        Test Accuracy: 0.482
+        
+
+        Phenotype: !!F[0,10] ((F[1,7] p1 R[3,16] !p1) -> !p1)
+        Fitness: 0.4217688513037351
+        Training Accuracy: 0.5 
+        Computation Length: 34 
+        Tree Depth: 5
+        Length: 42
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !F[1,9] ((((p1 -> p1) -> p0) R[12,15] p1) R[3,9] (!p0 | (p1 & (p1 | p1))))
+        Fitness: 0.4207965367965368
+        Training Accuracy: 0.5 
+        Computation Length: 34 
+        Tree Depth: 6
+        Length: 74
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !F[2,10] (!(!p1 U[15,16] p0) U[3,9] !!(p1 -> p1))
+        Fitness: 0.4168181818181818
+        Training Accuracy: 0.5 
+        Computation Length: 36 
+        Tree Depth: 4
+        Length: 49
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !G[2,13] !!(G[1,12] p0 R[2,9] p1)
+        Fitness: 0.4164160427807487
+        Training Accuracy: 0.496 
+        Computation Length: 35 
+        Tree Depth: 4
+        Length: 33
+        Test Accuracy: 0.498
+        
+
+        Phenotype: F[1,10] ((p1 R[4,13] !p1) U[3,11] !!!p0)
+        Fitness: 0.4161649667405765
+        Training Accuracy: 0.496 
+        Computation Length: 35 
+        Tree Depth: 4
+        Length: 40
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !!F[0,10] G[5,9] !(p0 U[1,7] p0)
+        Fitness: 0.4157787878787879
+        Training Accuracy: 0.471 
+        Computation Length: 27 
+        Tree Depth: 4
+        Length: 32
+        Test Accuracy: 0.474
+        
+
+        Phenotype: F[10,12] !p1
+        Fitness: 0.414858275058275
+        Training Accuracy: 0.422 
+        Computation Length: 13 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 0.42
+        
+
+        Phenotype: !G[10,13] !(!(p1 | p0) R[2,7] !(p0 U[10,16] p0))
+        Fitness: 0.41411131725417444
+        Training Accuracy: 0.5 
+        Computation Length: 37 
+        Tree Depth: 4
+        Length: 48
+        Test Accuracy: 0.5
+        
+
+        Phenotype: (((!!(p1 -> p0) -> G[8,11] G[7,7] !p0) R[11,14] ((p0 U[3,15] !(p0 | p1)) & (!p0 U[5,9] (!p0 U[4,12] !p1)))) -> F[2,10] !((G[7,15] p1 -> !p0) -> G[5,11] (p0 U[2,4] p0)))
+        Fitness: 0.4140711826634903
+        Training Accuracy: 0.499 
+        Computation Length: 36 
+        Tree Depth: 6
+        Length: 168
+        Test Accuracy: 0.5
+        
+
+        Phenotype: (G[6,10] (p0 R[4,10] (!!p0 -> (F[11,11] p0 | (p0 & p1)))) U[4,9] F[3,11] p0)
+        Fitness: 0.4139311688311688
+        Training Accuracy: 0.514 
+        Computation Length: 41 
+        Tree Depth: 7
+        Length: 76
+        Test Accuracy: 0.516
+        
+
+        Phenotype: !G[2,7] ((((p0 & p0) | G[11,11] p1) | ((p1 U[1,12] p0) U[1,13] !p1)) & p1)
+        Fitness: 0.4136238095238095
+        Training Accuracy: 0.489 
+        Computation Length: 33 
+        Tree Depth: 6
+        Length: 74
+        Test Accuracy: 0.484
+        
+
+        Phenotype: !F[0,10] !G[3,16] (!p1 R[1,1] (p1 U[2,9] p0))
+        Fitness: 0.4135111989459816
+        Training Accuracy: 0.5 
+        Computation Length: 37 
+        Tree Depth: 5
+        Length: 45
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !(G[5,10] G[5,15] (p0 U[2,11] (p1 | p0)) & !!!p1)
+        Fitness: 0.41294805194805195
+        Training Accuracy: 0.5 
+        Computation Length: 37 
+        Tree Depth: 6
+        Length: 49
+        Test Accuracy: 0.5
+        
+
+        Phenotype: (F[4,10] (F[5,9] (p1 & G[1,1] p0) U[5,14] p0) | !!((G[4,10] p1 | (p1 -> p1)) & (!p0 | (p0 & p1))))
+        Fitness: 0.41215050505050504
+        Training Accuracy: 0.494 
+        Computation Length: 35 
+        Tree Depth: 7
+        Length: 98
+        Test Accuracy: 0.496
+        
+
+        Phenotype: F[2,10] (((!!p1 U[6,15] p0) | (p1 R[9,10] (F[9,16] p0 | p0))) | !G[3,16] G[0,0] (p0 | p0))
+        Fitness: 0.41214035964035967
+        Training Accuracy: 0.5 
+        Computation Length: 37 
+        Tree Depth: 7
+        Length: 90
+        Test Accuracy: 0.5
+        
+
+        Phenotype: ((!!G[2,15] (p1 U[10,13] p1) R[0,6] !!p1) -> G[0,10] !!!p0)
+        Fitness: 0.4115121212121213
+        Training Accuracy: 0.492 
+        Computation Length: 35 
+        Tree Depth: 5
+        Length: 59
+        Test Accuracy: 0.496
+        
+
+        Phenotype: !!(F[1,15] (!p1 U[3,12] p1) R[4,10] !(p0 R[2,4] (p1 -> p1)))
+        Fitness: 0.4111833084947839
+        Training Accuracy: 0.5 
+        Computation Length: 38 
+        Tree Depth: 4
+        Length: 60
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !!G[5,15] (!p0 | (!p0 | G[0,2] p1))
+        Fitness: 0.41073131313131317
+        Training Accuracy: 0.439 
+        Computation Length: 18 
+        Tree Depth: 5
+        Length: 35
+        Test Accuracy: 0.432
+        
+
+        Phenotype: !!F[1,8] !F[4,10] p0
+        Fitness: 0.40976277056277055
+        Training Accuracy: 0.438 
+        Computation Length: 19 
+        Tree Depth: 3
+        Length: 20
+        Test Accuracy: 0.446
+        
+
+        Phenotype: G[0,9] (F[3,4] (F[8,10] (p1 R[2,6] p0) R[5,8] ((p1 -> p0) U[2,8] (p1 | p0))) | !(G[14,16] !p0 U[9,16] (G[10,10] p0 -> p1)))
+        Fitness: 0.4082577712609971
+        Training Accuracy: 0.511 
+        Computation Length: 42 
+        Tree Depth: 7
+        Length: 123
+        Test Accuracy: 0.512
+        
+
+        Phenotype: !G[5,10] !((!p0 -> (p0 U[7,15] p0)) U[9,13] !(p0 R[7,14] p1))
+        Fitness: 0.4077761485826002
+        Training Accuracy: 0.5 
+        Computation Length: 39 
+        Tree Depth: 5
+        Length: 61
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[4,10] (((((p0 U[9,14] p1) U[7,14] p1) -> ((p0 R[7,13] p0) R[8,14] G[1,4] p0)) & (((p1 U[0,10] p0) R[4,11] G[5,6] p0) -> (p0 R[1,10] p1))) | !p0)
+        Fitness: 0.4064764996907854
+        Training Accuracy: 0.5 
+        Computation Length: 39 
+        Tree Depth: 7
+        Length: 146
+        Test Accuracy: 0.5
+        
+
+        Phenotype: G[14,15] (G[2,2] p1 & ((p1 -> !G[4,15] p0) -> G[12,12] ((p1 U[3,13] p0) R[4,12] (p0 -> p1))))
+        Fitness: 0.40628646034816257
+        Training Accuracy: 0.542 
+        Computation Length: 53 
+        Tree Depth: 7
+        Length: 93
+        Test Accuracy: 0.558
+        
+
+        Phenotype: F[6,11] F[4,10] !!!p1
+        Fitness: 0.40597272727272726
+        Training Accuracy: 0.443 
+        Computation Length: 22 
+        Tree Depth: 3
+        Length: 21
+        Test Accuracy: 0.43
+        
+
+        Phenotype: (p1 U[2,10] !!F[0,16] !(p0 R[6,9] p1))
+        Fitness: 0.4054002331002331
+        Training Accuracy: 0.487 
+        Computation Length: 36 
+        Tree Depth: 4
+        Length: 38
+        Test Accuracy: 0.48
+        
+
+        Phenotype: F[2,10] !!G[2,9] !p0
+        Fitness: 0.40523549783549784
+        Training Accuracy: 0.436 
+        Computation Length: 20 
+        Tree Depth: 3
+        Length: 20
+        Test Accuracy: 0.442
+        
+
+        Phenotype: !!F[0,10] ((p1 U[2,15] p0) | (F[15,16] p0 U[4,16] p1))
+        Fitness: 0.405069696969697
+        Training Accuracy: 0.509 
+        Computation Length: 43 
+        Tree Depth: 5
+        Length: 54
+        Test Accuracy: 0.516
+        
+
+        Phenotype: ((F[6,11] F[11,15] F[0,13] !p0 -> p1) | p0)
+        Fitness: 0.40490259740259743
+        Training Accuracy: 0.5 
+        Computation Length: 40 
+        Tree Depth: 6
+        Length: 43
+        Test Accuracy: 0.5
+        
+
+        Phenotype: (!(p0 U[5,7] !p1) -> p1)
+        Fitness: 0.40411818181818177
+        Training Accuracy: 0.417 
+        Computation Length: 8 
+        Tree Depth: 3
+        Length: 24
+        Test Accuracy: 0.416
+        
+
+        Phenotype: G[4,10] G[5,15] (!p1 R[10,15] p0)
+        Fitness: 0.4036524064171123
+        Training Accuracy: 0.5 
+        Computation Length: 41 
+        Tree Depth: 4
+        Length: 33
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[0,10] !((!!p0 U[15,16] p1) U[7,14] p0)
+        Fitness: 0.40340133037694015
+        Training Accuracy: 0.5 
+        Computation Length: 41 
+        Tree Depth: 4
+        Length: 40
+        Test Accuracy: 0.5
+        
+
+        Phenotype: ((F[7,15] F[11,14] p1 U[0,10] !F[0,16] F[5,14] !p0) & !!!!(p1 | p1))
+        Fitness: 0.403139789196311
+        Training Accuracy: 0.501 
+        Computation Length: 41 
+        Tree Depth: 5
+        Length: 68
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !G[0,10] !G[10,12] (F[3,4] p0 U[4,14] p1)
+        Fitness: 0.40270562770562773
+        Training Accuracy: 0.5 
+        Computation Length: 41 
+        Tree Depth: 5
+        Length: 41
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !F[8,14] !(((p1 U[4,5] p0) | (p1 R[6,15] p0)) R[3,16] ((p1 R[3,10] p0) U[2,16] (p0 R[7,15] p0)))
+        Fitness: 0.40235788815994994
+        Training Accuracy: 0.564 
+        Computation Length: 62 
+        Tree Depth: 5
+        Length: 96
+        Test Accuracy: 0.56
+        
+
+        Phenotype: F[9,12] !((p1 & (F[11,11] p0 | (p0 R[11,13] p1))) R[1,12] !((p0 | p1) -> (p0 R[5,16] p1)))
+        Fitness: 0.4015884115884116
+        Training Accuracy: 0.5 
+        Computation Length: 41 
+        Tree Depth: 6
+        Length: 90
+        Test Accuracy: 0.5
+        
+
+        Phenotype: G[4,10] F[8,8] ((((p1 -> p0) U[10,16] !p1) R[3,6] (G[12,16] p1 -> G[3,16] p0)) -> p0)
+        Fitness: 0.4012632135306554
+        Training Accuracy: 0.5 
+        Computation Length: 41 
+        Tree Depth: 7
+        Length: 85
+        Test Accuracy: 0.5
+        
+
+        Phenotype: G[5,15] G[1,10] G[15,16] p1
+        Fitness: 0.40124025974025973
+        Training Accuracy: 0.5 
+        Computation Length: 42 
+        Tree Depth: 4
+        Length: 27
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !!F[1,10] G[2,9] (p1 R[1,12] (p0 -> p1))
+        Fitness: 0.401180118255728
+        Training Accuracy: 0.471 
+        Computation Length: 32 
+        Tree Depth: 5
+        Length: 40
+        Test Accuracy: 0.482
+        
+
+        Phenotype: F[1,10] !!(G[15,16] G[3,4] p0 U[6,8] !p0)
+        Fitness: 0.4009601731601732
+        Training Accuracy: 0.492 
+        Computation Length: 39 
+        Tree Depth: 5
+        Length: 41
+        Test Accuracy: 0.5
+        
+
+        Phenotype: (p0 U[4,10] !(F[3,14] (F[0,14] p0 R[7,16] G[8,15] p0) U[12,15] p1))
+        Fitness: 0.4000560733384263
+        Training Accuracy: 0.589 
+        Computation Length: 71 
+        Tree Depth: 6
+        Length: 67
+        Test Accuracy: 0.578
+        
+
+        Phenotype: !!F[4,10] F[15,16] ((p1 & p0) & F[0,15] p0)
+        Fitness: 0.39992424242424246
+        Training Accuracy: 0.5 
+        Computation Length: 42 
+        Tree Depth: 5
+        Length: 43
+        Test Accuracy: 0.5
+        
+
+        Phenotype: (p0 U[16,16] (p0 | !p1))
+        Fitness: 0.39953636363636363
+        Training Accuracy: 0.421 
+        Computation Length: 17 
+        Tree Depth: 3
+        Length: 24
+        Test Accuracy: 0.406
+        
+
+        Phenotype: F[0,10] (G[7,12] F[4,13] (p1 R[5,6] !p1) | p0)
+        Fitness: 0.3993755180989223
+        Training Accuracy: 0.5 
+        Computation Length: 42 
+        Tree Depth: 6
+        Length: 46
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !(((!p1 R[5,8] (!p1 -> G[5,16] p1)) U[10,16] p0) | G[3,10] !((p0 R[5,14] p1) U[9,14] p1))
+        Fitness: 0.3988945165945166
+        Training Accuracy: 0.497 
+        Computation Length: 41 
+        Tree Depth: 6
+        Length: 89
+        Test Accuracy: 0.498
+        
+
+        Phenotype: ((!((p0 R[5,8] (p1 | p1)) R[6,11] G[3,10] !p0) | ((!p1 R[6,15] p0) U[9,16] p1)) R[2,10] !!((p1 U[0,10] !p1) U[12,12] F[4,7] (p1 & p1)))
+        Fitness: 0.3986793353705118
+        Training Accuracy: 0.5 
+        Computation Length: 42 
+        Tree Depth: 6
+        Length: 135
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !G[11,11] ((F[8,10] !p1 & p1) & p0)
+        Fitness: 0.39712222222222227
+        Training Accuracy: 0.436 
+        Computation Length: 22 
+        Tree Depth: 5
+        Length: 35
+        Test Accuracy: 0.44
+        
+
+        Phenotype: !G[4,10] ((!!p1 | (p1 & (p1 & p0))) U[4,10] !!(p0 U[0,13] p0))
+        Fitness: 0.3966235209235209
+        Training Accuracy: 0.473 
+        Computation Length: 34 
+        Tree Depth: 6
+        Length: 62
+        Test Accuracy: 0.48
+        
+
+        Phenotype: F[5,7] !!(F[5,14] (p0 | p1) R[0,10] (!p1 | (p0 | p0)))
+        Fitness: 0.394569696969697
+        Training Accuracy: 0.464 
+        Computation Length: 32 
+        Tree Depth: 5
+        Length: 54
+        Test Accuracy: 0.474
+        
+
+        Phenotype: F[5,10] !((p0 U[6,13] F[0,4] !p1) U[5,15] G[2,11] (G[3,8] p0 & p1))
+        Fitness: 0.3926651642475172
+        Training Accuracy: 0.502 
+        Computation Length: 45 
+        Tree Depth: 6
+        Length: 67
+        Test Accuracy: 0.506
+        
+
+        Phenotype: (!F[2,11] (((p1 U[7,15] p1) | G[6,12] p0) | !(p0 U[2,6] p0)) R[9,13] F[0,5] p0)
+        Fitness: 0.38999123376623374
+        Training Accuracy: 0.484 
+        Computation Length: 40 
+        Tree Depth: 6
+        Length: 79
+        Test Accuracy: 0.472
+        
+
+        Phenotype: F[0,9] (!G[2,15] ((p0 | p0) R[0,8] (p0 U[7,13] p1)) | ((!p0 U[9,16] !(p0 U[15,16] p1)) & p0))
+        Fitness: 0.38793451229621445
+        Training Accuracy: 0.5 
+        Computation Length: 46 
+        Tree Depth: 6
+        Length: 93
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[9,11] (F[3,7] (!!p1 U[12,14] !p1) -> F[11,11] ((!p0 R[3,13] (p1 | p1)) | F[5,12] F[6,11] p1))
+        Fitness: 0.38756628787878794
+        Training Accuracy: 0.5 
+        Computation Length: 46 
+        Tree Depth: 7
+        Length: 95
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !F[1,10] G[0,5] !!p0
+        Fitness: 0.38734458874458877
+        Training Accuracy: 0.404 
+        Computation Length: 16 
+        Tree Depth: 3
+        Length: 20
+        Test Accuracy: 0.428
+        
+
+        Phenotype: F[0,10] (p1 | !G[6,12] (F[7,11] p0 U[10,13] p1))
+        Fitness: 0.38569573283859
+        Training Accuracy: 0.5 
+        Computation Length: 47 
+        Tree Depth: 6
+        Length: 48
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[15,15] !!!!p0
+        Fitness: 0.384355303030303
+        Training Accuracy: 0.398 
+        Computation Length: 16 
+        Tree Depth: 2
+        Length: 15
+        Test Accuracy: 0.374
+        
+
+        Phenotype: F[0,10] ((((p0 U[5,5] p0) R[12,14] !(p0 & p1)) U[15,16] !(G[1,10] p0 U[2,15] (p1 U[7,11] p0))) | F[4,16] !!p1)
+        Fitness: 0.3840621387621388
+        Training Accuracy: 0.517 
+        Computation Length: 53 
+        Tree Depth: 6
+        Length: 110
+        Test Accuracy: 0.518
+        
+
+        Phenotype: (!p1 U[15,15] p0)
+        Fitness: 0.3840080808080808
+        Training Accuracy: 0.398 
+        Computation Length: 16 
+        Tree Depth: 2
+        Length: 17
+        Test Accuracy: 0.374
+        
+
+        Phenotype: G[4,10] (G[16,16] ((p0 U[0,5] (p1 U[2,8] p0)) | !p1) R[1,10] p0)
+        Fitness: 0.3823055944055944
+        Training Accuracy: 0.506 
+        Computation Length: 50 
+        Tree Depth: 7
+        Length: 64
+        Test Accuracy: 0.5
+        
+
+        Phenotype: ((F[16,16] (G[13,15] (p1 | p0) -> p1) | (p1 | !((p1 U[3,7] p1) -> !p0))) R[6,16] ((p1 -> (p0 R[5,8] (G[6,8] p0 & !p0))) & !(((p1 -> p1) | (p1 R[9,15] p0)) | G[0,6] F[8,16] p0)))
+        Fitness: 0.38187180796731357
+        Training Accuracy: 0.5 
+        Computation Length: 48 
+        Tree Depth: 7
+        Length: 177
+        Test Accuracy: 0.5
+        
+
+        Phenotype: ((!!(!p1 R[1,3] (p0 -> p0)) -> (G[10,16] (F[6,11] p0 -> (p1 R[5,15] p1)) U[3,16] G[3,15] ((p0 -> p0) & !p0))) & ((p1 R[7,12] (p0 & ((p0 R[5,9] p1) | !p1))) -> (F[6,16] p0 | !((p0 & p0) | p1))))
+        Fitness: 0.381848641049672
+        Training Accuracy: 0.5 
+        Computation Length: 48 
+        Tree Depth: 7
+        Length: 193
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[4,14] F[6,12] !p0
+        Fitness: 0.3817636363636364
+        Training Accuracy: 0.431 
+        Computation Length: 27 
+        Tree Depth: 3
+        Length: 19
+        Test Accuracy: 0.452
+        
+
+        Phenotype: !!F[3,10] !(p1 R[7,16] p0)
+        Fitness: 0.38111548821548824
+        Training Accuracy: 0.431 
+        Computation Length: 27 
+        Tree Depth: 3
+        Length: 26
+        Test Accuracy: 0.452
+        
+
+        Phenotype: (((((p1 U[8,8] F[3,14] p0) U[1,13] (p0 U[1,5] (p0 U[6,6] p0))) R[9,12] F[2,15] ((p1 -> p0) & !p1)) & (p1 R[3,5] (G[3,4] p0 & !(p1 R[6,16] p1)))) -> (!!(F[6,8] p1 U[8,15] (p1 & p1)) & !(p1 & (!p0 & (p0 & p0)))))
+        Fitness: 0.3809278759155536
+        Training Accuracy: 0.499 
+        Computation Length: 48 
+        Tree Depth: 7
+        Length: 210
+        Test Accuracy: 0.494
+        
+
+        Phenotype: !((!F[15,16] (p0 U[3,7] p0) R[2,9] (G[10,13] !p1 & (!p1 R[5,5] !p1))) -> F[0,9] p0)
+        Fitness: 0.38072857142857147
+        Training Accuracy: 0.452 
+        Computation Length: 33 
+        Tree Depth: 5
+        Length: 83
+        Test Accuracy: 0.456
+        
+
+        Phenotype: F[2,10] ((p0 U[1,2] !((p1 R[9,12] p0) R[4,8] (p1 R[2,11] p1))) R[9,16] !(p1 R[1,2] !p0))
+        Fitness: 0.3797825769735882
+        Training Accuracy: 0.5 
+        Computation Length: 49 
+        Tree Depth: 6
+        Length: 88
+        Test Accuracy: 0.5
+        
+
+        Phenotype: ((((!!p0 | (F[11,13] p0 U[1,11] p1)) -> !((p0 R[7,12] p0) | !p0)) | ((((p1 R[9,10] p1) R[0,5] (p1 R[9,10] p0)) R[1,11] p0) & !(!p1 & p1))) & G[13,13] !p1)
+        Fitness: 0.37888621700879765
+        Training Accuracy: 0.433 
+        Computation Length: 27 
+        Tree Depth: 7
+        Length: 154
+        Test Accuracy: 0.468
+        
+
+        Phenotype: !!F[4,10] F[1,12] G[4,14] (p0 R[11,13] p0)
+        Fitness: 0.37813248766737145
+        Training Accuracy: 0.5 
+        Computation Length: 50 
+        Tree Depth: 5
+        Length: 42
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !(!p1 R[3,10] !(p1 | !p0))
+        Fitness: 0.3770518518518518
+        Training Accuracy: 0.378 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 26
+        Test Accuracy: 0.364
+        
+
+        Phenotype: (!F[4,15] F[13,16] ((p0 -> p0) | !p1) U[5,5] !(G[8,14] F[9,12] p1 U[13,13] ((!p0 U[10,13] p0) R[1,6] (p0 R[10,11] (p0 U[9,14] p1)))))
+        Fitness: 0.3768666408218647
+        Training Accuracy: 0.5 
+        Computation Length: 50 
+        Tree Depth: 6
+        Length: 133
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !F[3,10] G[2,2] !!p1
+        Fitness: 0.37392640692640694
+        Training Accuracy: 0.38 
+        Computation Length: 13 
+        Tree Depth: 3
+        Length: 20
+        Test Accuracy: 0.364
+        
+
+        Phenotype: F[8,9] !p1
+        Fitness: 0.37328484848484844
+        Training Accuracy: 0.372 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 10
+        Test Accuracy: 0.352
+        
+
+        Phenotype: F[11,16] !!!!(p0 R[5,15] p0)
+        Fitness: 0.37185141065830724
+        Training Accuracy: 0.436 
+        Computation Length: 32 
+        Tree Depth: 3
+        Length: 28
+        Test Accuracy: 0.44
+        
+
+        Phenotype: G[12,15] !!((G[0,11] p0 R[1,12] !p1) R[10,15] p0)
+        Fitness: 0.3670606060606061
+        Training Accuracy: 0.5 
+        Computation Length: 54 
+        Tree Depth: 5
+        Length: 49
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !G[1,10] F[4,7] p1
+        Fitness: 0.36324066985645936
+        Training Accuracy: 0.383 
+        Computation Length: 18 
+        Tree Depth: 3
+        Length: 18
+        Test Accuracy: 0.384
+        
+
+        Phenotype: F[4,10] G[12,13] ((((p1 R[7,8] p0) R[11,15] p1) R[0,8] (G[9,11] p0 -> (p0 U[9,15] p0))) -> p1)
+        Fitness: 0.3630263157894737
+        Training Accuracy: 0.5 
+        Computation Length: 55 
+        Tree Depth: 7
+        Length: 94
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !((G[7,13] (p1 & (p1 R[5,9] p1)) U[12,16] ((G[0,4] p1 & !p0) & (!p1 U[3,8] (p0 U[3,6] p0)))) U[2,10] F[3,16] p0)
+        Fitness: 0.36076325709688534
+        Training Accuracy: 0.479 
+        Computation Length: 49 
+        Tree Depth: 6
+        Length: 112
+        Test Accuracy: 0.476
+        
+
+        Phenotype: ((F[7,8] G[2,8] (G[5,14] p1 U[8,10] (p1 -> p1)) R[4,10] G[12,13] F[5,12] (p1 -> G[3,4] p0)) U[5,15] !!p1)
+        Fitness: 0.3545716981132076
+        Training Accuracy: 0.524 
+        Computation Length: 66 
+        Tree Depth: 7
+        Length: 105
+        Test Accuracy: 0.52
+        
+
+        Phenotype: !!F[4,10] !(p1 R[7,16] (p1 | p1))
+        Fitness: 0.35273422459893056
+        Training Accuracy: 0.401 
+        Computation Length: 27 
+        Tree Depth: 4
+        Length: 33
+        Test Accuracy: 0.386
+        
+
+        Phenotype: (G[3,10] (G[3,11] !(p0 R[4,13] p0) -> !p1) | !!!!p1)
+        Fitness: 0.3517459936290125
+        Training Accuracy: 0.426 
+        Computation Length: 35 
+        Tree Depth: 6
+        Length: 52
+        Test Accuracy: 0.436
+        
+
+        Phenotype: G[4,10] ((G[5,6] (F[1,14] p1 -> !p0) U[8,13] p0) R[3,11] !p1)
+        Fitness: 0.35070645161290326
+        Training Accuracy: 0.486 
+        Computation Length: 55 
+        Tree Depth: 7
+        Length: 61
+        Test Accuracy: 0.484
+        
+
+        Phenotype: !G[1,9] !!G[11,13] (p1 | p0)
+        Fitness: 0.34859686520376176
+        Training Accuracy: 0.384 
+        Computation Length: 23 
+        Tree Depth: 4
+        Length: 28
+        Test Accuracy: 0.352
+        
+
+        Phenotype: F[2,3] ((p1 U[4,16] F[10,15] (F[3,7] p1 R[5,10] p0)) R[6,9] G[0,4] G[9,16] (!p0 -> (p1 & p1)))
+        Fitness: 0.34666267942583734
+        Training Accuracy: 0.5 
+        Computation Length: 61 
+        Tree Depth: 7
+        Length: 94
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[5,10] F[3,16] (G[2,11] (!p0 & F[4,15] p1) R[4,9] p1)
+        Fitness: 0.34431818181818186
+        Training Accuracy: 0.5 
+        Computation Length: 62 
+        Tree Depth: 7
+        Length: 54
+        Test Accuracy: 0.5
+        
+
+        Phenotype: (((p0 -> !(p0 -> p1)) U[3,7] ((!(p0 R[2,11] p1) R[0,10] ((p1 R[1,4] p1) | (p0 U[13,14] p1))) U[7,14] ((p1 -> p1) R[1,12] !(p0 | p0)))) & !G[0,10] p1)
+        Fitness: 0.34327878787878796
+        Training Accuracy: 0.451 
+        Computation Length: 46 
+        Tree Depth: 7
+        Length: 149
+        Test Accuracy: 0.444
+        
+
+        Phenotype: (!!!p0 | p1)
+        Fitness: 0.34264009324009326
+        Training Accuracy: 0.366 
+        Computation Length: 1 
+        Tree Depth: 2
+        Length: 12
+        Test Accuracy: 0.376
+        
+
+        Phenotype: F[0,9] !(F[3,9] G[10,15] (p1 U[9,11] p1) R[8,13] p0)
+        Fitness: 0.34031872090173976
+        Training Accuracy: 0.483 
+        Computation Length: 58 
+        Tree Depth: 6
+        Length: 52
+        Test Accuracy: 0.492
+        
+
+        Phenotype: !!!((!p0 | !p0) R[3,10] p1)
+        Fitness: 0.3400857142857143
+        Training Accuracy: 0.337 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 27
+        Test Accuracy: 0.348
+        
+
+        Phenotype: ((p1 -> (!(G[2,3] p1 & (p1 -> p0)) | (!!p1 R[6,6] !(p0 R[2,9] p1)))) U[9,9] ((((p0 -> !p1) U[8,11] (!p1 U[1,16] (p0 U[1,16] p0))) | G[5,16] (!p1 -> !p1)) R[9,13] (p1 & F[5,14] ((p0 R[4,14] p1) | (p1 U[0,3] p1)))))
+        Fitness: 0.3327336448598131
+        Training Accuracy: 0.5 
+        Computation Length: 66 
+        Tree Depth: 7
+        Length: 213
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[13,14] !!p1
+        Fitness: 0.3281290043290043
+        Training Accuracy: 0.332 
+        Computation Length: 15 
+        Tree Depth: 2
+        Length: 13
+        Test Accuracy: 0.312
+        
+
+        Phenotype: !F[0,10] ((G[9,14] (p0 U[4,16] p1) R[8,14] !!p0) U[2,4] !!p0)
+        Fitness: 0.32755450356095517
+        Training Accuracy: 0.472 
+        Computation Length: 59 
+        Tree Depth: 6
+        Length: 61
+        Test Accuracy: 0.456
+        
+
+        Phenotype: (F[15,15] ((F[0,2] F[0,16] p1 U[4,8] (p0 | !p0)) U[9,10] (!p1 U[7,14] ((p1 U[2,8] p1) R[5,13] G[6,6] p1))) R[1,9] !!!!p0)
+        Fitness: 0.3256007451564829
+        Training Accuracy: 0.504 
+        Computation Length: 70 
+        Tree Depth: 7
+        Length: 121
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[4,10] !!!((p1 U[2,9] p0) | p0)
+        Fitness: 0.32146969696969696
+        Training Accuracy: 0.345 
+        Computation Length: 20 
+        Tree Depth: 4
+        Length: 32
+        Test Accuracy: 0.344
+        
+
+        Phenotype: !!((((p0 U[5,6] p0) R[12,12] G[4,11] p0) R[3,6] !p0) | !!p1)
+        Fitness: 0.3189348236462991
+        Training Accuracy: 0.374 
+        Computation Length: 30 
+        Tree Depth: 5
+        Length: 60
+        Test Accuracy: 0.374
+        
+
+        Phenotype: ((((!!p0 -> (G[9,16] p0 R[9,11] p1)) | (p0 U[3,7] !(p0 & p1))) U[13,13] p1) | !((G[5,6] (p0 | p1) | G[1,2] (p1 -> p1)) -> (!(p0 & p1) -> !(p1 -> p1))))
+        Fitness: 0.3182107655502392
+        Training Accuracy: 0.408 
+        Computation Length: 41 
+        Tree Depth: 7
+        Length: 151
+        Test Accuracy: 0.402
+        
+
+        Phenotype: (!p0 U[5,10] !F[5,15] p1)
+        Fitness: 0.314613986013986
+        Training Accuracy: 0.354 
+        Computation Length: 26 
+        Tree Depth: 3
+        Length: 25
+        Test Accuracy: 0.37
+        
+
+        Phenotype: G[4,10] F[4,10] !p0
+        Fitness: 0.3072272727272728
+        Training Accuracy: 0.33 
+        Computation Length: 21 
+        Tree Depth: 3
+        Length: 19
+        Test Accuracy: 0.33
+        
+
+        Phenotype: F[5,10] (((p1 & ((p0 U[6,7] p1) U[1,14] p0)) R[10,15] (p0 R[5,10] !p0)) R[0,16] F[5,6] G[7,13] ((p1 U[6,15] p1) U[4,16] (p0 & p1)))
+        Fitness: 0.3028787878787879
+        Training Accuracy: 0.5 
+        Computation Length: 77 
+        Tree Depth: 7
+        Length: 131
+        Test Accuracy: 0.5
+        
+
+        Phenotype: F[1,9] (p1 U[4,16] (((!p1 R[2,12] p0) R[5,5] ((p0 & p1) R[0,12] !p0)) U[15,16] ((G[12,14] p1 U[4,10] p0) R[7,13] (!p1 U[0,8] !p0))))
+        Fitness: 0.29742139439507864
+        Training Accuracy: 0.5 
+        Computation Length: 79 
+        Tree Depth: 7
+        Length: 132
+        Test Accuracy: 0.5
+        
+
+        Phenotype: !!F[2,10] F[12,12] p0
+        Fitness: 0.29524545454545453
+        Training Accuracy: 0.323 
+        Computation Length: 23 
+        Tree Depth: 3
+        Length: 21
+        Test Accuracy: 0.294
+        
+
+        Phenotype: (!p1 U[0,10] F[12,13] !p1)
+        Fitness: 0.2911973063973064
+        Training Accuracy: 0.322 
+        Computation Length: 24 
+        Tree Depth: 3
+        Length: 26
+        Test Accuracy: 0.318
+        
+
+        Phenotype: F[5,10] F[9,10] p1
+        Fitness: 0.2875588516746412
+        Training Accuracy: 0.308 
+        Computation Length: 21 
+        Tree Depth: 3
+        Length: 18
+        Test Accuracy: 0.278
+        
+
+        Phenotype: !G[2,11] !((!p0 R[3,8] (p1 U[5,12] p0)) U[9,16] p1)
+        Fitness: 0.2771857808857809
+        Training Accuracy: 0.382 
+        Computation Length: 48 
+        Tree Depth: 5
+        Length: 51
+        Test Accuracy: 0.398
+        
+
+        Phenotype: (p1 | !(!p1 U[3,10] !!p1))
+        Fitness: 0.27535185185185185
+        Training Accuracy: 0.265 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 26
+        Test Accuracy: 0.264
+        
+
+        Phenotype: F[7,15] (G[6,6] G[5,6] (G[1,15] p0 R[1,9] G[0,16] p0) -> (!p0 U[4,16] p0))
+        Fitness: 0.27052121212121216
+        Training Accuracy: 0.391 
+        Computation Length: 53 
+        Tree Depth: 7
+        Length: 74
+        Test Accuracy: 0.38
+        
+
+        Phenotype: ((((F[2,14] p1 U[4,12] !(p1 | p1)) R[0,0] (F[1,16] p1 U[2,8] p1)) R[12,15] p1) U[0,10] !!((!p0 R[1,16] F[12,12] p0) U[12,12] p0))
+        Fitness: 0.26702357642357644
+        Training Accuracy: 0.384 
+        Computation Length: 52 
+        Tree Depth: 6
+        Length: 129
+        Test Accuracy: 0.41
+        
+
+        Phenotype: !!F[3,10] F[10,14] p1
+        Fitness: 0.26189090909090906
+        Training Accuracy: 0.292 
+        Computation Length: 25 
+        Tree Depth: 3
+        Length: 21
+        Test Accuracy: 0.28
+        
+
+        Phenotype: !(p1 | F[1,14] ((G[3,12] p0 R[3,10] (p0 R[13,14] p1)) U[15,15] ((p1 U[6,13] p1) -> p1)))
+        Fitness: 0.25634621333722457
+        Training Accuracy: 0.378 
+        Computation Length: 54 
+        Tree Depth: 6
+        Length: 88
+        Test Accuracy: 0.386
+        
+
+        Phenotype: !(p0 U[4,10] p0)
+        Fitness: 0.2556078431372549
+        Training Accuracy: 0.24 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 16
+        Test Accuracy: 0.246
+        
+
+        Phenotype: F[4,10] F[8,16] !(!F[9,9] p0 & !(p1 | p1))
+        Fitness: 0.2534143058491896
+        Training Accuracy: 0.319 
+        Computation Length: 36 
+        Tree Depth: 5
+        Length: 42
+        Test Accuracy: 0.342
+        
+
+        Phenotype: ((((F[9,13] !p0 U[6,13] (F[6,6] p1 U[4,11] F[6,9] p1)) | !!(p1 U[6,10] p1)) -> ((((p1 & p1) R[1,2] !p1) -> G[5,6] !p1) & p0)) R[3,10] !!((G[4,13] p1 U[3,11] !p1) | !!p1))
+        Fitness: 0.25329239766081874
+        Training Accuracy: 0.345 
+        Computation Length: 44 
+        Tree Depth: 7
+        Length: 170
+        Test Accuracy: 0.336
+        
+
+        Phenotype: G[0,9] !G[3,11] (G[8,9] (p0 R[5,8] p0) U[10,10] (F[8,10] p0 | p0))
+        Fitness: 0.25309432060476833
+        Training Accuracy: 0.356 
+        Computation Length: 48 
+        Tree Depth: 6
+        Length: 66
+        Test Accuracy: 0.38
+        
+
+        Phenotype: F[3,10] !G[3,6] (p0 | ((p0 R[4,11] p0) | (p0 | p0)))
+        Fitness: 0.2529369027199216
+        Training Accuracy: 0.295 
+        Computation Length: 28 
+        Tree Depth: 6
+        Length: 52
+        Test Accuracy: 0.304
+        
+
+        Phenotype: ((((((p0 | p0) U[4,8] p0) U[3,13] (F[2,8] p1 R[2,7] p0)) -> p1) U[2,4] !(G[3,4] !p1 U[4,14] !!p0)) | G[3,10] !p1)
+        Fitness: 0.2474385964912281
+        Training Accuracy: 0.305 
+        Computation Length: 33 
+        Tree Depth: 7
+        Length: 113
+        Test Accuracy: 0.31
+        
+
+        Phenotype: !(!(p1 R[5,10] (!p1 | p1)) | p1)
+        Fitness: 0.24701515151515152
+        Training Accuracy: 0.235 
+        Computation Length: 11 
+        Tree Depth: 4
+        Length: 32
+        Test Accuracy: 0.236
+        
+
+        Phenotype: (p1 U[3,3] !p1)
+        Fitness: 0.24390075757575755
+        Training Accuracy: 0.248 
+        Computation Length: 4 
+        Tree Depth: 2
+        Length: 15
+        Test Accuracy: 0.252
+        
+
+        Phenotype: F[3,10] !G[0,3] !(!p0 U[10,13] (p1 R[2,4] p1))
+        Fitness: 0.24085170857511284
+        Training Accuracy: 0.29 
+        Computation Length: 31 
+        Tree Depth: 5
+        Length: 46
+        Test Accuracy: 0.292
+        
+
+        Phenotype: ((p0 -> !F[1,11] !p1) | !p0)
+        Fitness: 0.2399968652037618
+        Training Accuracy: 0.23 
+        Computation Length: 12 
+        Tree Depth: 4
+        Length: 28
+        Test Accuracy: 0.25
+        
+
+        Phenotype: !((p1 U[2,15] p1) | F[2,10] !!G[4,10] p0)
+        Fitness: 0.2320177489177489
+        Training Accuracy: 0.249 
+        Computation Length: 21 
+        Tree Depth: 4
+        Length: 41
+        Test Accuracy: 0.236
+        
+
+        Phenotype: ((F[0,0] (!!p1 R[12,15] G[13,16] !p1) U[1,1] (!F[0,16] !p1 U[1,16] (p0 | F[12,12] p1))) U[10,15] !((p1 & (!p0 | (p1 & p0))) | p1))
+        Fitness: 0.22300245861009219
+        Training Accuracy: 0.326 
+        Computation Length: 49 
+        Tree Depth: 6
+        Length: 130
+        Test Accuracy: 0.304
+        
+
+        Phenotype: !(p1 | !!!(p1 -> p0))
+        Fitness: 0.22149999999999997
+        Training Accuracy: 0.235 
+        Computation Length: 1 
+        Tree Depth: 3
+        Length: 21
+        Test Accuracy: 0.236
+        
+
+        Phenotype: ((((G[3,15] p1 & (p1 R[12,12] p1)) R[4,15] (p0 | p1)) -> !(F[16,16] p1 -> p0)) & !((p1 R[3,16] (!p0 -> F[6,6] p1)) R[3,10] p0))
+        Fitness: 0.2171477678571429
+        Training Accuracy: 0.271 
+        Computation Length: 33 
+        Tree Depth: 6
+        Length: 127
+        Test Accuracy: 0.29
+        
+
+        Phenotype: G[4,10] F[4,10] G[6,15] !!(p0 | p1)
+        Fitness: 0.20324040404040405
+        Training Accuracy: 0.263 
+        Computation Length: 36 
+        Tree Depth: 5
+        Length: 35
+        Test Accuracy: 0.252
+        
+
+        Phenotype: G[5,10] F[3,11] (F[10,13] p0 R[2,15] p1)
+        Fitness: 0.18918920916481893
+        Training Accuracy: 0.29 
+        Computation Length: 50 
+        Tree Depth: 5
+        Length: 40
+        Test Accuracy: 0.292
+        
+
+        Phenotype: (!(!F[13,13] (p0 & p1) -> (!F[9,10] p0 U[12,14] ((p0 R[8,11] p0) U[3,13] G[0,6] p1))) U[1,11] F[1,16] ((p1 R[0,6] ((p0 | p1) -> p0)) U[2,15] (!p1 U[10,13] p1)))
+        Fitness: 0.18728328627893848
+        Training Accuracy: 0.308 
+        Computation Length: 56 
+        Tree Depth: 7
+        Length: 160
+        Test Accuracy: 0.278
+        
+
+        Phenotype: (!((!(p0 & p1) | !p1) | p1) U[13,14] (((F[5,13] !p1 R[6,15] (F[2,10] p0 U[3,5] (p1 R[10,10] p1))) U[0,12] ((p1 | (p1 U[11,15] p0)) | ((p0 -> p0) & (p1 R[0,10] p0)))) | !!(p0 U[5,9] !p0)))
+        Fitness: 0.17641141199226307
+        Training Accuracy: 0.299 
+        Computation Length: 57 
+        Tree Depth: 7
+        Length: 187
+        Test Accuracy: 0.288
+        
+
+        Phenotype: (p1 R[2,6] !p0)
+        Fitness: 0.17198257575757575
+        Training Accuracy: 0.159 
+        Computation Length: 7 
+        Tree Depth: 2
+        Length: 15
+        Test Accuracy: 0.192
+        
+
+        Phenotype: !(p1 U[0,9] p0)
+        Fitness: 0.1684643939393939
+        Training Accuracy: 0.146 
+        Computation Length: 10 
+        Tree Depth: 2
+        Length: 15
+        Test Accuracy: 0.148
+        
+
+        Phenotype: !(!G[3,15] (F[1,6] p1 | p1) -> p1)
+        Fitness: 0.11276190476190476
+        Training Accuracy: 0.12 
+        Computation Length: 22 
+        Tree Depth: 5
+        Length: 34
+        Test Accuracy: 0.104
+        
+
+        Phenotype: !F[4,10] !!!(p1 -> p0)
+        Fitness: 0.10557391304347827
+        Training Accuracy: 0.076 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 22
+        Test Accuracy: 0.06
+        
+
+        Phenotype: (G[2,4] p1 | G[0,10] !p0)
+        Fitness: 0.10082307692307693
+        Training Accuracy: 0.071 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 25
+        Test Accuracy: 0.064
+        
+
+        Phenotype: !F[3,10] !!!(p0 -> p1)
+        Fitness: 0.08757391304347827
+        Training Accuracy: 0.056 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 22
+        Test Accuracy: 0.064
+        
+
+        Phenotype: (G[4,10] p1 | !F[2,10] !!p0)
+        Fitness: 0.04572413793103448
+        Training Accuracy: 0.01 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 28
+        Test Accuracy: 0.01
+        
+
+        Phenotype: G[3,10] !!!p1
+        Fitness: 0.04113809523809524
+        Training Accuracy: 0.001 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 13
+        Test Accuracy: 0.0
+        
+
+        Phenotype: !!G[1,10] !!!p1
+        Fitness: 0.03979166666666667
+        Training Accuracy: 0.0 
+        Computation Length: 11 
+        Tree Depth: 2
+        Length: 15
+        Test Accuracy: 0.0
+        
+
+        Phenotype: !((((!p0 & (p0 R[13,16] p0)) U[12,14] !(p0 -> p1)) U[4,14] (F[10,13] F[8,9] p1 & !(p0 U[5,11] p1))) | F[4,5] p1)
+        Fitness: 0.03957234800597633
+        Training Accuracy: 0.11 
+        Computation Length: 45 
+        Tree Depth: 6
+        Length: 112
+        Test Accuracy: 0.114
+        
+
+        Phenotype: !(p0 | F[2,10] p0)
+        Fitness: 0.03853157894736842
+        Training Accuracy: 0.001 
+        Computation Length: 11 
+        Tree Depth: 3
+        Length: 18
+        Test Accuracy: 0.0
+        
+
+        Phenotype: !(((!G[3,3] p1 R[3,6] !(p0 & p1)) | p1) -> F[0,10] p0)
+        Fitness: 0.03424242424242424
+        Training Accuracy: 0.0 
+        Computation Length: 11 
+        Tree Depth: 5
+        Length: 54
+        Test Accuracy: 0.0
+        
+
+        Phenotype: (!p1 R[1,10] !F[0,5] p1)
+        Fitness: 0.02966363636363636
+        Training Accuracy: 0.007 
+        Computation Length: 16 
+        Tree Depth: 3
+        Length: 24
+        Test Accuracy: 0.004
+        
+
+        Phenotype: !F[4,10] !((p0 -> (p0 R[1,7] p1)) | G[1,10] p1)
+        Fitness: 0.019702272727272728
+        Training Accuracy: 0.014 
+        Computation Length: 21 
+        Tree Depth: 5
+        Length: 47
+        Test Accuracy: 0.008
+        
+
+        Phenotype: (!!p1 R[3,10] !((((p1 & p1) U[8,8] (p1 U[2,16] p0)) R[0,15] p1) | !!p0))
+        Fitness: 0.01447843800035582
+        Training Accuracy: 0.097 
+        Computation Length: 50 
+        Tree Depth: 6
+        Length: 72
+        Test Accuracy: 0.1
+        
+
+        Phenotype: G[2,10] (G[0,2] (((p0 U[15,15] p0) U[6,14] p0) | F[0,5] !p0) & !(((p0 U[12,12] p1) | (p0 -> p1)) -> p1))
+        Fitness: -0.002069264069264071
+        Training Accuracy: 0.055 
+        Computation Length: 42 
+        Tree Depth: 7
+        Length: 104
+        Test Accuracy: 0.038
+        

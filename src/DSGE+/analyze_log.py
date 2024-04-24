@@ -160,7 +160,8 @@ def analyze_log(log_path):
             last_unique_index = i
             change_indices.append(i)
     
-    save_path = f'{log_path.replace(".log", "")}.png'
+    filename = os.path.basename(log_path).replace(".txt", "")+".png"
+    save_path = f'plots/{filename}'
     plt.savefig(save_path)
     print(f"Saved plot to {save_path}")
 
