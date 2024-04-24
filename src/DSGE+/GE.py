@@ -493,10 +493,11 @@ def read_params(file_path="params.txt"):
     n = len(pos_train_traces[0][0])
     print(f"n = {n}")
     MAX_BOUND = max([len(trace) for trace in pos_train_traces + neg_train_traces])
+    MIN_BOUND = min([len(trace) for trace in pos_train_traces + neg_train_traces])
     grammar = Grammar(n, MAX_BOUND)
     genotype_length = 2 ** (params['max_tree_depth'] + 1)
     genotype_max = 1e6
-    target_complen = MAX_BOUND
+    target_complen = MIN_BOUND
 
     params.update({
         "pos_train": pos_train,

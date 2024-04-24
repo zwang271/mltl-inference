@@ -1,9 +1,9 @@
 formula: G[0,10]!(!p0 & !(p1 U[0,10] p0))
 n: 2
 m: 21
-samples: 1000
-percent_train: 0.8
+samples: 1500
+num_train: 500
 method: random
-m_delta: 4
-seed: None
+m_delta: 6
+seed: 42
 MAX: 10
