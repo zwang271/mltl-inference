@@ -21,19 +21,19 @@ size_t max_trace_length(const vector<vector<string>> &traces) {
   return max;
 }
 
-struct ASTNodeUniquePtrCompare {
-  bool operator()(const std::unique_ptr<ASTNode> &lhs,
-                  const std::unique_ptr<ASTNode> &rhs) const {
+struct ASTNodeSharedPtrCompare {
+  bool operator()(const std::shared_ptr<ASTNode> &lhs,
+                  const std::shared_ptr<ASTNode> &rhs) const {
     return *lhs < *rhs; // Use the ASTNode comparison operators
   }
 };
 
 class NodeWrapper {
 public:
-  unique_ptr<ASTNode> ast;
+  shared_ptr<ASTNode> ast;
   float accuracy;
   int depth;
-  NodeWrapper(unique_ptr<ASTNode> ast, float accuracy, int depth)
+  NodeWrapper(shared_ptr<ASTNode> ast, float accuracy, int depth)
       : ast(std::move(ast)), accuracy(accuracy), depth(depth) {}
 
   // determines position in set, break ties with ast lexicographical compare.
@@ -118,14 +118,14 @@ vector<vector<int>> combinations(vector<int> &nums, int n) {
   return result;
 }
 
-void generate_formulas(vector<unique_ptr<ASTNode>> &formulas, int vars,
+void generate_formulas(vector<shared_ptr<ASTNode>> &formulas, int vars,
                        size_t max_ub, size_t bounds_step) {
   size_t num_depth_minus_1 = formulas.size();
   if (num_depth_minus_1 == 0) {
-    // formulas.push_back(make_unique<Constant>(true));
-    // formulas.push_back(make_unique<Constant>(false));
+    // formulas.push_back(make_shared<Constant>(true));
+    // formulas.push_back(make_shared<Constant>(false));
     for (int i = 0; i < vars; ++i) {
-      formulas.emplace_back(make_unique<Variable>(i));
+      formulas.emplace_back(make_shared<Variable>(i));
     }
     return;
   }
@@ -134,14 +134,12 @@ void generate_formulas(vector<unique_ptr<ASTNode>> &formulas, int vars,
   for (size_t i = 0; i < num_depth_minus_1; ++i) {
     if (formulas[i]->get_type() != ASTNode::Type::Negation) {
       // no need to double negate
-      formulas.emplace_back(make_unique<Negation>(formulas[i]->deep_copy()));
+      formulas.emplace_back(make_shared<Negation>(formulas[i]));
     }
     for (size_t lb = 0; lb <= max_ub; lb += bounds_step) {
       for (size_t ub = lb + bounds_step; ub <= max_ub; ub += bounds_step) {
-        formulas.emplace_back(
-            make_unique<Finally>(formulas[i]->deep_copy(), lb, ub));
-        formulas.emplace_back(
-            make_unique<Globally>(formulas[i]->deep_copy(), lb, ub));
+        formulas.emplace_back(make_shared<Finally>(formulas[i], lb, ub));
+        formulas.emplace_back(make_shared<Globally>(formulas[i], lb, ub));
       }
     }
   }
@@ -149,23 +147,21 @@ void generate_formulas(vector<unique_ptr<ASTNode>> &formulas, int vars,
   // create every possible binary operation
   for (size_t i = 0; i < num_depth_minus_1; ++i) {
     size_t op = num_depth_minus_1 - 1 - i;
-    formulas.emplace_back(
-        make_unique<And>(formulas[i]->deep_copy(), formulas[op]->deep_copy()));
+    formulas.emplace_back(make_shared<And>(formulas[i], formulas[op]));
     // formulas.emplace_back(
-    //     make_unique<Xor>(formulas[i]->deep_copy(),
-    //     formulas[j]->deep_copy()));
-    formulas.emplace_back(
-        make_unique<Or>(formulas[i]->deep_copy(), formulas[op]->deep_copy()));
-    // formulas.emplace_back(make_unique<Implies>(formulas[i]->deep_copy(),
-    //                                            formulas[j]->deep_copy()));
-    // formulas.emplace_back(make_unique<Equiv>(formulas[i]->deep_copy(),
-    //                                          formulas[j]->deep_copy()));
+    //     make_shared<Xor>(formulas[i],
+    //     formulas[j]));
+    formulas.emplace_back(make_shared<Or>(formulas[i], formulas[op]));
+    // formulas.emplace_back(make_shared<Implies>(formulas[i],
+    //                                            formulas[j]));
+    // formulas.emplace_back(make_shared<Equiv>(formulas[i],
+    //                                          formulas[j]));
     for (size_t lb = 0; lb <= max_ub; lb += bounds_step) {
       for (size_t ub = lb + bounds_step; ub <= max_ub; ub += bounds_step) {
-        formulas.emplace_back(make_unique<Until>(
-            formulas[i]->deep_copy(), formulas[op]->deep_copy(), lb, ub));
-        formulas.emplace_back(make_unique<Release>(
-            formulas[i]->deep_copy(), formulas[op]->deep_copy(), lb, ub));
+        formulas.emplace_back(
+            make_shared<Until>(formulas[i], formulas[op], lb, ub));
+        formulas.emplace_back(
+            make_shared<Release>(formulas[i], formulas[op], lb, ub));
       }
     }
   }
@@ -189,16 +185,16 @@ bool keep_best(
     boost::container::flat_set<NodeWrapper> &formulas_best,
     boost::container::flat_set<NodeWrapper, std::greater<NodeWrapper>>
         &formulas_worst,
-    unique_ptr<ASTNode> new_f, float acc, int depth, size_t num_to_keep) {
+    shared_ptr<ASTNode> new_f, float acc, int depth, size_t num_to_keep) {
   bool inserted = false;
   if (formulas_worst.size() < num_to_keep) {
-    formulas_worst.emplace(new_f->deep_copy(), acc, depth);
+    formulas_worst.emplace(new_f, acc, depth);
     formulas_best.emplace(std::move(new_f), acc, depth);
     return true;
   }
   if (formulas_worst.begin()->accuracy > acc) {
     formulas_worst.erase(formulas_worst.begin());
-    formulas_worst.emplace(new_f->deep_copy(), acc, depth);
+    formulas_worst.emplace(new_f, acc, depth);
     inserted = true;
   }
   if (formulas_best.begin()->accuracy < acc) {
@@ -227,14 +223,14 @@ int main(int argc, char *argv[]) {
   }
 
   // string base_path = "../dataset/nasa-atc_formula1";
-  // string base_path = "../dataset/nasa-atc_formula2";
+  string base_path = "../dataset/nasa-atc_formula2";
   // string base_path = "../dataset/fmsd17_formula1";
   // string base_path = "../dataset/fmsd17_formula2";
   // string base_path = "../dataset/fmsd17_formula3";
   // string base_path = "../dataset/basic_future";
   // string base_path = "../dataset/basic_global";
   // string base_path = "../dataset/basic_release";
-  string base_path = "../dataset/basic_until";
+  // string base_path = "../dataset/basic_until";
   vector<vector<string>> traces_pos_train =
       read_trace_files(base_path + "/pos_train");
   size_t max_pos_train_trace_len = max_trace_length(traces_pos_train);
@@ -264,7 +260,7 @@ int main(int argc, char *argv[]) {
   const size_t truth_table_rows = pow(2, num_vars);
   size_t num_boolean_functions = pow(2, pow(2, num_vars));
   vector<string> inputs(truth_table_rows);
-  vector<unique_ptr<ASTNode>> bool_funcs;
+  vector<shared_ptr<ASTNode>> bool_funcs;
 
   gettimeofday(&start, NULL); // start timer
 
@@ -302,13 +298,13 @@ int main(int argc, char *argv[]) {
   num_boolean_functions = bool_funcs.size();
   for (int i = 1; i < input_variables.size(); ++i) {
     for (size_t j = 0; j < num_boolean_functions; ++j) {
-      std::unique_ptr<ASTNode> new_func = bool_funcs[j]->deep_copy();
+      std::shared_ptr<ASTNode> new_func = bool_funcs[j]->deep_copy();
       for (int k = num_vars - 1; k >= 0; --k) {
         replaceVar(*new_func, k, input_variables[i][k]);
       }
       // only insert if it is not a duplicate
       auto it = find_if(bool_funcs.begin(), bool_funcs.end(),
-                        [&new_func](const std::unique_ptr<ASTNode> &ptr) {
+                        [&new_func](const std::shared_ptr<ASTNode> &ptr) {
                           return *ptr == *new_func;
                         });
       if (it == bool_funcs.end()) {
@@ -325,30 +321,28 @@ int main(int argc, char *argv[]) {
 
   size_t max_ub = max_pos_train_trace_len - 1;
 
-  boost::container::flat_set<unique_ptr<ASTNode>, ASTNodeUniquePtrCompare>
+  boost::container::flat_set<shared_ptr<ASTNode>, ASTNodeSharedPtrCompare>
       interesting_bool_funcs;
 
   for (size_t i = 0; i < num_vars_in_trace; ++i) {
-    interesting_bool_funcs.emplace(make_unique<Variable>(i));
+    interesting_bool_funcs.emplace(make_shared<Variable>(i));
     interesting_bool_funcs.emplace(
-        make_unique<Negation>(make_unique<Variable>(i)));
+        make_shared<Negation>(make_shared<Variable>(i)));
   }
 #pragma omp parallel for schedule(dynamic)
   for (size_t i = 0; i < num_boolean_functions; ++i) {
-    if (calc_accuracy(
-            *make_unique<Finally>(bool_funcs[i]->deep_copy(), 0, max_ub),
-            traces_pos_train, traces_neg_train) > 0.5) {
+    if (calc_accuracy(*make_shared<Finally>(bool_funcs[i], 0, max_ub),
+                      traces_pos_train, traces_neg_train) > 0.5) {
 #pragma omp critical
-      interesting_bool_funcs.emplace(bool_funcs[i]->deep_copy());
+      interesting_bool_funcs.emplace(bool_funcs[i]);
     }
   }
 #pragma omp parallel for schedule(dynamic)
   for (size_t i = 0; i < num_boolean_functions; ++i) {
-    if (calc_accuracy(
-            *make_unique<Globally>(bool_funcs[i]->deep_copy(), 0, max_ub),
-            traces_pos_train, traces_neg_train) > 0.5) {
+    if (calc_accuracy(*make_shared<Globally>(bool_funcs[i], 0, max_ub),
+                      traces_pos_train, traces_neg_train) > 0.5) {
 #pragma omp critical
-      interesting_bool_funcs.emplace(bool_funcs[i]->deep_copy());
+      interesting_bool_funcs.emplace(bool_funcs[i]);
     }
   }
 
@@ -366,8 +360,7 @@ int main(int argc, char *argv[]) {
   for (auto &operand1 : interesting_bool_funcs) {
     for (size_t lb = 0; lb <= max_ub; lb += bounds_step) {
       for (size_t ub = lb + bounds_step; ub <= max_ub; ub += bounds_step) {
-        unique_ptr<ASTNode> candidate =
-            make_unique<Globally>(operand1->deep_copy(), lb, ub);
+        shared_ptr<ASTNode> candidate = make_shared<Globally>(operand1, lb, ub);
         float acc =
             calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
 #pragma omp critical
@@ -376,7 +369,7 @@ int main(int argc, char *argv[]) {
                     max_formulas);
         }
 
-        candidate = make_unique<Finally>(operand1->deep_copy(), lb, ub);
+        candidate = make_shared<Finally>(operand1, lb, ub);
         acc = calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
 #pragma omp critical
         {
@@ -408,8 +401,8 @@ int main(int argc, char *argv[]) {
       }
       for (size_t lb = 0; lb <= max_ub; lb += bounds_step) {
         for (size_t ub = lb + bounds_step; ub <= max_ub; ub += bounds_step) {
-          unique_ptr<ASTNode> candidate = make_unique<Until>(
-              operand1->deep_copy(), operand2->deep_copy(), lb, ub);
+          shared_ptr<ASTNode> candidate =
+              make_shared<Until>(operand1, operand2, lb, ub);
           float acc =
               calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
 #pragma omp critical
@@ -418,8 +411,7 @@ int main(int argc, char *argv[]) {
                       1, max_formulas);
           }
 
-          candidate = make_unique<Release>(operand1->deep_copy(),
-                                           operand2->deep_copy(), lb, ub);
+          candidate = make_shared<Release>(operand1, operand2, lb, ub);
           acc = calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
 #pragma omp critical
           {
@@ -438,7 +430,7 @@ int main(int argc, char *argv[]) {
         candidates_worst;
 #pragma omp parallel for schedule(dynamic)
     for (auto &operand1 : formulas_best) {
-      unique_ptr<ASTNode> candidate;
+      shared_ptr<ASTNode> candidate;
       float acc;
       for (size_t lb = 0; lb <= max_ub; lb += bounds_step) {
         for (size_t ub = lb + bounds_step; ub <= max_ub; ub += bounds_step) {
@@ -446,8 +438,7 @@ int main(int argc, char *argv[]) {
             continue;
           }
           if (operand1.depth == depth - 1) {
-            candidate =
-                make_unique<Globally>(operand1.ast->deep_copy(), lb, ub);
+            candidate = make_shared<Globally>(operand1.ast, lb, ub);
             acc = calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
 #pragma omp critical
             {
@@ -455,7 +446,7 @@ int main(int argc, char *argv[]) {
                         acc, depth, max_formulas);
             }
 
-            candidate = make_unique<Finally>(operand1.ast->deep_copy(), lb, ub);
+            candidate = make_shared<Finally>(operand1.ast, lb, ub);
             acc = calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
 #pragma omp critical
             {
@@ -475,8 +466,7 @@ int main(int argc, char *argv[]) {
               continue;
             }
 
-            candidate = make_unique<Until>(operand1.ast->deep_copy(),
-                                           operand2.ast->deep_copy(), lb, ub);
+            candidate = make_shared<Until>(operand1.ast, operand2.ast, lb, ub);
             acc = calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
 #pragma omp critical
             {
@@ -484,8 +474,8 @@ int main(int argc, char *argv[]) {
                         acc, depth, max_formulas);
             }
 
-            candidate = make_unique<Release>(operand1.ast->deep_copy(),
-                                             operand2.ast->deep_copy(), lb, ub);
+            candidate =
+                make_shared<Release>(operand1.ast, operand2.ast, lb, ub);
             acc = calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
 #pragma omp critical
             {
@@ -497,8 +487,7 @@ int main(int argc, char *argv[]) {
           if (operand1.depth == depth - 1) {
             // (2) GENERATE FORMULAS WITH AT LEAST ONE DEPTH -1 formula.
             for (auto &operand2 : interesting_bool_funcs) {
-              candidate = make_unique<Until>(operand1.ast->deep_copy(),
-                                             operand2->deep_copy(), lb, ub);
+              candidate = make_shared<Until>(operand1.ast, operand2, lb, ub);
               acc =
                   calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
 #pragma omp critical
@@ -507,8 +496,7 @@ int main(int argc, char *argv[]) {
                           std::move(candidate), acc, depth, max_formulas);
               }
 
-              candidate = make_unique<Release>(operand1.ast->deep_copy(),
-                                               operand2->deep_copy(), lb, ub);
+              candidate = make_shared<Release>(operand1.ast, operand2, lb, ub);
               acc =
                   calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
 #pragma omp critical
@@ -517,8 +505,7 @@ int main(int argc, char *argv[]) {
                           std::move(candidate), acc, depth, max_formulas);
               }
 
-              candidate = make_unique<Until>(operand2->deep_copy(),
-                                             operand1.ast->deep_copy(), lb, ub);
+              candidate = make_shared<Until>(operand2, operand1.ast, lb, ub);
               acc =
                   calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
 #pragma omp critical
@@ -527,8 +514,7 @@ int main(int argc, char *argv[]) {
                           std::move(candidate), acc, depth, max_formulas);
               }
 
-              candidate = make_unique<Release>(
-                  operand2->deep_copy(), operand1.ast->deep_copy(), lb, ub);
+              candidate = make_shared<Release>(operand2, operand1.ast, lb, ub);
               acc =
                   calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
 #pragma omp critical
@@ -538,10 +524,8 @@ int main(int argc, char *argv[]) {
               }
 
               // use some binary propositional operations now.
-              candidate = make_unique<Globally>(
-                  make_unique<And>(operand1.ast->deep_copy(),
-                                   operand2->deep_copy()),
-                  lb, ub);
+              candidate = make_shared<Globally>(
+                  make_shared<And>(operand1.ast, operand2), lb, ub);
               acc =
                   calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
 #pragma omp critical
@@ -549,10 +533,8 @@ int main(int argc, char *argv[]) {
                 keep_best(candidates_best, candidates_worst,
                           std::move(candidate), acc, depth, max_formulas);
               }
-              candidate = make_unique<Finally>(
-                  make_unique<And>(operand1.ast->deep_copy(),
-                                   operand2->deep_copy()),
-                  lb, ub);
+              candidate = make_shared<Finally>(
+                  make_shared<And>(operand1.ast, operand2), lb, ub);
               acc =
                   calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
 #pragma omp critical
@@ -560,10 +542,8 @@ int main(int argc, char *argv[]) {
                 keep_best(candidates_best, candidates_worst,
                           std::move(candidate), acc, depth, max_formulas);
               }
-              candidate = make_unique<Globally>(
-                  make_unique<Or>(operand1.ast->deep_copy(),
-                                  operand2->deep_copy()),
-                  lb, ub);
+              candidate = make_shared<Globally>(
+                  make_shared<Or>(operand1.ast, operand2), lb, ub);
               acc =
                   calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
 #pragma omp critical
@@ -571,10 +551,8 @@ int main(int argc, char *argv[]) {
                 keep_best(candidates_best, candidates_worst,
                           std::move(candidate), acc, depth, max_formulas);
               }
-              candidate = make_unique<Finally>(
-                  make_unique<Or>(operand1.ast->deep_copy(),
-                                  operand2->deep_copy()),
-                  lb, ub);
+              candidate = make_shared<Finally>(
+                  make_shared<Or>(operand1.ast, operand2), lb, ub);
               acc =
                   calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
 #pragma omp critical
@@ -587,10 +565,9 @@ int main(int argc, char *argv[]) {
               // use some binary propositional operations now.
               if (operand2->get_type() !=
                   ASTNode::Type::Negation) { // don't double negate
-                candidate = make_unique<Globally>(
-                    make_unique<And>(
-                        operand1.ast->deep_copy(),
-                        make_unique<Negation>(operand2->deep_copy())),
+                candidate = make_shared<Globally>(
+                    make_shared<And>(operand1.ast,
+                                     make_shared<Negation>(operand2)),
                     lb, ub);
                 acc = calc_accuracy(*candidate, traces_pos_train,
                                     traces_neg_train);
@@ -599,10 +576,9 @@ int main(int argc, char *argv[]) {
                   keep_best(candidates_best, candidates_worst,
                             std::move(candidate), acc, depth, max_formulas);
                 }
-                candidate = make_unique<Finally>(
-                    make_unique<And>(
-                        operand1.ast->deep_copy(),
-                        make_unique<Negation>(operand2->deep_copy())),
+                candidate = make_shared<Finally>(
+                    make_shared<And>(operand1.ast,
+                                     make_shared<Negation>(operand2)),
                     lb, ub);
                 acc = calc_accuracy(*candidate, traces_pos_train,
                                     traces_neg_train);
@@ -611,10 +587,9 @@ int main(int argc, char *argv[]) {
                   keep_best(candidates_best, candidates_worst,
                             std::move(candidate), acc, depth, max_formulas);
                 }
-                candidate = make_unique<Globally>(
-                    make_unique<Or>(
-                        operand1.ast->deep_copy(),
-                        make_unique<Negation>(operand2->deep_copy())),
+                candidate = make_shared<Globally>(
+                    make_shared<Or>(operand1.ast,
+                                    make_shared<Negation>(operand2)),
                     lb, ub);
                 acc = calc_accuracy(*candidate, traces_pos_train,
                                     traces_neg_train);
@@ -623,10 +598,9 @@ int main(int argc, char *argv[]) {
                   keep_best(candidates_best, candidates_worst,
                             std::move(candidate), acc, depth, max_formulas);
                 }
-                candidate = make_unique<Finally>(
-                    make_unique<Or>(
-                        operand1.ast->deep_copy(),
-                        make_unique<Negation>(operand2->deep_copy())),
+                candidate = make_shared<Finally>(
+                    make_shared<Or>(operand1.ast,
+                                    make_shared<Negation>(operand2)),
                     lb, ub);
                 acc = calc_accuracy(*candidate, traces_pos_train,
                                     traces_neg_train);
@@ -643,231 +617,231 @@ int main(int argc, char *argv[]) {
         }
       }
     }
-/*
-#pragma omp parallel for schedule(dynamic)
-    for (auto &operand1 : formulas_worst) {
-      unique_ptr<ASTNode> candidate;
-      float acc;
-      for (size_t lb = 0; lb <= max_ub; lb += bounds_step) {
-        for (size_t ub = lb + bounds_step; ub <= max_ub; ub += bounds_step) {
-          if (operand1.ast->future_reach() + ub > max_pos_train_trace_len) {
-            continue;
-          }
-          if (operand1.depth == depth - 1) {
-            candidate = make_unique<Globally>(operand1.ast->deep_copy(), lb, ub);
-            acc = calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
-#pragma omp critical
-            {
-              keep_best(candidates_best, candidates_worst, std::move(candidate),
-                        acc, depth, max_formulas);
-            }
-
-            candidate = make_unique<Finally>(operand1.ast->deep_copy(), lb, ub);
-            acc = calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
-#pragma omp critical
-            {
-              keep_best(candidates_best, candidates_worst, std::move(candidate),
-                        acc, depth, max_formulas);
-            }
-          }
-
-          for (auto &operand2 : formulas_best) {
-            if (operand1.ast == operand2.ast) {
-              continue;
-            }
-            if (operand1.depth < depth - 1 && operand2.depth < depth - 1) {
-              continue;
-            }
-            if (operand2.ast->future_reach() + ub > max_pos_train_trace_len) {
-              continue;
-            }
-
-            candidate = make_unique<Until>(operand1.ast->deep_copy(),
-                                           operand2.ast->deep_copy(), lb, ub);
-            acc = calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
-#pragma omp critical
-            {
-              keep_best(candidates_best, candidates_worst, std::move(candidate),
-                        acc, depth, max_formulas);
-            }
-
-            candidate = make_unique<Release>(operand1.ast->deep_copy(),
-                                             operand2.ast->deep_copy(), lb, ub);
-            acc = calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
-#pragma omp critical
-            {
-              keep_best(candidates_best, candidates_worst, std::move(candidate),
-                        acc, depth, max_formulas);
-            }
-
-            candidate = make_unique<Until>(operand2.ast->deep_copy(),
-                                           operand1.ast->deep_copy(), lb, ub);
-            acc = calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
-#pragma omp critical
-            {
-              keep_best(candidates_best, candidates_worst, std::move(candidate),
-                        acc, depth, max_formulas);
-            }
-
-            candidate = make_unique<Release>(operand2.ast->deep_copy(),
-                                             operand1.ast->deep_copy(), lb, ub);
-            acc = calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
-#pragma omp critical
-            {
-              keep_best(candidates_best, candidates_worst, std::move(candidate),
-                        acc, depth, max_formulas);
-            }
-          }
-
-          if (operand1.depth == depth - 1) {
-            // (2) GENERATE FORMULAS WITH AT LEAST ONE DEPTH -1 formula.
-            for (auto &operand2 : interesting_bool_funcs) {
-              candidate = make_unique<Until>(operand1.ast->deep_copy(),
-                                             operand2->deep_copy(), lb, ub);
-              acc =
-                  calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
-#pragma omp critical
-              {
-                keep_best(candidates_best, candidates_worst,
-                          std::move(candidate), acc, depth, max_formulas);
+    /*
+    #pragma omp parallel for schedule(dynamic)
+        for (auto &operand1 : formulas_worst) {
+          shared_ptr<ASTNode> candidate;
+          float acc;
+          for (size_t lb = 0; lb <= max_ub; lb += bounds_step) {
+            for (size_t ub = lb + bounds_step; ub <= max_ub; ub += bounds_step)
+    { if (operand1.ast->future_reach() + ub > max_pos_train_trace_len) {
+                continue;
               }
-
-              candidate = make_unique<Release>(operand1.ast->deep_copy(),
-                                               operand2->deep_copy(), lb, ub);
-              acc =
-                  calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
-#pragma omp critical
-              {
-                keep_best(candidates_best, candidates_worst,
-                          std::move(candidate), acc, depth, max_formulas);
-              }
-
-              candidate = make_unique<Until>(operand2->deep_copy(),
-                                             operand1.ast->deep_copy(), lb, ub);
-              acc =
-                  calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
-#pragma omp critical
-              {
-                keep_best(candidates_best, candidates_worst,
-                          std::move(candidate), acc, depth, max_formulas);
-              }
-
-              candidate = make_unique<Release>(
-                  operand2->deep_copy(), operand1.ast->deep_copy(), lb, ub);
-              acc =
-                  calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
-#pragma omp critical
-              {
-                keep_best(candidates_best, candidates_worst,
-                          std::move(candidate), acc, depth, max_formulas);
-              }
-
-              // use some binary propositional operations now.
-              candidate = make_unique<Globally>(
-                  make_unique<And>(operand1.ast->deep_copy(),
-                                   operand2->deep_copy()),
-                  lb, ub);
-              acc =
-                  calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
-#pragma omp critical
-              {
-                keep_best(candidates_best, candidates_worst,
-                          std::move(candidate), acc, depth, max_formulas);
-              }
-              candidate = make_unique<Finally>(
-                  make_unique<And>(operand1.ast->deep_copy(),
-                                   operand2->deep_copy()),
-                  lb, ub);
-              acc =
-                  calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
-#pragma omp critical
-              {
-                keep_best(candidates_best, candidates_worst,
-                          std::move(candidate), acc, depth, max_formulas);
-              }
-              candidate = make_unique<Globally>(
-                  make_unique<Or>(operand1.ast->deep_copy(),
-                                  operand2->deep_copy()),
-                  lb, ub);
-              acc =
-                  calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
-#pragma omp critical
-              {
-                keep_best(candidates_best, candidates_worst,
-                          std::move(candidate), acc, depth, max_formulas);
-              }
-              candidate = make_unique<Finally>(
-                  make_unique<Or>(operand1.ast->deep_copy(),
-                                  operand2->deep_copy()),
-                  lb, ub);
-              acc =
-                  calc_accuracy(*candidate, traces_pos_train, traces_neg_train);
-#pragma omp critical
-              {
-                keep_best(candidates_best, candidates_worst,
-                          std::move(candidate), acc, depth, max_formulas);
-              }
-
-              // NEGATED
-              // use some binary propositional operations now.
-              if (operand2->get_type() !=
-                  ASTNode::Type::Negation) { // don't double negate
-                candidate = make_unique<Globally>(
-                    make_unique<And>(
-                        operand1.ast->deep_copy(),
-                        make_unique<Negation>(operand2->deep_copy())),
-                    lb, ub);
+              if (operand1.depth == depth - 1) {
+                candidate = make_shared<Globally>(operand1.ast, lb, ub);
                 acc = calc_accuracy(*candidate, traces_pos_train,
-                                    traces_neg_train);
-#pragma omp critical
+    traces_neg_train); #pragma omp critical
                 {
                   keep_best(candidates_best, candidates_worst,
-                            std::move(candidate), acc, depth, max_formulas);
+    std::move(candidate), acc, depth, max_formulas);
                 }
-                candidate = make_unique<Finally>(
-                    make_unique<And>(
-                        operand1.ast->deep_copy(),
-                        make_unique<Negation>(operand2->deep_copy())),
-                    lb, ub);
+
+                candidate = make_shared<Finally>(operand1.ast, lb, ub);
                 acc = calc_accuracy(*candidate, traces_pos_train,
-                                    traces_neg_train);
-#pragma omp critical
+    traces_neg_train); #pragma omp critical
                 {
                   keep_best(candidates_best, candidates_worst,
-                            std::move(candidate), acc, depth, max_formulas);
-                }
-                candidate = make_unique<Globally>(
-                    make_unique<Or>(
-                        operand1.ast->deep_copy(),
-                        make_unique<Negation>(operand2->deep_copy())),
-                    lb, ub);
-                acc = calc_accuracy(*candidate, traces_pos_train,
-                                    traces_neg_train);
-#pragma omp critical
-                {
-                  keep_best(candidates_best, candidates_worst,
-                            std::move(candidate), acc, depth, max_formulas);
-                }
-                candidate = make_unique<Finally>(
-                    make_unique<Or>(
-                        operand1.ast->deep_copy(),
-                        make_unique<Negation>(operand2->deep_copy())),
-                    lb, ub);
-                acc = calc_accuracy(*candidate, traces_pos_train,
-                                    traces_neg_train);
-#pragma omp critical
-                {
-                  keep_best(candidates_best, candidates_worst,
-                            std::move(candidate), acc, depth, max_formulas);
+    std::move(candidate), acc, depth, max_formulas);
                 }
               }
+
+              for (auto &operand2 : formulas_best) {
+                if (operand1.ast == operand2.ast) {
+                  continue;
+                }
+                if (operand1.depth < depth - 1 && operand2.depth < depth - 1) {
+                  continue;
+                }
+                if (operand2.ast->future_reach() + ub > max_pos_train_trace_len)
+    { continue;
+                }
+
+                candidate = make_shared<Until>(operand1.ast,
+                                               operand2.ast, lb, ub);
+                acc = calc_accuracy(*candidate, traces_pos_train,
+    traces_neg_train); #pragma omp critical
+                {
+                  keep_best(candidates_best, candidates_worst,
+    std::move(candidate), acc, depth, max_formulas);
+                }
+
+                candidate = make_shared<Release>(operand1.ast,
+                                                 operand2.ast, lb, ub);
+                acc = calc_accuracy(*candidate, traces_pos_train,
+    traces_neg_train); #pragma omp critical
+                {
+                  keep_best(candidates_best, candidates_worst,
+    std::move(candidate), acc, depth, max_formulas);
+                }
+
+                candidate = make_shared<Until>(operand2.ast,
+                                               operand1.ast, lb, ub);
+                acc = calc_accuracy(*candidate, traces_pos_train,
+    traces_neg_train); #pragma omp critical
+                {
+                  keep_best(candidates_best, candidates_worst,
+    std::move(candidate), acc, depth, max_formulas);
+                }
+
+                candidate = make_shared<Release>(operand2.ast,
+                                                 operand1.ast, lb, ub);
+                acc = calc_accuracy(*candidate, traces_pos_train,
+    traces_neg_train); #pragma omp critical
+                {
+                  keep_best(candidates_best, candidates_worst,
+    std::move(candidate), acc, depth, max_formulas);
+                }
+              }
+
+              if (operand1.depth == depth - 1) {
+                // (2) GENERATE FORMULAS WITH AT LEAST ONE DEPTH -1 formula.
+                for (auto &operand2 : interesting_bool_funcs) {
+                  candidate = make_shared<Until>(operand1.ast,
+                                                 operand2, lb, ub);
+                  acc =
+                      calc_accuracy(*candidate, traces_pos_train,
+    traces_neg_train); #pragma omp critical
+                  {
+                    keep_best(candidates_best, candidates_worst,
+                              std::move(candidate), acc, depth, max_formulas);
+                  }
+
+                  candidate = make_shared<Release>(operand1.ast,
+                                                   operand2, lb, ub);
+                  acc =
+                      calc_accuracy(*candidate, traces_pos_train,
+    traces_neg_train); #pragma omp critical
+                  {
+                    keep_best(candidates_best, candidates_worst,
+                              std::move(candidate), acc, depth, max_formulas);
+                  }
+
+                  candidate = make_shared<Until>(operand2,
+                                                 operand1.ast, lb, ub);
+                  acc =
+                      calc_accuracy(*candidate, traces_pos_train,
+    traces_neg_train); #pragma omp critical
+                  {
+                    keep_best(candidates_best, candidates_worst,
+                              std::move(candidate), acc, depth, max_formulas);
+                  }
+
+                  candidate = make_shared<Release>(
+                      operand2, operand1.ast, lb, ub);
+                  acc =
+                      calc_accuracy(*candidate, traces_pos_train,
+    traces_neg_train); #pragma omp critical
+                  {
+                    keep_best(candidates_best, candidates_worst,
+                              std::move(candidate), acc, depth, max_formulas);
+                  }
+
+                  // use some binary propositional operations now.
+                  candidate = make_shared<Globally>(
+                      make_shared<And>(operand1.ast,
+                                       operand2),
+                      lb, ub);
+                  acc =
+                      calc_accuracy(*candidate, traces_pos_train,
+    traces_neg_train); #pragma omp critical
+                  {
+                    keep_best(candidates_best, candidates_worst,
+                              std::move(candidate), acc, depth, max_formulas);
+                  }
+                  candidate = make_shared<Finally>(
+                      make_shared<And>(operand1.ast,
+                                       operand2),
+                      lb, ub);
+                  acc =
+                      calc_accuracy(*candidate, traces_pos_train,
+    traces_neg_train); #pragma omp critical
+                  {
+                    keep_best(candidates_best, candidates_worst,
+                              std::move(candidate), acc, depth, max_formulas);
+                  }
+                  candidate = make_shared<Globally>(
+                      make_shared<Or>(operand1.ast,
+                                      operand2),
+                      lb, ub);
+                  acc =
+                      calc_accuracy(*candidate, traces_pos_train,
+    traces_neg_train); #pragma omp critical
+                  {
+                    keep_best(candidates_best, candidates_worst,
+                              std::move(candidate), acc, depth, max_formulas);
+                  }
+                  candidate = make_shared<Finally>(
+                      make_shared<Or>(operand1.ast,
+                                      operand2),
+                      lb, ub);
+                  acc =
+                      calc_accuracy(*candidate, traces_pos_train,
+    traces_neg_train); #pragma omp critical
+                  {
+                    keep_best(candidates_best, candidates_worst,
+                              std::move(candidate), acc, depth, max_formulas);
+                  }
+
+                  // NEGATED
+                  // use some binary propositional operations now.
+                  if (operand2->get_type() !=
+                      ASTNode::Type::Negation) { // don't double negate
+                    candidate = make_shared<Globally>(
+                        make_shared<And>(
+                            operand1.ast,
+                            make_shared<Negation>(operand2)),
+                        lb, ub);
+                    acc = calc_accuracy(*candidate, traces_pos_train,
+                                        traces_neg_train);
+    #pragma omp critical
+                    {
+                      keep_best(candidates_best, candidates_worst,
+                                std::move(candidate), acc, depth, max_formulas);
+                    }
+                    candidate = make_shared<Finally>(
+                        make_shared<And>(
+                            operand1.ast,
+                            make_shared<Negation>(operand2)),
+                        lb, ub);
+                    acc = calc_accuracy(*candidate, traces_pos_train,
+                                        traces_neg_train);
+    #pragma omp critical
+                    {
+                      keep_best(candidates_best, candidates_worst,
+                                std::move(candidate), acc, depth, max_formulas);
+                    }
+                    candidate = make_shared<Globally>(
+                        make_shared<Or>(
+                            operand1.ast,
+                            make_shared<Negation>(operand2)),
+                        lb, ub);
+                    acc = calc_accuracy(*candidate, traces_pos_train,
+                                        traces_neg_train);
+    #pragma omp critical
+                    {
+                      keep_best(candidates_best, candidates_worst,
+                                std::move(candidate), acc, depth, max_formulas);
+                    }
+                    candidate = make_shared<Finally>(
+                        make_shared<Or>(
+                            operand1.ast,
+                            make_shared<Negation>(operand2)),
+                        lb, ub);
+                    acc = calc_accuracy(*candidate, traces_pos_train,
+                                        traces_neg_train);
+    #pragma omp critical
+                    {
+                      keep_best(candidates_best, candidates_worst,
+                                std::move(candidate), acc, depth, max_formulas);
+                    }
+                  }
+                }
+              }
+
+              // (integrate and/or?)
             }
           }
-
-          // (integrate and/or?)
-        }
-      }
-    }*/
+        }*/
 
     formulas_best.merge(candidates_best);
     formulas_worst.merge(candidates_worst);
@@ -885,7 +859,7 @@ int main(int argc, char *argv[]) {
   size_t begin_prev_depth = 0;
   size_t bounds_step = max_pos_train_trace_len / 4;
   size_t max_ub = max_pos_train_trace_len - 1;
-  vector<unique_ptr<ASTNode>> formulas;
+  vector<shared_ptr<ASTNode>> formulas;
 
   size_t num_depth_minus_1 = formulas.size();
 
