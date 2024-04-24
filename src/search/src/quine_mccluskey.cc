@@ -100,29 +100,29 @@ string get_clause_as_string(const string &a) {
 
 /* Returns the ast representation of a clause.
  */
-unique_ptr<ASTNode> get_clause_as_ast(const string &a) {
+shared_ptr<ASTNode> get_clause_as_ast(const string &a) {
   const string dontcares(a.size(), '-');
   string temp = "";
   if (a == dontcares)
-    return make_unique<Constant>(true);
+    return make_shared<Constant>(true);
 
-  vector<unique_ptr<ASTNode>> literals;
+  vector<shared_ptr<ASTNode>> literals;
 
   for (size_t i = 0; i < a.length(); ++i) {
     if (a[i] != '-') {
       if (a[i] == '0') {
-        literals.emplace_back(make_unique<Negation>(
-            make_unique<Variable>((unsigned int)i)));
+        literals.emplace_back(make_shared<Negation>(
+            make_shared<Variable>((unsigned int)i)));
       } else {
-        literals.emplace_back(make_unique<Variable>((unsigned int)i));
+        literals.emplace_back(make_shared<Variable>((unsigned int)i));
       }
     }
   }
 
   // build ast from literals
-  unique_ptr<ASTNode> root_node = std::move(literals.back());
+  shared_ptr<ASTNode> root_node = literals.back();
   for (int i = (int)literals.size() - 2; i >= 0; --i) {
-    root_node = make_unique<And>(std::move(literals[i]), std::move(root_node));
+    root_node = make_shared<And>(literals[i], root_node);
   }
 
   return root_node;
@@ -180,9 +180,9 @@ string quine_mccluskey_fast_string(const vector<string> &implicants) {
  * satisfying assignment.
  * ex: "1011" means that the assignment p0, -p1, p2, p3 evaluates to true.
  */
-unique_ptr<ASTNode> quine_mccluskey(const vector<string> &implicants) {
+shared_ptr<ASTNode> quine_mccluskey(const vector<string> &implicants) {
   if (implicants.size() == 0) {
-    return make_unique<Constant>(false);
+    return make_shared<Constant>(false);
   }
 
 #ifndef NDEBUG
@@ -200,10 +200,10 @@ unique_ptr<ASTNode> quine_mccluskey(const vector<string> &implicants) {
     sort(minterms.begin(), minterms.end());
   } while (minterms != reduce(minterms));
 
-  unique_ptr<ASTNode> root_node = get_clause_as_ast(minterms.back());
+  shared_ptr<ASTNode> root_node = get_clause_as_ast(minterms.back());
   for (int i = (int)minterms.size() - 2; i >= 0; --i) {
-    unique_ptr<ASTNode> new_clause = get_clause_as_ast(minterms[i]);
-    root_node = make_unique<Or>(std::move(new_clause), std::move(root_node));
+    shared_ptr<ASTNode> new_clause = get_clause_as_ast(minterms[i]);
+    root_node = make_shared<Or>(new_clause, root_node);
   }
 
   return root_node;
