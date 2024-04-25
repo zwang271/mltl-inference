@@ -1,6 +1,6 @@
 [submodule "src/libmltl"]
 	path = src/libmltl
-	url = git@github.com:lmarzen/libmltl.git
+	url = https://github.com/lmarzen/libmltl.git
 [submodule "src/Bridging-LTLf-Inference-to-GNN-Inference-for-Learning-LTLf-Formulae"]
 	path = src/Bridging-LTLf-Inference-to-GNN-Inference-for-Learning-LTLf-Formulae
 	url = https://github.com/a79461378945/Bridging-LTLf-Inference-to-GNN-Inference-for-Learning-LTLf-Formulae.git
