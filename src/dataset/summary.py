@@ -35,6 +35,7 @@ for directory in directories:
                     break
 
         print(f"{directory}\t{formula_as_string}\t{size}\t{num_vars}")
+        overall_avg_trace_len = 0
 
         subdirectories = ['neg_test', 'neg_train', 'pos_test', 'pos_train']
         for subdirectory in subdirectories:
@@ -51,6 +52,8 @@ for directory in directories:
                     total_files += 1
 
             average_trace_len = total_lines / total_files
+            overall_avg_trace_len = overall_avg_trace_len + average_trace_len
 
             print(f"  {subdirectory}\t{average_trace_len}\t{len(files)}\t")
-        print()
+        overall_avg_trace_len = overall_avg_trace_len / 4
+        print(f"  avg trace len: {overall_avg_trace_len}")
