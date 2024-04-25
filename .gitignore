@@ -19,3 +19,8 @@
 *.out
 *.pdf
 *.synctex.gz
+
+# Ignore files for WEST
+src/WEST/output/
+src/WEST/src/bitoptimized/
+
