@@ -1,0 +1,7 @@
+best formula: ('&&', ('X', 'p0'), 'p0')
+target formula: G[0,10](p0 & (p1 & !p2))
+accuracy: 0.886
+precision: 0.8143322475570033
+recall: 1.0
+all learned formulas: 
+('&&', ('X', 'p0'), 'p0')
