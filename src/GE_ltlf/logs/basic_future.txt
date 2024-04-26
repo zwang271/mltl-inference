@@ -1,0 +1,7 @@
+best formula: ('U', 'p0', 'p1')
+target formula: F[0,10](p0 | p1)
+accuracy: 0.841
+precision: 1.0
+recall: 0.682
+all learned formulas: 
+('U', 'p0', 'p1')

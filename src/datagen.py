@@ -153,10 +153,10 @@ if __name__ == '__main__':
     assert(all([not value for k, value in interpret_batch(formula, neg).items()]))
 
     # Split pos and neg into train and test, number of train samples is num_train
-    pos_train = pos[:num_train]
-    pos_test = pos[num_train:]
-    neg_train = neg[:num_train]    
-    neg_test = neg[num_train:]
+    pos_train = pos[:num_train//2]
+    pos_test = pos[num_train//2:]
+    neg_train = neg[:num_train//2]    
+    neg_test = neg[num_train//2:]
     print(f"Number of positive samples: {len(pos)}")
     print(f"Number of positive train samples: {len(pos_train)}")
     print(f"Number of positive test samples: {len(pos_test)}")
