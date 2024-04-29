@@ -20,11 +20,9 @@
 *.pdf
 *.synctex.gz
 
-# Ignore files for WEST
-src/WEST/output/
-src/WEST/src/bitoptimized/
-
 #Ignore test - Swami
-/src/template/*.git
-/src/template/dataset/
-/src/template/backup/
+# /src/template/basic.py
+# /src/template/basic2.py
+# /src/template/basic3.py
+# /src/template/svm.py
+# /src/template/genetic.py
