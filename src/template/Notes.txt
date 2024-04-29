@@ -1,0 +1,8 @@
+Next Steps to try:
+
+Implement SMT (Satisfiability Modulo Theories)#Explore more on this area to solve to solve the constraints in the formula.
+Update heuristic function and relevance function.
+Create rankings for formulas - use probability estimates to assign confidence scores to the generated formulas based on their consistency with the traces.
+Perform equivalence checking to avoid redundancy
+Parallelize the algorithm to improve the performance.
+
