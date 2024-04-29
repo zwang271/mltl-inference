@@ -222,8 +222,6 @@ def find_counterexample(formula, positive_traces, negative_traces):
 
 #Not using this function
 def heuristic_score(formula, positive_traces, negative_traces, num_propositions):
-    # Implement the heuristic function based on the literature
-    # Example heuristic: Temporal operator balance
     temporal_operators = re.findall(r'[FGUR]', formula)
     operator_counts = {op: temporal_operators.count(op) for op in set(temporal_operators)}
     if len(temporal_operators) > 0:
@@ -243,8 +241,6 @@ def heuristic_score(formula, positive_traces, negative_traces, num_propositions)
 
 #Not using this function
 def relevance(formula, traces):
-    # Implement a function to compute the relevance of the formula to the traces
-    # For example, you can count the number of traces that satisfy the formula
     count = 0
     for trace in traces:
         if interpret(formula, trace):
