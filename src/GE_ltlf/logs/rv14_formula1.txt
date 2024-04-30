@@ -1,0 +1,7 @@
+best formula: ('!', 'p0')
+target formula: G[0,10](!(((p1)&((true)U[0,0](p0)))&((true)U[0,0](p2))))
+accuracy: 0.562
+precision: 0.5574074074074075
+recall: 0.602
+all learned formulas: 
+('!', 'p0')

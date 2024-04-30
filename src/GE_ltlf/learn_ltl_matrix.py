@@ -146,7 +146,15 @@ def get_data(fname,formula_len,word2idx=-1,vocab=-1):
     return dataset,word2idx,vocab
 
 
-def train(train_file,formula_len,save_name,epoch_num,log_file,ins=0,case=0,learn_rate=2e-4,l1_cof=0.2):
+def train(train_file,
+          formula_len,
+          save_name,
+          epoch_num,
+          log_file,
+          ins=0,
+          case=0,
+          learn_rate=2e-4,
+          l1_cof=0.2):
     stime=time.time()
     train_dataset,word2idx,vocab=get_data(train_file,formula_len)
     # test_dataset, _, _ = get_data('blocks/blocks_d0/E2_0.json', formula_len, word2idx, vocab)

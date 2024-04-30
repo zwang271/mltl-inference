@@ -1,0 +1,7 @@
+best formula: ('&&', 'p4', 'p6')
+target formula: G[0,10]((p4 & p5) & p6)
+accuracy: 0.877
+precision: 0.8025682182985554
+recall: 1.0
+all learned formulas: 
+('&&', 'p4', 'p6')
