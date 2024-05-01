@@ -1,7 +1,0 @@
-best formula: ('U', 'p1', 'p2')
-target formula: (p1 U[0,10] p2)
-accuracy: 1.0
-precision: 1.0
-recall: 1.0
-all learned formulas: 
-('U', 'p1', 'p2')

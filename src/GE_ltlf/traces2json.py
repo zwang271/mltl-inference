@@ -93,8 +93,8 @@ if __name__ == '__main__':
     save_model = (logs / dataset.name).with_suffix(".model")
     log_file = (logs / dataset.name).with_suffix(".log")
     res_file = (logs / dataset.name).with_suffix(".txt")
-    network_len = 20
-    epoch_num = 50
+    network_len = 5
+    epoch_num = 30
     lr = 1e-4
     l1 = 0.1
 
