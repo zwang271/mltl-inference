@@ -1,0 +1,7 @@
+best formula: ('U', 'p2', 'p0')
+target formula: (p0 R[0,10] p2)
+accuracy: 0.95
+precision: 0.9090909090909091
+recall: 1.0
+all learned formulas: 
+('U', 'p2', 'p0')

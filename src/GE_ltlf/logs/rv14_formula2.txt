@@ -1,0 +1,10 @@
+best formula: ('&&', ('X', 'p0'), 'p0')
+target formula: G[0,10](!((!(p0))&(!((p1)U[0,0](p0)))))
+accuracy: 0.895
+precision: 0.8264462809917356
+recall: 1.0
+all learned formulas: 
+('&&', ('X', 'p0'), 'p0')
+('&&', ('X', 'p0'), 'p0')
+('&&', ('X', 'p0'), 'p0')
+('&&', ('X', 'p0'), 'p0')
