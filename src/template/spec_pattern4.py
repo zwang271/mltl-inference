@@ -4,6 +4,13 @@ from collections import defaultdict
 import libmltl
 from sklearn.model_selection import train_test_split
 import time
+import os
+
+# Get the directory of the current script
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Change the working directory relative to the script's directory
+os.chdir(os.path.join(script_dir, "src/template"))
 
 # Reading the text files containing the positive and negative traces
 def read_traces(file_path):
@@ -369,11 +376,11 @@ def synthesize_mltl(templates, num_propositions, time_bounds, positive_traces, n
 #basic_until
 #rv14_formula1
 #rv14_formula2
-positive_traces, num_propositions = read_traces('dataset/rv14_formula1/pos_summary.txt') # Path for positive traces <----------------------------------------------------------
-negative_traces, _ = read_traces('dataset/rv14_formula1/neg_summary.txt') # Path for negative traces <----------------------------------------------------------
+positive_traces, num_propositions = read_traces('dataset/basic_future/pos_summary.txt') # Path for positive traces <----------------------------------------------------------
+negative_traces, _ = read_traces('dataset/basic_future/neg_summary.txt') # Path for negative traces <----------------------------------------------------------
 
 # Split the data into training and testing sets
-train_size = 0.8 # Size for the training set <----------------------------------------------------------
+train_size = 0.3 # Size for the training set <----------------------------------------------------------
 
 pos_train, pos_test = train_test_split(positive_traces, train_size=train_size, random_state=42)
 neg_train, neg_test = train_test_split(negative_traces, train_size=train_size, random_state=42)
