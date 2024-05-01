@@ -2,6 +2,8 @@ import re
 from itertools import chain, combinations
 from collections import defaultdict
 import libmltl
+from sklearn.model_selection import train_test_split
+import time
 
 # Reading the text files containing the positive and negative traces
 def read_traces(file_path):
@@ -29,7 +31,7 @@ def until_template(prop1, prop2, a, b):
 def release_template(prop1, prop2, a, b):
     return f'({prop1} R[{a},{b}] {prop2})'
 
-# Adding some new templates to the list
+# Adding some new templates to the list for testing (Work in progress)
 
 def nested_until_template(prop1, prop2, prop3, a, b, c, d):
     return f'F[{a},{b}] ({prop1} U[{c},{d}] {prop2} U {prop3})'
@@ -141,7 +143,7 @@ def generate_proposition_joins(propositions):
             proposition_joins.append(join_formula)
     return proposition_joins
 
-def generate_candidates(templates, num_propositions, time_bounds, traces, abstraction, depth=0, max_depth=2):
+def generate_candidates(templates, num_propositions, time_bounds, traces, abstraction, depth=0, max_depth=2): # Maximum depth for the search <----------------------------------------------------------
     candidates = []
     propositions = [f'p{i}' for i in range(num_propositions)]
     explored_formulas = set()
@@ -316,13 +318,13 @@ def find_counterexample(formula, positive_traces, negative_traces):
     
     # Check formula against positive traces
     for trace in positive_traces:
-        trace_list = trace.split(',')  # Convert the trace string to a list of strings
+        trace_list = trace.split(',')
         if not ast.evaluate(trace_list):
             return trace
     
     # Check formula against negative traces
     for trace in negative_traces:
-        trace_list = trace.split(',')  # Convert the trace string to a list of strings
+        trace_list = trace.split(',')
         if ast.evaluate(trace_list):
             return trace
     
@@ -360,17 +362,47 @@ def synthesize_mltl(templates, num_propositions, time_bounds, positive_traces, n
     
     return None
 
-
 # Main program
-positive_traces, num_propositions = read_traces('dataset/basic_global/pos_summary.txt')
-negative_traces, _ = read_traces('dataset/basic_global/neg_summary.txt')
+#basic_future
+#basic_global
+#basic_release
+#basic_until
+#rv14_formula1
+#rv14_formula2
+positive_traces, num_propositions = read_traces('dataset/rv14_formula1/pos_summary.txt') # Path for positive traces <----------------------------------------------------------
+negative_traces, _ = read_traces('dataset/rv14_formula1/neg_summary.txt') # Path for negative traces <----------------------------------------------------------
 
-time_bounds = [(0, 10), (0, 15), (5, 15)] # Time bounds for the templates
-mltl_formula = synthesize_mltl(templates, num_propositions, time_bounds, positive_traces, negative_traces)
+# Split the data into training and testing sets
+train_size = 0.8 # Size for the training set <----------------------------------------------------------
 
-# Printing the synthesized MLTL formula
+pos_train, pos_test = train_test_split(positive_traces, train_size=train_size, random_state=42)
+neg_train, neg_test = train_test_split(negative_traces, train_size=train_size, random_state=42)
+
+time_bounds = [(0, 10), (0, 15), (5, 15)]  # Time bounds for the templates <----------------------------------------------------------
+
+start_time = time.time()
+mltl_formula = synthesize_mltl(templates, num_propositions, time_bounds, pos_train, neg_train)
+end_time = time.time()
+
+# Calculate accuracy on the testing set
 if mltl_formula:
-    print("Synthesized MLTL formula:")
-    print(mltl_formula)
+    total_traces = len(pos_test) + len(neg_test)
+    correct_predictions = 0
+
+    for test_set in [pos_test, neg_test]:
+        for trace in test_set:
+            if test_set is pos_test:
+                if check_formula(mltl_formula, [trace], []):
+                    correct_predictions += 1
+            else:
+                if check_formula(mltl_formula, [], [trace]):
+                    correct_predictions += 1
+
+    accuracy = correct_predictions / total_traces
+    print(f"Accuracy on testing set: {accuracy:.4f}")
 else:
-    print("No consistent MLTL formula found.")
+    print("Cannot calculate accuracy as no consistent MLTL formula was found.")
+
+# Calculate runtime
+runtime = end_time - start_time
+print(f"Runtime: {runtime:.4f} seconds")
