@@ -4,11 +4,11 @@ Implement SMT (Satisfiability Modulo Theories)#Explore more on this area to solv
 
 Update heuristic function and relevance function. - Todo
 
-Create rankings for formulas - use probability estimates to assign confidence scores to the generated formulas based on their consistency with the traces. - Tried
+Create rankings for formulas - use probability estimates to assign confidence scores to the generated formulas based on their consistency with the traces. - Done
 
-Perform equivalence checking to avoid redundancy - Todo
+Perform equivalence checking to avoid redundancy - Done
 
 Parallelize the algorithm to improve the performance. - Todo
 
-Accuracy checking of the generated formulas - Tried
+Accuracy checking of the generated formulas - Done
 
