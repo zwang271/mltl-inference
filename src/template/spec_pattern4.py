@@ -2,15 +2,9 @@ import re
 from itertools import chain, combinations
 from collections import defaultdict
 import libmltl
+from collections import defaultdict
 from sklearn.model_selection import train_test_split
 import time
-import os
-
-# Get the directory of the current script
-script_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Change the working directory relative to the script's directory
-os.chdir(os.path.join(script_dir, "src/template"))
 
 # Reading the text files containing the positive and negative traces
 def read_traces(file_path):
@@ -39,6 +33,7 @@ def release_template(prop1, prop2, a, b):
     return f'({prop1} R[{a},{b}] {prop2})'
 
 # Adding some new templates to the list for testing (Work in progress)
+#------------------------------------------------------------------------------------------------------------------
 
 def nested_until_template(prop1, prop2, prop3, a, b, c, d):
     return f'F[{a},{b}] ({prop1} U[{c},{d}] {prop2} U {prop3})'
@@ -79,9 +74,10 @@ def fairness_template(prop, a, b):
 def conj_fairness_template(prop1, prop2, a, b, c, d):
     return f'GF[{a},{b}] ({prop1} & GF[{c},{d}] {prop2})'
 
+#------------------------------------------------------------------------------------------------------------------
 
 templates = [existence_template, universality_template, disjunction_template,
-             conjunction_template, until_template, release_template]
+             conjunction_template, until_template, release_template,]
 
 # Checking if a formula is a valid MLTL formula
 def is_valid_formula(formula):
@@ -108,22 +104,20 @@ def powerset(iterable):
     s = list(iterable)
     return chain.from_iterable(combinations(s, r) for r in range(len(s) + 1))
 
-from collections import defaultdict
-
+# Computing the consistency score of a formula
 def compute_consistency_score(formula, positive_traces, negative_traces):
     total_traces = len(positive_traces) + len(negative_traces)
     consistent_traces = 0
 
-    for trace in positive_traces:
-        if check_formula(formula, [trace], negative_traces):
+    for pos_trace, neg_trace in zip(positive_traces, negative_traces):
+        if check_formula(formula, [pos_trace], negative_traces):
             consistent_traces += 1
-
-    for trace in negative_traces:
-        if not check_formula(formula, positive_traces, [trace]):
+        if check_formula(formula, positive_traces, [neg_trace]):
             consistent_traces += 1
 
     return consistent_traces / total_traces
 
+# Ranking the formulas based on their consistency score
 def rank_formulas(formulas, positive_traces, negative_traces):
     ranked_formulas = defaultdict(list)
 
@@ -133,6 +127,7 @@ def rank_formulas(formulas, positive_traces, negative_traces):
 
     return sorted(ranked_formulas.items(), reverse=True)
 
+# Pruning low-ranked formulas
 def prune_low_ranked_formulas(ranked_formulas, threshold):
     pruned_formulas = []
     for score, formulas in ranked_formulas:
@@ -142,6 +137,7 @@ def prune_low_ranked_formulas(ranked_formulas, threshold):
             break
     return pruned_formulas
 
+# Generating candidate formulas
 def generate_proposition_joins(propositions):
     proposition_joins = []
     for prop_combination in powerset(propositions):
@@ -150,29 +146,15 @@ def generate_proposition_joins(propositions):
             proposition_joins.append(join_formula)
     return proposition_joins
 
-def generate_candidates(templates, num_propositions, time_bounds, traces, abstraction, depth=0, max_depth=2): # Maximum depth for the search <----------------------------------------------------------
+def generate_candidates(templates, num_propositions, time_bounds, traces, abstraction, depth=0, max_depth=2):
     candidates = []
     propositions = [f'p{i}' for i in range(num_propositions)]
     explored_formulas = set()
-
-    # Rank formulas by consistency score
-    ranked_formulas = rank_formulas(explored_formulas, positive_traces, negative_traces)
-
-    # Prune low-ranked formulas
-    pruned_formulas = prune_low_ranked_formulas(ranked_formulas, threshold=0.8)
 
     # Generate proposition joins
     proposition_joins = generate_proposition_joins(propositions)
 
     if depth <= max_depth:
-        for formula in pruned_formulas:
-            # Explore refinements of the highest-ranked formulas first
-            sub_candidates = refine_formula(formula, counterexample, templates, num_propositions, time_bounds)
-            candidates.extend(sub_candidates)
-
-            # Add the formula itself to the candidates
-            candidates.append(formula)
-
         for template in templates:
             if template in [existence_template, universality_template]:
                 for prop_formula in proposition_joins:
@@ -190,19 +172,36 @@ def generate_candidates(templates, num_propositions, time_bounds, traces, abstra
                                 candidates.append(formula)
                                 explored_formulas.add(formula)
 
+        # Rank candidate formulas by consistency score
+        ranked_formulas = rank_formulas(candidates, positive_traces, negative_traces)
+
+        # Prune low-ranked formulas
+        pruned_formulas = prune_low_ranked_formulas(ranked_formulas, threshold=0.8)
+
+        # Explore refinements of the highest-ranked formulas
+        refined_candidates = []
+        for formula in pruned_formulas:
+            counterexample = find_counterexample(formula, positive_traces, negative_traces)
+            if counterexample is not None:
+                sub_candidates = refine_formula(formula, counterexample, templates, num_propositions, time_bounds)
+                refined_candidates.extend(sub_candidates)
+
+        candidates = pruned_formulas + refined_candidates
+
     return candidates
+
 
 # Checking the consistency of the formulas
 def check_formula(formula, positive_traces, negative_traces):
     ast = libmltl.parse(formula)
     
     for trace in positive_traces:
-        trace_list = trace.split(',')  # Convert the trace string to a list of strings
+        trace_list = trace.split(',')
         if not ast.evaluate(trace_list):
             return False
     
     for trace in negative_traces:
-        trace_list = trace.split(',')  # Convert the trace string to a list of strings
+        trace_list = trace.split(',')
         if ast.evaluate(trace_list):
             return False
     
@@ -345,42 +344,48 @@ def synthesize_mltl(templates, num_propositions, time_bounds, positive_traces, n
     
     while True:
         if candidate_formula is None:
-            # Generate initial candidate formulas using the current abstraction
+            print(f"Generating initial candidate formulas at depth {depth}...")
             candidate_formulas = generate_candidates(templates, num_propositions, time_bounds, positive_traces + negative_traces, abstraction, depth, max_depth)
         else:
-            # Refine the abstraction based on the counterexample
+            print(f"Refining abstraction based on counterexample at depth {depth}...")
             abstraction = refine_abstraction(candidate_formula, counterexample, abstraction)
             depth += 1
-            # Generate new candidate formulas using the refined abstraction
+            print(f"Generating new candidate formulas at depth {depth}...")
             candidate_formulas = generate_candidates(templates, num_propositions, time_bounds, positive_traces + negative_traces, abstraction, depth, max_depth)
+        
+        print(f"Number of candidate formulas generated: {len(candidate_formulas)}")
         
         for formula in candidate_formulas:
             if check_formula(formula, positive_traces, negative_traces):
                 candidate_formula = formula
+                print(f"Found consistent formula: {candidate_formula}")
                 break
         
         if candidate_formula is not None:
-            # Check candidate formula against all traces
+            print("Checking candidate formula against all traces...")
             counterexample = find_counterexample(candidate_formula, positive_traces, negative_traces)
             if counterexample is None:
-                # No counterexample found, formula is consistent
+                print("No counterexample found. Formula is consistent.")
                 print("Generated MLTL formula:", candidate_formula)
                 return candidate_formula
+            else:
+                print(f"Counterexample found: {counterexample}")
     
     return None
 
 # Main program
+
 #basic_future
 #basic_global
 #basic_release
 #basic_until
 #rv14_formula1
 #rv14_formula2
-positive_traces, num_propositions = read_traces('dataset/basic_future/pos_summary.txt') # Path for positive traces <----------------------------------------------------------
-negative_traces, _ = read_traces('dataset/basic_future/neg_summary.txt') # Path for negative traces <----------------------------------------------------------
+positive_traces, num_propositions = read_traces('dataset/basic_until/pos_summary.txt') # Path for positive traces <----------------------------------------------------------
+negative_traces, _ = read_traces('dataset/basic_until/neg_summary.txt') # Path for negative traces <----------------------------------------------------------
 
 # Split the data into training and testing sets
-train_size = 0.3 # Size for the training set <----------------------------------------------------------
+train_size = 0.33 # Size for the training set <----------------------------------------------------------
 
 pos_train, pos_test = train_test_split(positive_traces, train_size=train_size, random_state=42)
 neg_train, neg_test = train_test_split(negative_traces, train_size=train_size, random_state=42)
