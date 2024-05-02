@@ -20,8 +20,12 @@
 \usepackage{hhline} %for double \hline in longtabu
 \usepackage{blindtext}
 \usepackage{xcolor}
-
 \usepackage{multirow}
+\usepackage{tikz}
+\usetikzlibrary{shapes.misc, positioning}
+\usetikzlibrary{arrows.meta}
+\usepackage{graphicx}
+
 
 \newtheorem{defin}{Definition}
 \newtheorem{intuit}{Intuition}
@@ -118,6 +122,8 @@
 
 \section{Introduction}
 
+
+
 Mission-time Linear Temporal Logic (MLTL) is a discrete time, finite interval bounded temporal logic that has found numerous recent applications. 
 For example, MLTL was the specification logic for NASA's Robonaut2 verification project \cite{KZJZR20}, as well as for the design-time and runtime verification of the NASA Lunar Gateway Vehicle System Manager \cite{DBR21}.
 Other applications of MLTL include autonomous satellite \cite{JAXA}, UAV Traffic Management \cite{HCHJR21}, and more. 
@@ -155,8 +161,6 @@ As a group, we aim evaluate various approaches using a combination of metrics su
 Each team member will be responsible for implementing a different technique, though if some techniques are found to be non-viable or require more effort than reasonable to complete in a semester we will remain flexible and collaborate to ensure the project is completed.
 
 \section{Approaches}
-
-\subsection{Graph Neural Network with Weight Extraction}
   
 % Prior work applies Graph Neural Networks (GNN) to learn Linear Temporal Logic over finite trace (LTLf) formulas by extracting formula from the weights of trained GNNs \cite{Luo_Liang_Du_Wan_Peng_Zhang_2022}.
 % The approach will be adapted to MLTL, and we seek generalize the methodology in interesting ways. 
@@ -174,7 +178,7 @@ Each team member will be responsible for implementing a different technique, tho
 
 % This approach will formulate MLTL inference into a search problem then apply A*.  Multiple heuristic functions will be evaluated and compared.  Heuristic functions may consider factors such as accuracy against positive and negative traces and length or complexity of the formula.  Due to the search space growing exponentially as formula length increases it will likely be necessary to employ inadmissible heuristics which could greatly accelerate the search but could result in suboptimal solutions.  An analysis will be conducted to assess the trade-offs between execution time and solution optimality using admissible versus inadmissible heuristic functions.
 
-\textit{Beam Search} is a variant of on best-first search that uses breadth-first search to explore the next layer of the search tree, but limits the number of successors to a predetermined amount $b$, known as the \textit{beam width}. Beam search with an infinite beam width would be equivalent to best-first search. At each level, all successor nodes are generated and sorted by a heuristic cost function, $h$. Only the $b$ candidate nodes with the lowest cost are kept, and all other nodes are discarded. This limits memory usage and maintains tractability for large state space problems, such as MLTL-inference. The primary disadvantage of beam search is the possibility of pruning all paths to the optimal goal state are pruned.
+\textit{Beam Search} is a variant of best-first search that uses breadth-first search to explore the next layer of the search tree, but limits the number of successors to a predetermined amount $b$, known as the \textit{beam width}. Beam search with an infinite beam width would be equivalent to best-first search. At each level, all successor nodes are generated and sorted by a heuristic cost function, $h$. Only the $b$ candidate nodes with the lowest cost are kept, and all other nodes are discarded. This limits memory usage and maintains tractability for large state space problems, such as MLTL-inference. The primary disadvantage of beam search is the possibility of pruning all paths to the optimal goal state.
 
 \subsubsection{Search Problem Formulation}
 
@@ -209,7 +213,197 @@ In our implementation each depth of the search tree is defined by the number of 
 
 After all the above heuristics and simplifying assumptions, the problem can now be computed in a reasonable amount of time. Exploring each subsequent level of the search tree is now mainly limited by evaluation time. Since the evaluation of each formula can be done independently of any other formula, this is embarrassingly parallel. As such we have paralyzed the algorithm to run across all available CPU cores.
 
+\subsection{MLTL formulas as Bayesian Networks}
 
+Originally, the idea was to define a correspondance between MLTL formulas and Bayesian Networks. 
+Then we would leverage the many techniques for learning structure of Bayesian Networks from data interpret a learned Bayesian Network as a MLTL formula. 
+The first step was succesful, and the details of the correspondance are outlined below.
+However, we were not able to formulate a well defined structure learning problem that would allow us to extract a MLTL formula from a learned Bayesian Network. 
+We also give a discussion of the challenges encountered with this second step, and potential future work.
+
+\subsubsection{Correspondance between MLTL formulas and Bayesian Networks}
+
+The correspondance between MLTL formulas and Bayesian Networks is recursively defined.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+% Define styles
+\tikzstyle{node} = [rounded rectangle, draw, fill=white, text centered, minimum height=2em]
+% Define nodes
+\node[node] (phi) at (0,0) {$\phi$};
+\node[node] (psi) at (1.5,0) {$\psi$};
+% Connect the nodes
+\draw[->] (phi) -- (psi);
+\end{tikzpicture}
+\caption{Bayesian Network structure for $\psi = \phi$ and $\psi = \neg \phi$}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+% Define styles
+\tikzstyle{node} = [rounded rectangle, draw, fill=white, text centered, minimum height=2em]
+% Define nodes
+\node[node] (phi1) at (0,0) {$\phi_1$};
+\node[node] (phi2) at (0,-2) {$\phi_2$};
+\node[node] (psi) at (1.5,-1) {$\psi$};
+% Connect the nodes
+\draw[->] (phi1) -- (psi);
+\draw[->] (phi2) -- (psi);
+\end{tikzpicture}
+\caption{Bayesian Network structure for $\psi = \phi_1 \land \phi_2$ and $\psi = \phi_1 \lor \phi_2$}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+% Define styles
+\tikzstyle{node} = [rounded rectangle, draw, fill=white, text centered, minimum height=2em]
+% Define nodes
+\node[node] (psi_0) at (0,0) {$\psi^{(0)}$};
+\node (ldots0) at (1.5,0) {$\ldots$};
+\node[node] (psi_a) at (3,0) {$\psi^{(a)}$};
+\node[node] (phi_a) at (3,1.5) {$\phi^{(a)}$};
+\node (ldots1) at (4.5,0) {$\ldots$};
+\node (ldots2) at (4.5,1.5) {$\ldots$};
+\node[node] (psi_b) at (6,0) {$\psi^{(b)}$};
+\node[node] (phi_b) at (6,1.5) {$\phi^{(b)}$};
+\node[node] (psi_b+1) at (8,0) {$\psi^{(b+1)}$};
+\node (ldots3) at (9.75,0) {$\ldots$};
+% Connect the nodes
+\draw[->] (psi_0) -- (ldots0);
+\draw[->] (ldots0) -- (psi_a);
+\draw[->] (psi_a) -- (ldots1);
+\draw[->] (ldots1) -- (psi_b);
+\draw[->] (psi_b) -- (psi_b+1);
+\draw[->] (psi_b+1) -- (ldots3);
+\draw[->] (phi_a) -- (psi_a);
+\draw[->] (phi_b) -- (psi_b);
+\end{tikzpicture}
+\caption{Bayesian Network structure for $\psi = \mathcal{F}_{[a,b]} \phi$ and $\psi = \mathcal{G}_{[a,b]} \phi$}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+% Define styles
+\tikzstyle{node} = [rounded rectangle, draw, fill=white, text centered, minimum height=2em]
+% Define nodes
+\node[node] (psi_0) at (0,0) {$\psi^{(0)}$};
+\node (psi_ldots0) at (1.5,0) {$\ldots$};
+\node[node] (psi_a) at (3,0) {$\psi^{(a)}$};
+\node[node] (psi_a+1) at (5,0) {$\psi^{(a+1)}$};
+\node (psi_ldots1) at (6.5,0) {$\ldots$};
+\node[node] (psi_b-1) at (8,0) {$\psi^{(b-1)}$};
+\node[node] (psi_b) at (10,0) {$\psi^{(b)}$};
+\node[node] (psi_b+1) at (12,0) {$\psi^{(b+1)}$};
+\node (psi_ldots2) at (13.5,0) {$\ldots$};
+\node[node] (alpha_a) at (3,1.5) {$\alpha^{(a)}$};
+\node[node] (alpha_a+1) at (5,1.5) {$\alpha^{(a+1)}$};
+\node (alpha_ldots1) at (6.5,1.5) {$\ldots$};
+\node[node] (alpha_b-1) at (8,1.5) {$\alpha^{(b-1)}$};
+\node[node] (phi1_a) at (3,3) {$\phi_1^{(a)}$};
+\node[node] (phi1_a+1) at (5,3) {$\phi_1^{(a+1)}$};
+\node (phi1_ldots1) at (6.5,3) {$\ldots$};
+\node[node] (phi1_b-1) at (8,3) {$\phi_1^{(b-1)}$};
+\node[node] (phi2_a) at (3,-1.5) {$\phi_2^{(a)}$};
+\node[node] (phi2_a+1) at (5,-1.5) {$\phi_2^{(a+1)}$};
+\node (phi2_ldots1) at (6.5,-1.5) {$\ldots$};
+\node[node] (phi2_b-1) at (8,-1.5) {$\phi_2^{(b-1)}$};
+\node[node] (phi2_b) at (10,-1.5) {$\phi_2^{(b)}$};
+
+% Connect the nodes
+\draw[->] (psi_0) -- (psi_ldots0);
+\draw[->] (psi_ldots0) -- (psi_a);
+\draw[->] (psi_a) -- (psi_a+1);
+\draw[->] (psi_a+1) -- (psi_ldots1);
+\draw[->] (psi_ldots1) -- (psi_b-1);
+\draw[->] (psi_b-1) -- (psi_b);
+\draw[->] (psi_b) -- (psi_b+1);
+\draw[->] (psi_b+1) -- (psi_ldots2);
+\draw[->] (alpha_a) -- (psi_a+1);
+\draw[->] (alpha_a+1) -- (6.3,0.35);
+\draw[->] (6.7,1.15) -- (psi_b-1);
+\draw[->] (alpha_b-1) -- (psi_b);
+\draw[->] (alpha_a) -- (alpha_a+1);
+\draw[->] (alpha_a+1) -- (alpha_ldots1);
+\draw[->] (alpha_ldots1) -- (alpha_b-1);
+\draw[->] (phi1_a) -- (alpha_a);
+\draw[->] (phi1_a+1) -- (alpha_a+1);
+\draw[->] (phi1_b-1) -- (alpha_b-1);
+\draw[->] (phi2_a) -- (psi_a);
+\draw[->] (phi2_a+1) -- (psi_a+1);
+\draw[->] (phi2_b-1) -- (psi_b-1);
+\draw[->] (phi2_b) -- (psi_b);
+
+\end{tikzpicture}
+\caption{Bayesian Network structure for $\psi = \phi_1 \mathcal{U}_{[a,b]} \phi_2$}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+% Define styles
+\tikzstyle{node} = [rounded rectangle, draw, fill=white, text centered, minimum height=2em]
+% Define nodes
+\node[node] (psi_0) at (0,0) {$\psi^{(0)}$};
+\node (psi_ldots0) at (1.5,0) {$\ldots$};
+\node[node] (psi_a) at (3,0) {$\psi^{(a)}$};
+\node[node] (psi_a+1) at (5,0) {$\psi^{(a+1)}$};
+\node (psi_ldots1) at (6.5,0) {$\ldots$};
+\node[node] (psi_b-1) at (8,0) {$\psi^{(b-1)}$};
+\node[node] (psi_b) at (10,0) {$\psi^{(b)}$};
+\node[node] (psi_b+1) at (12,0) {$\psi^{(b+1)}$};
+\node (psi_ldots2) at (13.5,0) {$\ldots$};
+\node[node] (alpha_a) at (3,1.5) {$\alpha^{(a)}$};
+\node[node] (alpha_a+1) at (5,1.5) {$\alpha^{(a+1)}$};
+\node (alpha_ldots1) at (6.5,1.5) {$\ldots$};
+\node[node] (alpha_b-1) at (8,1.5) {$\alpha^{(b-1)}$};
+\node[node] (alpha_b) at (10,1.5) {$\alpha^{(b)}$};
+\node[node] (phi2_a) at (3,3) {$\phi_2^{(a)}$};
+\node[node] (phi2_a+1) at (5,3) {$\phi_2^{(a+1)}$};
+\node (phi2_ldots1) at (6.5,3) {$\ldots$};
+\node[node] (phi2_b-1) at (8,3) {$\phi_2^{(b-1)}$};
+\node[node] (phi2_b) at (10,3) {$\phi_2^{(b)}$};
+\node[node] (phi1_a) at (3,-1.5) {$\phi_1^{(a)}$};
+\node[node] (phi1_a+1) at (5,-1.5) {$\phi_1^{(a+1)}$};
+\node (phi1_ldots1) at (6.5,-1.5) {$\ldots$};
+\node[node] (phi1_b-1) at (8,-1.5) {$\phi_1^{(b-1)}$};
+% Connect the nodes
+\draw[->] (psi_0) -- (psi_ldots0);
+\draw[->] (psi_ldots0) -- (psi_a);
+\draw[->] (psi_a) -- (psi_a+1);
+\draw[->] (psi_a+1) -- (psi_ldots1);
+\draw[->] (psi_ldots1) -- (psi_b-1);
+\draw[->] (psi_b-1) -- (psi_b);
+\draw[->] (psi_b) -- (psi_b+1);
+\draw[->] (psi_b+1) -- (psi_ldots2);
+\draw[->] (alpha_a) -- (psi_a);
+\draw[->] (alpha_a+1) -- (psi_a+1);
+\draw[->] (alpha_b-1) -- (psi_b-1);
+\draw[->] (alpha_b) -- (psi_b);
+\draw[->] (phi2_a) -- (alpha_a);
+\draw[->] (phi2_a+1) -- (alpha_a+1);
+\draw[->] (phi2_b-1) -- (alpha_b-1);
+\draw[->] (phi2_b) -- (alpha_b);
+\draw[->] (phi1_a) -- (psi_a);
+\draw[->] (phi1_a+1) -- (psi_a+1);
+\draw[->] (phi1_b-1) -- (psi_b-1);
+\draw[->] (alpha_a) -- (alpha_a+1);
+\draw[->] (alpha_a+1) -- (alpha_ldots1);
+\draw[->] (alpha_ldots1) -- (alpha_b-1);
+\draw[->] (alpha_b-1) -- (alpha_b);
+
+
+\end{tikzpicture}
+\caption{Bayesian Network structure for $\psi = \phi_1 \mathcal{R}_{[a,b]} \phi_2$}
+\end{figure}
+
+\newpage
 \section{Evaluation}
 
 \subsection{Datasets}
@@ -236,25 +430,25 @@ rv14\_formula2     & $\Globally_{[0,99]}\neg (\neg p_0 \land \neg (p_1 \Until_{[
 
 \subsubsection{Beam Search}
 
-% \begin{tabular}[c]{@{}l@{}}$G[0,10]((\neg p6 U[0,5] p5) | \neg p6 | \neg p4) \\ R[0,10] G[0,10](((\neg p6 | p5) U[0,5] (\neg p2 & \neg p3)) | \neg p6 | p5)$\end{tabular}
+
 {\footnotesize
 \centering
 \begin{tabular}{llrrr}
 Dataset                             & Best Formula(s) Found                                                                                   & \begin{tabular}[c]{@{}l@{}}Formula\\ Size\end{tabular} & \begin{tabular}[c]{@{}l@{}}Compute\\ Time (s)\end{tabular} & \begin{tabular}[c]{@{}l@{}}Formula\\ Accuracy\end{tabular} \\
-basic\_future                       & $\Finally_{[0,10]}(p_1 | p_0)$                                                                                 & 4                                                      & 0.1                                                        & 100\%                                                      \vspace{0.5em}\\
-basic\_global                       & $\Globally_{[0,10]}(p_0 \land p_1 \land \neg p_2)$                                                                           & 7                                                      & 0.4                                                        & 100\%                                                      \vspace{0.5em}\\
-basic\_release                      & $p_0 \Release_{[0,10]}\ p_2$                                                                                    & 3                                                      & 0.4                                                        & 100\%                                                      \vspace{0.5em}\\
-basic\_until                        & $p_1 \Until_{[0,10]}\ p_2$                                                                                    & 3                                                      & 0.5                                                        & 100\%                                                      \vspace{0.5em}\\
-fmsd17\_formula1                    & $\Globally_{[0,10]}(p_1 \Until_{[0,15]}\ p_0)$                                                                           & 4                                                      & 4.2                                                        & 100\%                                                      \vspace{0.5em}\\
-\multirow{2}{*}{fmsd17\_formula2}   & $\Globally_{[0,10]}(((\neg p_6 \lor p_5) \Until_{[0,15]}\ (\neg p_2 \land \neg p_3)) | \neg p_6 | p_5)$                                             & 16                                                     & 40.7                                                       & 98.2\%\ \ \\
-                                    & \begin{tabular}[c]{@{}l@{}}$\Globally_{[0,10]}((\neg p_6 \Until_{[0,5]}\ p_5) \lor \neg p_6 \lor \neg p_4)$ \\ \hspace{2em}$\Release_{[0,10]}\ \Globally_{[0,10]}(((\neg p_6 \lor p_5) \Until_{[0,5]}\ (\neg p_2 \land \neg p_3)) \lor \neg p_6 \lor p_5)$\end{tabular} & 28                                                     & 273.9                                                      & 99.4\%                                                     \vspace{0.5em}\\
-fmsd17\_formula3                    & $\Globally_{[0,10]}(p_4 \land p_5 \land p_6)$                                                                            & 6                                                      & 34.4                                                       & 100\%                                                      \vspace{0.5em}\\
-nasa-atc\_formula1                  & $\Globally_{[0,10]}(p_1 \Until_{[0,10]}\ p_0)$                                                                           & 4                                                      & 4.2                                                        & 100\%                                                      \vspace{0.5em}\\
-\multirow{2}{*}{nasa-atc\_formula2} & $\Globally_{[0,10]}(((\neg p_6 \lor p_5) \Until_{[0,15]}\ (\neg p_2 \land \neg p_3)) \lor \neg p_6 \lor p_5)$                                             & 16                                                     & 40.7                                                       & 98.2\%\ \                                                      \\
-                                    &    \begin{tabular}[c]{@{}l@{}}$\Globally_{[0,10]}((\neg p_3 \Until_{[0,5]}\ p_5) \lor \neg p_6)$ \\ \hspace{2em}$\Release_{[0,10]}\ \Globally_{[0,10]}((\neg p_2 \land \neg p_4) \Until_{[0,5]}\ (\neg p_6 \lor p_5))$\end{tabular}                  & 20                                                     & 7998.2                                                     & 99.6\%                                                     \vspace{0.5em}\\
-\multirow{2}{*}{rv14\_formula1}     & $\Globally_{[0,10]}((p_1 \Release_{[0,5]}\ (\neg p_2 \lor \neg p_0)) \lor \neg p_1)$                                                           & 11                                                     & 4.4                                                        & 100\% \                                                     \\
-                                    & $\Globally_{[0,10]}(\neg p_2 \lor \neg p_1 \lor \neg p_0)$                                                                         & 9                                                      & 6.4                                                        & 100\%                                                      \vspace{0.5em}\\
-rv14\_formula2                      & $\Globally_{[0,10]}((p_0 \land p_1) \Until_{[0,5]}\ p_0)$                                                                     & 6                                                      & 1.5                                                        & 100\%\ \                                                      
+basic\_future                       & $\Finally_{[0,10]}(p_1 \lor p_0)$                                                                                 & 4                                                      & 0.1                                                        & 100\%                                                      \vspace{0.5em}\\
+basic\_global                       & $\Globally_{[0,10]}(p_0 \land p_1 \land \neg p_2)$                                                                           & 7                                                      & 0.2                                                        & 100\%                                                      \vspace{0.5em}\\
+basic\_release                      & $p_0 \Release_{[0,10]}\ p_2$                                                                                    & 3                                                      & 0.2                                                        & 100\%                                                      \vspace{0.5em}\\
+basic\_until                        & $p_1 \Until_{[0,10]}\ p_2$                                                                                    & 3                                                      & 0.2                                                        & 100\%                                                      \vspace{0.5em}\\
+fmsd17\_formula1                    & $\Globally_{[0,10]}(p_1 \Until_{[0,15]}\ p_0)$                                                                           & 4                                                      & 1.4                                                        & 100\%                                                      \vspace{0.5em}\\
+\multirow{2}{*}{fmsd17\_formula2}   & $\Globally_{[0,10]}(((\neg p_6 \lor p_5) \Until_{[0,15]}\ (\neg p_2 \land \neg p_3)) \lor \neg p_6 \lor p_5)$                                             & 16                                                     & 13.3                                                       & 98.2\%\ \ \\
+                                    & \begin{tabular}[c]{@{}l@{}}$\Globally_{[0,10]}((\neg p_6 \Until_{[0,5]}\ p_5) \lor \neg p_6 \lor \neg p_4)$ \\ \hspace{2em}$\Release_{[0,10]}\ \Globally_{[0,10]}(((\neg p_6 \lor p_5) \Until_{[0,5]}\ (\neg p_2 \land \neg p_3)) \lor \neg p_6 \lor p_5)$\end{tabular} & 28                                                     & 138.9                                                      & 99.4\%                                                     \vspace{0.5em}\\
+fmsd17\_formula3                    & $\Globally_{[0,10]}(p_4 \land p_5 \land p_6)$                                                                            & 6                                                      & 19.4                                                       & 100\%                                                      \vspace{0.5em}\\
+nasa-atc\_formula1                  & $\Globally_{[0,10]}(p_1 \Until_{[0,10]}\ p_0)$                                                                           & 4                                                      & 2.3                                                        & 100\%                                                      \vspace{0.5em}\\
+\multirow{2}{*}{nasa-atc\_formula2} & $\Globally_{[0,10]}(((\neg p_6 \lor p_5) \Until_{[0,10]}\ (\neg p_2 \land \neg p_3)) \lor \neg p_6 \lor p_5)$                                             & 16                                                     & 21.8                                                       & 97.6\%\ \                                                      \\
+                                    &    \begin{tabular}[c]{@{}l@{}}$\Globally_{[0,10]}(((\neg p_6 \lor \neg p_4) \Until_{[0,5]}\ p_5) \lor \neg p_6)$ \\ \hspace{2em} $\Release_{[0,10]}\ \Globally_{[0,10]}((\neg p_2 \land \lor p      _3) \Until_{[0,5]} (\neg p_6 \lor p_5))$\end{tabular}                  & 23                                                     & 4022.4                                                     & 99.2\%                                                     \vspace{0.5em}\\
+\multirow{2}{*}{rv14\_formula1}     & $\Globally_{[0,10]}((p_1 \Release_{[0,5]}\ (\neg p_2 \lor \neg p_0)) \lor \neg p_1)$                                                           & 11                                                     & 2.3                                                        & 100\% \                                                     \\
+                                    & $\Globally_{[0,10]}(\neg p_2 \lor \neg p_1 \lor \neg p_0)$                                                                         & 9                                                      & 3.3                                                        & 100\%                                                      \vspace{0.5em}\\
+rv14\_formula2                      & $\Globally_{[0,10]}((p_0 \land p_1) \Until_{[0,5]}\ p_0)$                                                                     & 6                                                      & 0.8                                                        & 100\%\ \                                                      
 \end{tabular}
 }
 

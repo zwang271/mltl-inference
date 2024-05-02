@@ -1,8 +1,6 @@
 import os
 import sys
 from pprint import pprint
-sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/../libmltl/lib')
-import libmltl as mltl
 
 def load_traces(dir: str) -> list[list[str]]:
     '''
