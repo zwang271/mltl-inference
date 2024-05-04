@@ -1,0 +1,304 @@
+@misc{roy_learning_2023,
+title = {Learning {Interpretable} {Temporal} {Properties} from {Positive} {Examples} {Only}},
+url = {http://arxiv.org/abs/2209.02650},
+doi = {10.48550/arXiv.2209.02650},
+abstract = {We consider the problem of explaining the temporal behavior of black-box systems using human-interpretable models. To this end, based on recent research trends, we rely on the fundamental yet interpretable models of deterministic finite automata (DFAs) and linear temporal logic (LTL) formulas. In contrast to most existing works for learning DFAs and LTL formulas, we rely on only positive examples. Our motivation is that negative examples are generally difficult to observe, in particular, from black-box systems. To learn meaningful models from positive examples only, we design algorithms that rely on conciseness and language minimality of models as regularizers. To this end, our algorithms adopt two approaches: a symbolic and a counterexample-guided one. While the symbolic approach exploits an efficient encoding of language minimality as a constraint satisfaction problem, the counterexample-guided one relies on generating suitable negative examples to prune the search. Both the approaches provide us with effective algorithms with theoretical guarantees on the learned models. To assess the effectiveness of our algorithms, we evaluate all of them on synthetic data.},
+urldate = {2023-12-09},
+publisher = {arXiv},
+author = {Roy, Rajarshi and Gaglione, Jean-Raphaël and Baharisangari, Nasim and Neider, Daniel and Xu, Zhe and Topcu, Ufuk},
+month = mar,
+year = {2023},
+note = {arXiv:2209.02650 [cs]},
+keywords = {Computer Science - Artificial Intelligence, Computer Science - Logic in Computer Science, F.4.1, I.2.6},
+}
+
+@article{kronberger_multilayer_2020,
+title = {Multilayer analysis of population diversity in grammatical evolution for symbolic regression},
+volume = {24},
+issn = {1433-7479},
+url = {https://doi.org/10.1007/s00500-020-05062-9},
+doi = {10.1007/s00500-020-05062-9},
+abstract = {In this paper, we analyze the population diversity of grammatical evolution (GE) on multiple levels of genetic information: chromosome diversity, expression diversity, and output diversity. Thereby, we use a tree-similarity metric from tree-based GP literature to determine similarity of expression trees generated in GE. The similarity of outputs is determined via their correlation. We track the pairwise similarities for all individuals within a generation on all three levels and track the distribution of similarity values over generations. We demonstrate the analysis method using four symbolic regression problem instances and find that the visualization highlights some issues that can occur when using GE such as: large groups of individuals with highly similar outputs, a high fraction of trees with constant outputs, or short and highly similar trees in the early stages of the GE run. Especially in the early phases of GE, we see that a large subset of the population represents equivalent expressions. In early stages, rather short expressions are produced leaving large parts of the chromosome unexpressed. More complex expressions can be derived only after GE has successfully evolved well-working beginnings of chromosomes.},
+language = {en},
+number = {15},
+urldate = {2023-12-09},
+journal = {Soft Computing},
+author = {Kronberger, Gabriel and Colmenar, J. Manuel and Winkler, Stephan M. and Hidalgo, J. Ignacio},
+month = aug,
+year = {2020},
+keywords = {Grammatical evolution, Population diversity, Symbolic regression},
+pages = {11283--11295},
+}
+
+@misc{noauthor_3_nodate,
+title = {(3) ({PDF}) {Diversity} {Handling} {In} {Evolutionary} {Landscape}},
+url = {https://www.researchgate.net/publication/268451871_Diversity_Handling_In_Evolutionary_Landscape},
+urldate = {2023-12-09},
+}
+
+@article{chen_diversity_2014,
+title = {Diversity {Controlling} {Genetic} {Algorithm} for {Order} {Acceptance} and {Scheduling} {Problem}},
+volume = {2014},
+issn = {1024-123X},
+url = {https://www.hindawi.com/journals/mpe/2014/367152/},
+doi = {10.1155/2014/367152},
+abstract = {Selection and scheduling are an important topic in production systems. To tackle the order acceptance and scheduling problem on a single machine with release dates, tardiness penalty, and sequence-dependent setup times, in this paper a diversity controlling genetic algorithm (DCGA) is proposed, in which a diversified population is maintained during the whole search process through survival selection considering both the fitness and the diversity of individuals. To measure the similarity between individuals, a modified Hamming distance without considering the unaccepted orders in the chromosome is adopted. The proposed DCGA was validated on 1500 benchmark instances with up to 100 orders. Compared with the state-of-the-art algorithms, the experimental results show that DCGA improves the solution quality obtained significantly, in terms of the deviation from upper bound.},
+language = {en},
+urldate = {2023-12-09},
+journal = {Mathematical Problems in Engineering},
+author = {Chen, Cheng and Yang, Zhenyu and Tan, Yuejin and He, Renjie},
+month = feb,
+year = {2014},
+pages = {e367152},
+}
+
+@inproceedings{lourenco_sge_2016,
+address = {Cham},
+series = {Lecture {Notes} in {Computer} {Science}},
+title = {{SGE}: {A} {Structured} {Representation} for {Grammatical} {Evolution}},
+isbn = {9783319314716},
+shorttitle = {{SGE}},
+doi = {10.1007/978-3-319-31471-6\_11},
+abstract = {This paper introduces Structured Grammatical Evolution, a new genotypic representation for Grammatical Evolution, where each gene is explicitly linked to a non-terminal of the grammar being used. This one-to-one correspondence ensures that the modification of a gene does not affect the derivation options of other non-terminals, thereby increasing locality. The performance of the new representation is accessed on a set of benchmark problems. The results obtained confirm the effectiveness of the proposed approach, as it is able to outperform standard grammatical evolution on all selected optimization problems.},
+language = {en},
+booktitle = {Artificial {Evolution}},
+publisher = {Springer International Publishing},
+author = {Lourenço, Nuno and Pereira, Francisco B. and Costa, Ernesto},
+editor = {Bonnevay, Stéphane and Legrand, Pierrick and Monmarché, Nicolas and Lutton, Evelyne and Schoenauer, Marc},
+year = {2016},
+keywords = {Derivation Tree, Executable Program, Genetic Programming, Grammatical Evolution, Production Rule},
+pages = {136--148},
+}
+
+@misc{gaglione_learning_2021,
+title = {Learning {Linear} {Temporal} {Properties} from {Noisy} {Data}: {A} {MaxSAT} {Approach}},
+shorttitle = {Learning {Linear} {Temporal} {Properties} from {Noisy} {Data}},
+url = {http://arxiv.org/abs/2104.15083},
+doi = {10.48550/arXiv.2104.15083},
+abstract = {We address the problem of inferring descriptions of system behavior using Linear Temporal Logic (LTL) from a finite set of positive and negative examples. Most of the existing approaches for solving such a task rely on predefined templates for guiding the structure of the inferred formula. The approaches that can infer arbitrary LTL formulas, on the other hand, are not robust to noise in the data. To alleviate such limitations, we devise two algorithms for inferring concise LTL formulas even in the presence of noise. Our first algorithm infers minimal LTL formulas by reducing the inference problem to a problem in maximum satisfiability and then using off-the-shelf MaxSAT solvers to find a solution. To the best of our knowledge, we are the first to incorporate the usage of MaxSAT solvers for inferring formulas in LTL. Our second learning algorithm relies on the first algorithm to derive a decision tree over LTL formulas based on a decision tree learning algorithm. We have implemented both our algorithms and verified that our algorithms are efficient in extracting concise LTL descriptions even in the presence of noise.},
+urldate = {2023-12-06},
+publisher = {arXiv},
+author = {Gaglione, Jean-Raphaël and Neider, Daniel and Roy, Rajarshi and Topcu, Ufuk and Xu, Zhe},
+month = jun,
+year = {2021},
+note = {arXiv:2104.15083 [cs]},
+keywords = {Computer Science - Artificial Intelligence, Computer Science - Formal Languages and Automata Theory, Computer Science - Machine Learning},
+}
+
+@misc{neider_learning_2018,
+title = {Learning {Linear} {Temporal} {Properties}},
+url = {http://arxiv.org/abs/1806.03953},
+doi = {10.48550/arXiv.1806.03953},
+abstract = {We present two novel algorithms for learning formulas in Linear Temporal Logic (LTL) from examples. The first learning algorithm reduces the learning task to a series of satisfiability problems in propositional Boolean logic and produces a smallest LTL formula (in terms of the number of subformulas) that is consistent with the given data. Our second learning algorithm, on the other hand, combines the SAT-based learning algorithm with classical algorithms for learning decision trees. The result is a learning algorithm that scales to real-world scenarios with hundreds of examples, but can no longer guarantee to produce minimal consistent LTL formulas. We compare both learning algorithms and demonstrate their performance on a wide range of synthetic benchmarks. Additionally, we illustrate their usefulness on the task of understanding executions of a leader election protocol.},
+urldate = {2023-12-06},
+publisher = {arXiv},
+author = {Neider, Daniel and Gavran, Ivan},
+month = sep,
+year = {2018},
+note = {arXiv:1806.03953 [cs]},
+keywords = {Computer Science - Logic in Computer Science, Computer Science - Machine Learning},
+}
+
+@inproceedings{de_giacomo_linear_2013,
+address = {Beijing, China},
+series = {{IJCAI} '13},
+title = {Linear temporal logic and linear dynamic logic on finite traces},
+isbn = {9781577356332},
+abstract = {In this paper we look into the assumption of interpreting LTL over finite traces. In particular we show that LTLf, i.e., LTL under this assumption, is less expressive than what might appear at first sight, and that at essentially no computational cost one can make a significant increase in expressiveness while maintaining the same intuitiveness of LTLf. Indeed, we propose a logic, LDLf for Linear Dynamic Logic over finite traces, which borrows the syntax from Propositional Dynamic Logic (PDL), but is interpreted over finite traces. Satisfiability, validity and logical implication (as well as model checking) for LTLf. are PSPACE-complete as for LTLf. (and LTL).},
+urldate = {2023-12-05},
+booktitle = {Proceedings of the {Twenty}-{Third} international joint conference on {Artificial} {Intelligence}},
+publisher = {AAAI Press},
+author = {De Giacomo, Giuseppe and Vardi, Moshe Y.},
+month = aug,
+year = {2013},
+pages = {854--860},
+}
+
+@inproceedings{pnueli_temporal_1977,
+title = {The temporal logic of programs},
+url = {https://ieeexplore.ieee.org/document/4567924},
+doi = {10.1109/SFCS.1977.32},
+abstract = {A unified approach to program verification is suggested, which applies to both sequential and parallel programs. The main proof method suggested is that of temporal reasoning in which the time dependence of events is the basic concept. Two formal systems are presented for providing a basis for temporal reasoning. One forms a formalization of the method of intermittent assertions, while the other is an adaptation of the tense logic system Kb, and is particularly suitable for reasoning about concurrent programs.},
+urldate = {2023-12-05},
+booktitle = {18th {Annual} {Symposium} on {Foundations} of {Computer} {Science} (sfcs 1977)},
+author = {Pnueli, Amir},
+month = oct,
+year = {1977},
+note = {ISSN: 0272-5428},
+pages = {46--57},
+}
+
+@article{luo_bridging_2022,
+title = {Bridging {LTLf} {Inference} to {GNN} {Inference} for {Learning} {LTLf} {Formulae}},
+volume = {36},
+copyright = {Copyright (c) 2022 Association for the Advancement of Artificial Intelligence},
+issn = {2374-3468},
+url = {https://ojs.aaai.org/index.php/AAAI/article/view/21221},
+doi = {10.1609/aaai.v36i9.21221},
+abstract = {Learning linear temporal logic on finite traces (LTLf) formulae aims to learn a target formula that characterizes the high-level behavior of a system from observation traces in planning. Existing approaches to learning LTLf formulae, however, can hardly learn accurate LTLf formulae from noisy data. It is challenging to design an efficient search mechanism in the large search space in form of arbitrary LTLf formulae while alleviating the wrong search bias resulting from noisy data. In this paper, we tackle this problem by bridging LTLf inference to GNN inference. Our key theoretical contribution is showing that GNN inference can simulate LTLf inference to distinguish traces. Based on our theoretical result, we design a GNN-based approach, GLTLf, which combines GNN inference and parameter interpretation to seek the target formula in the large search space. Thanks to the non-deterministic learning process of GNNs, GLTLf is able to cope with noise. We evaluate GLTLf on various datasets with noise. Our experimental results confirm the effectiveness of GNN inference in learning LTLf formulae and show that GLTLf is superior to the state-of-the-art approaches.},
+language = {en},
+number = {9},
+urldate = {2023-12-05},
+journal = {Proceedings of the AAAI Conference on Artificial Intelligence},
+author = {Luo, Weilin and Liang, Pingjia and Du, Jianfeng and Wan, Hai and Peng, Bo and Zhang, Delong},
+month = jun,
+year = {2022},
+keywords = {Machine Learning (ML)},
+pages = {9849--9857},
+}
+
+
+
+
+@article{Li_Vardi_Rozier_2022, title={Satisfiability checking for Mission-time LTL (MLTL)}, volume={289}, url={https://www.sciencedirect.com/science/article/pii/S0890540122000761}, DOI={10.1016/j.ic.2022.104923}, abstractNote={Mission-time Linear Temporal Logic (LTL), abbreviated as MLTL, is a bounded variant of Metric Temporal Logic (MTL) over naturals designed to generically specify requirements for mission-based system operation common to aircraft, spacecraft, vehicles, and robots. Despite the utility of MLTL as a specification logic, major gaps remain in analyzing MLTL, e.g., for specification debugging or model checking, centering on the absence of any complete MLTL satisfiability checker. In this paper, we explore both the theoretical and algorithmic problems of MLTL satisfiability checking. We prove that the MLTL satisfiability checking problem is NEXPTIME-complete and that satisfiability checking MLTL0, the variant of MLTL where all intervals start at 0, is PSPACE-complete. To explore the best algorithmic solution for MLTL satisifiability checking, we reduce this problem to LTL satisfiability checking, LTLf (LTL over finite traces) satisfiability checking, and model checking respectively, thus conducting translations for MLTL-to-LTL, MLTL-to-LTLf, and MLTL-to-SMV. Moreover, we propose a new SMT-based solution for MLTL satisfiability checking and create a translation for MLTL-to-SMT. Our extensive experimental evaluation shows that while the MLTL-to-SMV translation with NuXmv model checker performs best on the benchmarks whose interval ranges are small (than 100), the MLTL-to-SMT translation with the Z3 SMT solver offers the most scalable performance.}, journal={Information and Computation}, author={Li, Jianwen and Vardi, Moshe Y. and Rozier, Kristin Y.}, year={2022}, month=nov, pages={104923} }
+
+
+
+@inproceedings{Elwing_Gamboa-Guzman_Sorkin_Travesset_Wang_Rozier_2024, address={Cham}, series={Lecture Notes in Computer Science}, title={Mission-Time LTL (MLTL) Formula Validation via Regular Expressions}, ISBN={9783031477058}, DOI={10.1007/978-3-031-47705-8\_15}, abstractNote={Mission-time Linear Temporal Logic (MLTL) represents the most practical fragment of Metric Temporal Logic; MLTL resembles the popular logic Linear Temporal Logic (LTL) with finite closed-interval integer bounds on the temporal operators. Increasingly, many tools reason over MLTL specifications, yet these tools are useful only when system designers can validate the input specifications. We design an automated characterization of the structure of the computations that satisfy a given MLTL formula using regular expressions. We prove soundness and completeness of our structure. We also give an algorithm for automated MLTL formula validation and analyze its complexity both theoretically and experimentally. Additionally, we generate a test suite using control flow diagrams to robustly test our implementation and release an open-source tool with a user-friendly graphical interface. The result of our contributions are improvements to existing algorithms for MLTL analysis, and are applicable to many other tools for automated, efficient MLTL formula validation. Our updated tool may be found at https://temporallogic.org/research/WEST.}, booktitle={iFM 2023}, publisher={Springer Nature Switzerland}, author={Elwing, Jenna and Gamboa-Guzman, Laura and Sorkin, Jeremy and Travesset, Chiara and Wang, Zili and Rozier, Kristin Yvonne}, editor={Herber, Paula and Wijs, Anton}, year={2024}, pages={279–301}, collection={Lecture Notes in Computer Science}, language={en} }
+
+
+@inproceedings{Ryan_Collins_Neill_1998, address={Berlin, Heidelberg}, series={Lecture Notes in Computer Science}, title={Grammatical evolution: Evolving programs for an arbitrary language}, ISBN={9783540697589}, DOI={10.1007/BFb0055930}, abstractNote={We describe a Genetic Algorithm that can evolve complete programs. Using a variable length linear genome to govern how a Backus Naur Form grammar definition is mapped to a program, expressions and programs of arbitrary complexity may be evolved. Other automatic programming methods are described, before our system, Grammatical Evolution, is applied to a symbolic regression problem.}, booktitle={Genetic Programming}, publisher={Springer}, author={Ryan, Conor and Collins, JJ and Neill, Michael O.}, editor={Banzhaf, Wolfgang and Poli, Riccardo and Schoenauer, Marc and Fogarty, Terence C.}, year={1998}, pages={83–96}, collection={Lecture Notes in Computer Science}, language={en} }
+
+
+@article{Angluin_1987, title={Learning regular sets from queries and counterexamples}, volume={75}, url={https://www.sciencedirect.com/science/article/pii/0890540187900526}, DOI={10.1016/0890-5401(87)90052-6}, abstractNote={The problem of identifying an unknown regular set from examples of its members and nonmembers is addressed. It is assumed that the regular set is presented by a minimally adequate Teacher, which can answer membership queries about the set and can also test a conjecture and indicate whether it is equal to the unknown set and provide a counterexample if not. (A counterexample is a string in the symmetric difference of the correct set and the conjectured set.) A learning algorithm L∗ is described that correctly learns any regular set from any minimally adequate Teacher in time polynomial in the number of states of the minimum dfa for the set and the maximum length of any counterexample provided by the Teacher. It is shown that in a stochastic setting the ability of the Teacher to test conjectures may be replaced by a random sampling oracle, EX( ). A polynomial-time learning algorithm is shown for a particular problem of context-free language identification.}, number={2}, journal={Information and Computation}, author={Angluin, Dana}, year={1987}, month=nov, pages={87–106} }
+
+@article{Luo_Liang_Du_Wan_Peng_Zhang_2022, title={Bridging LTLf Inference to GNN Inference for Learning LTLf Formulae}, volume={36}, url={https://ojs.aaai.org/index.php/AAAI/article/view/21221}, DOI={10.1609/aaai.v36i9.21221}, abstractNote={Learning linear temporal logic on finite traces (LTLf) formulae aims to learn a target formula that characterizes the high-level behavior of a system from observation traces in planning. Existing approaches to learning LTLf formulae, however, can hardly learn accurate LTLf formulae from noisy data. It is challenging to design an efficient search mechanism in the large search space in form of arbitrary LTLf formulae while alleviating the wrong search bias resulting from noisy data. In this paper, we tackle this problem by bridging LTLf inference to GNN inference. Our key theoretical contribution is showing that GNN inference can simulate LTLf inference to distinguish traces. Based on our theoretical result, we design a GNN-based approach, GLTLf, which combines GNN inference and parameter interpretation to seek the target formula in the large search space. Thanks to the non-deterministic learning process of GNNs, GLTLf is able to cope with noise. We evaluate GLTLf on various datasets with noise. Our experimental results confirm the effectiveness of GNN inference in learning LTLf formulae and show that GLTLf is superior to the state-of-the-art approaches.}, number={9}, journal={Proceedings of the AAAI Conference on Artificial Intelligence}, author={Luo, Weilin and Liang, Pingjia and Du, Jianfeng and Wan, Hai and Peng, Bo and Zhang, Delong}, year={2022}, month={Jun.}, pages={9849-9857} }
+
+@article{ANGLUIN_Lstar,
+title = {Learning regular sets from queries and counterexamples},
+journal = {Information and Computation},
+volume = {75},
+number = {2},
+pages = {87-106},
+year = {1987},
+issn = {0890-5401},
+doi = {https://doi.org/10.1016/0890-5401(87)90052-6},
+url = {https://www.sciencedirect.com/science/article/pii/0890540187900526},
+author = {Dana Angluin},
+abstract = {The problem of identifying an unknown regular set from examples of its members and nonmembers is addressed. It is assumed that the regular set is presented by a minimally adequate Teacher, which can answer membership queries about the set and can also test a conjecture and indicate whether it is equal to the unknown set and provide a counterexample if not. (A counterexample is a string in the symmetric difference of the correct set and the conjectured set.) A learning algorithm L∗ is described that correctly learns any regular set from any minimally adequate Teacher in time polynomial in the number of states of the minimum dfa for the set and the maximum length of any counterexample provided by the Teacher. It is shown that in a stochastic setting the ability of the Teacher to test conjectures may be replaced by a random sampling oracle, EX( ). A polynomial-time learning algorithm is shown for a particular problem of context-free language identification.}
+}
+
+@inproceedings{roy_ltlf_learning,
+author = {Roy, Rajarshi and Gaglione, Jean-Rapha\"{e}l and Baharisangari, Nasim and Neider, Daniel and Xu, Zhe and Topcu, Ufuk},
+title = {Learning Interpretable Temporal Properties from Positive Examples Only},
+year = {2023},
+isbn = {978-1-57735-880-0},
+publisher = {AAAI Press},
+url = {https://doi.org/10.1609/aaai.v37i5.25800},
+doi = {10.1609/aaai.v37i5.25800},
+abstract = {We consider the problem of explaining the temporal behavior of black-box systems using human-interpretable models. Following recent research trends, we rely on the fundamental yet interpretable models of deterministic finite automata (DFAs) and linear temporal logic (LTLf) formulas. In contrast to most existing works for learning DFAs and LTLf formulas, we consider learning from only positive examples. Our motivation is that negative examples are generally difficult to observe, in particular, from black-box systems. To learn meaningful models from positive examples only, we design algorithms that rely on conciseness and language minimality of models as regularizers. Our learning algorithms are based on two approaches: a symbolic and a counterexample-guided one. The symbolic approach exploits an efficient encoding of language minimality as a constraint satisfaction problem, whereas the counterexample-guided one relies on generating suitable negative examples to guide the learning. Both approaches provide us with effective algorithms with minimality guarantees on the learned models. To assess the effectiveness of our algorithms, we evaluate them on a few practical case studies.},
+booktitle = {Proceedings of the Thirty-Seventh AAAI Conference on Artificial Intelligence and Thirty-Fifth Conference on Innovative Applications of Artificial Intelligence and Thirteenth Symposium on Educational Advances in Artificial Intelligence},
+articleno = {731},
+numpages = {9},
+series = {AAAI'23/IAAI'23/EAAI'23}
+}
+
+@article{camacho_ltlf_learning, title={Learning Interpretable Models Expressed in Linear Temporal Logic}, volume={29}, url={https://ojs.aaai.org/index.php/ICAPS/article/view/3529}, DOI={10.1609/icaps.v29i1.3529}, abstractNote={&lt;p&gt;We examine the problem of learning models that characterize the high-level behavior of a system based on observation traces. Our aim is to develop models that are human interpretable. To this end, we introduce the problem of learning a &lt;em&gt;Linear Temporal Logic&lt;/em&gt; (LTL) formula that parsimoniously captures a given set of positive and negative example traces. Our approach to learning LTL exploits a symbolic state representation, searching through a space of labeled skeleton formulae to construct an alternating automaton that models observed behavior, from which the LTL can be read off. Construction of interpretable behavior models is central to a diversity of applications related to planning and plan recognition. We showcase the relevance and significance of our work in the context of behavior description and discrimination: i) active learning of a human-interpretable behavior model that describes observed examples obtained by interaction with an oracle; ii) passive learning of a classifier that discriminates individual agents, based on the human-interpretable signature way in which they perform particular tasks. Experiments demonstrate the effectiveness of our symbolic model learning approach in providing human-interpretable models and classifiers from reduced example sets.&lt;/p&gt;}, number={1}, journal={Proceedings of the International Conference on Automated Planning and Scheduling}, author={Camacho, Alberto and McIlraith, Sheila A.}, year={2021}, month={May}, pages={621-630} }
+
+@INPROCEEDINGS{stl_learning,
+  author={Li, Danyang and Cai, Mingyu and Vasile, Cristian-Ioan and Tron, Roberto},
+  booktitle={2023 American Control Conference (ACC)}, 
+  title={Learning Signal Temporal Logic through Neural Network for Interpretable Classification}, 
+  year={2023},
+  volume={},
+  number={},
+  pages={1907-1914},
+  doi={10.23919/ACC55779.2023.10156357}}
+
+@inproceedings{ponyge2,
+author = {Fenton, Michael and McDermott, James and Fagan, David and Forstenlechner, Stefan and Hemberg, Erik and O'Neill, Michael},
+title = {PonyGE2: Grammatical Evolution in Python},
+year = {2017},
+isbn = {9781450349390},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3067695.3082469},
+doi = {10.1145/3067695.3082469},
+abstract = {Grammatical Evolution (GE) is a population-based evolutionary algorithm, where a formal grammar is used in the genotype to phenotype mapping process. PonyGE2 is an open source implementation of GE in Python, developed at UCD's Natural Computing Research and Applications group. It is intended as an advertisement and a starting-point for those new to GE, a reference for students and researchers, a rapid-prototyping medium for our own experiments, and a Python workout. As well as providing the characteristic genotype to phenotype mapping of GE, a search algorithm engine is also provided. A number of sample problems and tutorials on how to use and adapt PonyGE2 have been developed.},
+booktitle = {Proceedings of the Genetic and Evolutionary Computation Conference Companion},
+pages = {1194–1201},
+numpages = {8},
+keywords = {grammatical evolution, genetic programming},
+location = {Berlin, Germany},
+series = {GECCO '17}
+}
+
+@inproceedings{dwyer,
+author = {Dwyer, Matthew B. and Avrunin, George S. and Corbett, James C.},
+title = {Patterns in Property Specifications for Finite-State Verification},
+year = {1999},
+isbn = {1581130740},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/302405.302672},
+doi = {10.1145/302405.302672},
+booktitle = {Proceedings of the 21st International Conference on Software Engineering},
+pages = {411–420},
+numpages = {10},
+keywords = {finite-state verification, patterns, formal specification, concurrent systems},
+location = {Los Angeles, California, USA},
+series = {ICSE '99}
+}
+
+
+@book{GAforLTL, title={A Robust Genetic Algorithm for Learning Temporal Specifications from Data}, abstractNote={We consider the problem of mining signal temporal logical requirements from a dataset of regular (good) and anomalous (bad) trajectories of a dynamical system. We assume the training set to be labeled by human experts and that we have access only to a limited amount of data, typically noisy.  We provide a systematic approach to synthesize both the syntactical structure and the parameters of the temporal logic formula using a two-steps procedure: first, we leverage a novel evolutionary algorithm for learning the structure of the formula; second, we perform the parameter synthesis
+operating on the statistical emulation of the average robustness for a candidate formula w.r.t. its parameters.  We compare our results with our previous work and with a recently proposed decision-tree
+based method. We present experimental result on two case studies: an anomalous trajectory detection problem of a naval surveillance system and the characterisation of the dynamics of a biological circadian oscillator. Our experiments indicate that the proposed approach
+outperforms our previous work w.r.t. accuracy and show that it produces in general smaller and more compact temporal logic specifications w.r.t. the decision-tree based approach with a comparable speed and accuracy.}, author={Nenzi, Laura and Silvetti, Simone and Bartocci, Ezio and Bortolussi, Luca}, year={2018}, month=may }
+
+
+
+@inproceedings{kempa_r2u2,
+    author = {Brian Kempa and Pei Zhang and Phillip H.~Jones and Joseph Zambreno and Kristin Yvonne Rozier},
+    title = {{Embedding Online Runtime Verification for Fault Disambiguation on Robonaut2}},
+    booktitle = {{Proceedings of the 18th International Conference on Formal Modeling and Analysis of Timed Systems (FORMATS)}},
+    publisher = {Springer},
+    volume = {12288},
+    series = {{Lecture Notes in Computer Science (LNCS)}},
+    address = {Vienna, Austria},
+    editors = {Nathalie Bertrand and Nils Jansen},
+    doi = {10.1007/978-3-030-57628-8\_12},
+    url = {http://research.temporallogic.org/papers/KZJZR20.pdf},
+    month = {September},
+    year = {2020},
+    pages = {196-214},
+}
+
+
+
+@inbook{DSGE2018, address={Cham}, title={Structured Grammatical Evolution: A Dynamic Approach}, ISBN={9783319787176}, url={https://doi.org/10.1007/978-3-319-78717-6\_6}, DOI={10.1007/978-3-319-78717-6\_6}, abstractNote={Grammars have attracted the attention of researchers within the Evolutionary Computation field, specially from the Genetic Programming community. The most successful example of the use of grammars by GP is Grammatical Evolution (GE). In spite of being widely used by practitioners of different fields, GE is not free from drawbacks. The ones that are most commonly pointed out are those linked with redundancy and locality of the representation. To address these limitations Structured Grammatical Evolution (SGE) was proposed, which introduces a one-to-one mapping between the genotype and the non-terminals. In SGE the input grammar must be pre-processed so that recursion is removed, and the maximum number of expansion possibilities for each symbol determined. This has been pointed out as a drawback of SGE and to tackle it we introduce Dynamic Structured Grammatical Evolution (DSGE). In DSGE there is no need to pre-process the grammar, as it is expanded on the fly during the evolutionary process, and thus we only need to define the maximum tree depth. Additionally, it only encodes the integers that are used in the genotype to phenotype mapping, and grows as needed during evolution. Experiments comparing DSGE with SGE show that DSGE performance is never worse than SGE, being statistically superior in a considerable number of the tested problems.}, booktitle={Handbook of Grammatical Evolution}, publisher={Springer International Publishing}, author={Lourenço, Nuno and Assunção, Filipe and Pereira, Francisco B. and Costa, Ernesto and Machado, Penousal}, 
+//editor={Ryan, Conor and O’Neill, Michael and Collins, JJ}, year={2018}, 
+pages={137–161}, language={en} }
+
+
+@inproceedings{Rothlauf_Oetzel_2006, address={Berlin, Heidelberg}, series={Lecture Notes in Computer Science}, title={On the Locality of Grammatical Evolution}, ISBN={9783540331445}, DOI={10.1007/11729976\_29}, abstractNote={This paper investigates the locality of the genotype-phenotype mapping (representation) used in grammatical evolution (GE). The results show that the representation used in GE has problems with locality as many neighboring genotypes do not correspond to neighboring phenotypes. Experiments with a simple local search strategy reveal that the GE representation leads to lower performance for mutation-based search approaches in comparison to standard GP representations. The results suggest that locality issues should be considered for further development of the representation used in GE.}, booktitle={Genetic Programming}, publisher={Springer}, author={Rothlauf, Franz and Oetzel, Marie}, editor={Collet, Pierre and Tomassini, Marco and Ebner, Marc and Gustafson, Steven and Ekárt, Anikó}, year={2006}, pages={320–330}, collection={Lecture Notes in Computer Science}, language={en} }
+
+@article{Valiant_PAC,
+author = {Valiant, L. G.},
+title = {A Theory of the Learnable},
+year = {1984},
+issue_date = {Nov. 1984},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {27},
+number = {11},
+issn = {0001-0782},
+url = {https://doi.org/10.1145/1968.1972},
+doi = {10.1145/1968.1972},
+journal = {Commun. ACM},
+month = {nov},
+pages = {1134–1142},
+numpages = {9},
+keywords = {probabilistic models of learning, propositional expressions, inductive inference}
+}
+
+
+
+@article{Perez_Somenzi_Trivedi_2023, title={A PAC Learning Algorithm for LTL and Omega-regular Objectives in MDPs}, url={http://arxiv.org/abs/2310.12248}, DOI={10.48550/arXiv.2310.12248}, abstractNote={Linear temporal logic (LTL) and omega-regular objectives -- a superset of LTL -- have seen recent use as a way to express non-Markovian objectives in reinforcement learning. We introduce a model-based probably approximately correct (PAC) learning algorithm for omega-regular objectives in Markov decision processes. Unlike prior approaches, our algorithm learns from sampled trajectories of the system and does not require prior knowledge of the system’s topology.}, note={arXiv:2310.12248 [cs]}, number={arXiv:2310.12248}, publisher={arXiv}, author={Perez, Mateo and Somenzi, Fabio and Trivedi, Ashutosh}, year={2023}, month=oct }
+
+@article{Moosbrugger_Rozier_Schumann_2017, title={R2U2: monitoring and diagnosis of security threats for unmanned aerial systems}, volume={51}, url={https://doi.org/10.1007/s10703-017-0275-x}, DOI={10.1007/s10703-017-0275-x}, abstractNote={We present R2U2, a novel framework for runtime monitoring of security properties and diagnosing of security threats on-board Unmanned Aerial Systems (UAS). R2U2, implemented in FPGA hardware, is a real-time, Realizable, Responsive, Unobtrusive Unit for runtime system analysis, now including security threat detection. R2U2 is designed to continuously monitor inputs from on-board components such as the GPS, the ground control station, other sensor readings, actuator outputs, and flight software status. By simultaneously monitoring and performing statistical reasoning, attack patterns and post-attack discrepancies in the UAS behavior can be detected. R2U2 uses runtime observer pairs for Linear and Metric Temporal Logics for property monitoring and Bayesian networks for diagnosis of system health during runtime. We discuss the design and implementation that now enables R2U2 to handle security threats and present simulation results of several attack scenarios on the NASA DragonEye UAS.}, number={1}, journal={Formal Methods in System Design}, author={Moosbrugger, Patrick and Rozier, Kristin Y. and Schumann, Johann}, year={2017}, month=aug, pages={31–61}, language={en} }
+
+@article{Gario_Cimatti_Mattarei_Tonetta_Rozier_2016, title={Model Checking at Scale: Automated Air Traffic Control Design Space Exploration}, url={https://doi.org/10.1007/978-3-319-41540-6\_1}, DOI={10.1007/978-3-319-41540-6\_1}, abstractNote={Many possible solutions, differing in the assumptions and implementations of the components in use, are usually in competition during early design stages. Deciding which solution to adopt requires considering several trade-offs. Model checking represents a possible way of comparing such designs, however, when the number of designs is large, building and validating so many models may be intractable. During our collaboration with NASA, we faced the challenge of considering a design space with more than 20,000 designs for the NextGen air traffic control system. To deal with this problem, we introduce a compositional, modular, parameterized approach combining model checking with contract-based design to automatically generate large numbers of models from a possible set of components and their implementations. Our approach is fully automated, enabling the generation and validation of all target designs. The 1,620 designs that were most relevant to NASA were analyzed exhaustively. To deal with the massive amount of data generated, we apply novel data-analysis techniques that enable a rich comparison of the designs, including safety aspects. Our results were validated by NASA system designers, and helped to identify novel as well as known problematic configurations.}, journal={Computer Aided Verification}, author={Gario, Marco and Cimatti, Alessandro and Mattarei, Cristian and Tonetta, Stefano and Rozier, Kristin Yvonne}, year={2016}, language={en} }
+
+@inproceedings{Johannsen_Jones_Kempa_Rozier_Zhang_2023, address={Cham}, series={Lecture Notes in Computer Science}, title={R2U2 Version 3.0: Re-Imagining a Toolchain for Specification, Resource Estimation, and Optimized Observer Generation for Runtime Verification in Hardware and Software}, ISBN={9783031377099}, DOI={10.1007/978-3-031-37709-9\_23}, abstractNote={R2U2 is a modular runtime verification framework capable of monitoring sets of specifications in real time and in resource-constrained environments. Such environments demand that a runtime monitor be fast, easily integratable, accessible to domain experts, and have predictable resource requirements. Version 3.0 adds new features to R2U2 and its associated suite of tools that meet these needs including a new front-end compiler that accepts a custom specification language, a GUI for resource estimation, and improvements to R2U2’s internal architecture.}, booktitle={Computer Aided Verification}, publisher={Springer Nature Switzerland}, author={Johannsen, Chris and Jones, Phillip and Kempa, Brian and Rozier, Kristin Yvonne and Zhang, Pei}, editor={Enea, Constantin and Lal, Akash}, year={2023}, pages={483–497}, collection={Lecture Notes in Computer Science}, language={en} }
+
