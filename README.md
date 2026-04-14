@@ -1,6 +1,3 @@
-# COMS 572 Project: MLTL Inference
-Deadlines
-- Team Project Proposal: 3/8/24
-- Team Project Summary: 3/29/24
-- Team Project: 4/26/24
-  
+# MLTL Inference
+
+This project learns Mission-time Linear Temporal Logic (MLTL) formulas from labeled sets of positive and negative traces. Given example system behaviors that satisfy or violate a desired specification, the tool infers an MLTL formula that separates the two classes, effectively reverse-engineering a temporal specification from data.
